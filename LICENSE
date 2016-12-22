@@ -1,0 +1,74 @@
+DockerWeb Public Source License
+
+The DockerWeb software (henceforth referred to simply as "DockerWeb") is dual-licensed - Copyright 2016-2017 Faraz Fallahi <fffaraz@gmail.com>
+
+Cases that include commercialization of DockerWeb require a commercial, non-free license. Otherwise, DockerWeb can be used without charge under the terms set out below.
+
+1. Definitions
+
+1.1 “License” means this document.
+1.2 “Contributor” means each individual or legal entity that creates, contributes to the creation of, or owns DockerWeb.
+1.3 “DockerWeb Team” means DockerWeb’s core developers, an updated list of whom can be found within the CREDITS file.
+
+2. Commercialization
+
+A commercial use is one intended for commercial advantage or monetary compensation.
+
+Example cases of commercialization are:
+
+ - Using DockerWeb to provide commercial managed/Software-as-a-Service services.
+ - Distributing DockerWeb as a commercial product or as part of one.
+ - Using DockerWeb as a value added service/product.
+
+Example cases which do not require a commercial license, and thus fall under the terms set out below, include (but are not limited to):
+
+ - Penetration testers (or penetration testing organizations) using DockerWeb as part of their assessment toolkit.
+ - Penetration Testing Linux Distributions including but not limited to Kali Linux, SamuraiWTF, BackBox Linux.
+ - Using DockerWeb to test your own systems.
+ - Any non-commercial use of DockerWeb.
+
+If you need to purchase a commercial license or are unsure whether you need to purchase a commercial license contact us - team@DockerWeb.org.
+
+We may grant commercial licenses at no monetary cost at our own discretion if the commercial usage is deemed by the DockerWeb Team to significantly benefit DockerWeb.
+
+Free-use Terms and Conditions;
+
+3. Redistribution
+
+Redistribution is permitted under the following conditions:
+
+ - Unmodified License is provided with DockerWeb.
+ - Unmodified Copyright notices are provided with DockerWeb.
+ - Does not conflict with the commercialization clause.
+
+4. Copying
+
+Copying is permitted so long as it does not conflict with the Redistribution clause.
+
+5. Modification
+
+Modification is permitted so long as it does not conflict with the Redistribution clause.
+
+6. Contributions
+
+Any Contributions assume the Contributor grants the DockerWeb Team the unlimited, non-exclusive right to reuse, modify and relicense the Contributor's content.
+
+7. Support
+
+DockerWeb is provided under an AS-IS basis and without any support, updates or maintenance. Support, updates and maintenance may be given according to the sole discretion of the DockerWeb Team.
+
+8. Disclaimer of Warranty
+
+DockerWeb is provided under this License on an “as is” basis, without warranty of any kind, either expressed, implied, or statutory, including, without limitation, warranties that the DockerWeb is free of defects, merchantable, fit for a particular purpose or non-infringing.
+
+9. Limitation of Liability
+
+To the extent permitted under Law, DockerWeb is provided under an AS-IS basis. The DockerWeb Team shall never, and without any limit, be liable for any damage, cost, expense or any other payment incurred as a result of DockerWeb's actions, failure, bugs and/or any other interaction between DockerWeb and end-equipment, computers, other software or any 3rd party, end-equipment, computer or services.
+
+10. Disclaimer
+
+Running DockerWeb against websites without prior mutual consent may be illegal in your country. The DockerWeb Team accept no liability and are not responsible for any misuse or damage caused by DockerWeb.
+
+11. Trademark
+
+The "DockerWeb" term is a registered trademark. This License does not grant the use of the "DockerWeb" trademark or the use of the DockerWeb logo.

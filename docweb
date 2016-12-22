@@ -1,0 +1,1126 @@
+#!/bin/bash
+
+# Copyright 2016 Faraz Fallahi <fffaraz@gmail.com>
+# docweb is not responsible for misuse or for any damage that you may cause!
+# You agree that you use this software at your own risk.
+
+if [ "$(id -u)" != "0" ]; then
+	echo "This script must be run as root" 1>&2
+	exit 1
+fi
+
+if [ $# -lt 1 ]; then
+	echo "Usage: docweb COMMAND [ARGS]"
+	exit 1
+fi
+
+if [ "$1" == "clean" ]; then
+	# Remove stopped containers
+	stopped_containers=$(docker ps -q -f status=exited)
+	[ ! -z "$stopped_containers" ] && docker rm $stopped_containers
+	# Remove orphaned images
+	dangling_images=$(docker images -q -f dangling=true)
+	[ ! -z "$dangling_images" ] && docker rmi $dangling_images
+	# Remove orphaned volumes
+	dangling_volumes=$(docker volume ls -q -f dangling=true)
+	[ ! -z "$dangling_volumes" ] && docker volume rm $dangling_volumes
+	exit 0
+fi
+
+if [ "$1" == "clean:all" ]; then
+	$0 clean
+	# Remove all containers and volumes
+	containers=$(docker ps -a -q)
+	[ ! -z "$containers" ] && docker stop $containers
+	[ ! -z "$containers" ] && docker rm $containers
+	volumes=$(docker volume ls -q)
+	[ ! -z "$volumes" ] && docker volume rm $volumes
+	exit 0
+fi
+
+if [ "$1" == "clean:img" ]; then
+	# Remove all images
+	docker rmi $(docker images -q)
+	exit 0
+fi
+
+if [ "$1" == "build" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb build IMAGE"
+		exit 1
+	fi
+	if [ ! -d /opt/dockerweb/$1 ]; then
+		echo "Directory /opt/dockerweb/$1 doesn't exist"
+		exit 1
+	fi
+	cd /opt/dockerweb/$1
+	docker build -t fffaraz/$1:latest --rm=true -f Dockerfile .
+	cd ~-
+	exit 0
+fi
+
+if [ "$1" == "build:all" ] || [ "$1" == "build:core" ]; then
+	set -euxo pipefail
+
+	$0 build proxy/base
+	$0 build proxy
+
+	$0 build web/php7nginx/base
+	$0 build web/php7nginx
+
+	$0 build app/phpmyadmin
+	#$0 build app/mysqltuner
+	#$0 build app/clamav
+
+	echo DONE
+	exit 0
+fi
+
+if [ "$1" == "stats" ]; then
+	echo
+	uname -a
+	echo
+	lsb_release -a
+	echo
+	uptime
+	echo
+	w -i
+	echo
+	free -h
+	echo
+	df -h /dev/vda1
+
+	echo
+	echo --------------------------------------------------------------------------------
+	echo
+
+	docker stats --no-stream $(docker ps --format={{.Names}})
+	# alias ds='while true; do TEXT=$(docker stats --no-stream $(docker ps --format={{.Names}})); sleep 0.1; clear; echo "$TEXT"; done'
+	# https://www.datadoghq.com/blog/how-to-collect-docker-metrics/
+
+	if [ "$1" = "-f" ]; then
+		#cat /etc/lsb-release
+		#cat /proc/cpuinfo
+		#cat /proc/meminfo
+		#cat /proc/mdstat
+		#cat cat /etc/os-release
+		#cat cat /etc/lsb-release
+		#dmesg | grep Memory
+		#lsof +D /home
+
+		echo
+		echo --------------------------------------------------------------------------------
+		echo
+		echo Disk Usage:
+		echo
+		#du -sm /home/*
+		du -sh /home/*
+
+		echo
+		echo --------------------------------------------------------------------------------
+		echo
+		echo Number of Files:
+		echo
+		for i in $(find /home/* -maxdepth 0 -type d); do
+			echo -n $i" : "
+			find $i -type f | wc -l
+		done
+
+	fi
+	echo
+	exit 0
+fi
+
+if [ "$1" == "status" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb status NAME"
+		exit 1
+	fi
+	# user,group,comm,pid,ppid,pgid,etime,nice,rgroup,ruser,time,tty,vsz,stat,rss,args
+	RESULT=$(docker exec "$1" ps -o user,comm,pid,ppid,pgid,time,vsz,rss,args | grep -v "ps -o ")
+	echo "$RESULT" | grep -v "php-fpm: pool webuser"
+	echo "$RESULT" | grep "php-fpm: pool webuser"
+	# killall -9 php
+	exit 0
+fi
+
+if [ "$1" == "run" ]; then
+	shift
+
+	RUNARGS="-d --restart=always"
+	if [ "$1" == "--debug" ]; then
+		shift
+		RUNARGS="-it --rm"
+	fi
+	if [ "$1" == "--bash" ]; then
+		shift
+		RUNARGS="-it --rm --entrypoint /bin/bash"
+	fi
+
+	HTTPPORT=""
+	if [ "$1" == "--direct" ]; then
+		shift
+		HTTPPORT="-p $1:80"
+		echo "Exposing HTTP Port $1"
+		shift
+	fi
+
+	SSHPORT=""
+	if [ $# -eq 4 ]; then
+		SSHPORT="-e WEBUSER_PASSWORD=$3 -p $4:22"
+		echo "Exposing SSH Port $4"
+	fi
+
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb run [--debug|--bash] [--direct PORT] IMAGE NAME [WEBUSER_PASSWORD SSH_PORT]"
+		exit 1
+	fi
+
+	if [[ "$(docker images -q fffaraz/web/$1:latest 2> /dev/null)" == "" ]]; then
+		echo "Docker image fffaraz/web/$1:latest doesn't exist"
+		exit 1
+	fi
+
+	if [ "$2" == "proxy" ]; then
+		echo "The name 'proxy' is reserved for the reverse proxy server container"
+		exit 1
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $2 2> /dev/null)
+	if [ $? -eq 0 ]; then
+		echo "Stopping the running instance ..."
+		docker stop $2
+		docker rm $2
+	fi
+
+	mkdir -p /home/$2
+
+	docker run $RUNARGS \
+	--name=$2 \
+	--hostname=$2 \
+	--net=isolated_nw \
+	--volume=/home/$2:/home/webuser \
+	--memory=128m \
+	$HTTPPORT \
+	$SSHPORT \
+	fffaraz/web/$1:latest
+	# --ulimit <type>=<soft limit>[:<hard limit>]
+	# --kernel-memory
+
+	exit 0
+fi
+
+if [ "$1" == "stop" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb stop NAME"
+		exit 1
+	fi
+	docker stop $1
+	#docker kill $2
+	docker rm $1
+	exit 0
+fi
+
+if [ "$1" == "exec" ]; then
+	shift
+	RUNASROOT=0
+	if [ "$1" = "--root" ]; then
+		shift
+		RUNASROOT=1
+	fi
+
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb exec [--root] NAME"
+		exit 1
+	fi
+
+	if [ $RUNASROOT -eq 1 ]; then
+		docker exec -it $1 /bin/bash -l
+	else
+		docker exec -it --user webuser $1 /bin/bash -l
+	fi
+
+	exit 0
+fi
+
+if [ "$1" == "clean" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb clean NAME"
+		exit 1
+	fi
+	if [ ! -d /home/$1 ]; then
+		echo "Directory /home/$1 doesn't exist"
+		exit 1
+	fi
+	rm -rf /home/$1/tmp
+	rm -rf /home/$1/log
+	exit 0
+fi
+
+if [ "$1" == "update" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: ./update.sh NAME [args]"
+		exit 1
+	fi
+	docker exec -it $1 /script_update.sh $@
+	exit 0
+fi
+
+if [ "$1" == "backup" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb backup NAME"
+		exit 1
+	fi
+	if [ ! -d /home/$1 ]; then
+		echo "Directory /home/$1 doesn't exist"
+		exit 1
+	fi
+	if [ "$1" == "backup" ]; then
+		echo "Can't backup the backup directory!"
+		exit 1
+	fi
+	mkdir -p /home/backup
+	FILEPATH=/home/backup/$1_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
+	tar --exclude=$1/log --exclude=$1/tmp --directory=/home -czf $FILEPATH $1
+	ls -lh $FILEPATH
+	#gzip -v -t $FILEPATH
+	exit 0
+fi
+
+if [ "$1" == "log:nginx" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb log:nginx NAME [--error]"
+		exit 1
+	fi
+	if [ ! -d /home/$1 ]; then
+		echo "Directory /home/$1 doesn't exist"
+		exit 1
+	fi
+	if [ $# -eq 2 ] && [ "$2" == "--error" ]; then
+		tail -f /home/$1/log/nginx/error.log
+	else
+		tail -f /home/$1/log/nginx/access.log
+	fi
+	exit 0
+fi
+
+if [ "$1" == "log:php" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb log:php NAME [--error | --mail]"
+		exit 1
+	fi
+	if [ ! -d /home/$1 ]; then
+		echo "Directory /home/$1 doesn't exist"
+		exit 1
+	fi
+	if [ $# -eq 2 ] && [ "$2" == "--error" ]; then
+		tail -f /home/$1/log/php/error.webuser.log
+	elif [ $# -eq 2 ] && [ "$2" == "--mail" ]; then
+		tail -f /home/$1/log/php/mail.log
+	else
+		tail -f /home/$1/log/php/access.log
+	fi
+	exit 0
+fi
+
+if [ "$1" == "proxy:run" ]; then
+	shift
+	# docweb proxy:run [--debug] [SERVER_NAME]
+	ISRUNNING=$(docker inspect --format={{.State.Running}} proxy 2> /dev/null)
+	if [ $? -eq 0 ]; then
+		echo "Stopping the running instance ..."
+		docker stop proxy
+		docker rm proxy
+	fi
+
+	RUNARG="-d --restart=always"
+	if [ "$1" = "--debug" ]; then
+		shift
+		RUNARG="-it --rm"
+	fi
+
+	mkdir -p /home/proxy
+	mkdir -p /home/proxy/ssl/etc
+	mkdir -p /home/proxy/ssl/lib
+	mkdir -p /home/proxy/ssl/log
+
+	docker run $RUNARG \
+	--name=proxy \
+	--hostname=$(hostname) \
+	--net=isolated_nw \
+	--memory=128m \
+	-p 80:80 -p 443:443 \
+	-v /home/proxy:/home/webuser \
+	-v /home/proxy/ssl/etc:/etc/letsencrypt \
+	-v /home/proxy/ssl/lib:/var/lib/letsencrypt \
+	-v /home/proxy/ssl/log:/var/log/letsencrypt \
+	fffaraz/proxy:latest \
+	$@
+
+	exit 0
+fi
+
+if [ "$1" == "proxy:update" ]; then
+	shift
+	docker exec -it proxy /script_update.sh $@
+	exit 0
+fi
+
+if [ "$1" == "proxy:status" ]; then
+	:
+	# https://github.com/lebinh/ngxtop
+	# https://github.com/allinurl/goaccess
+fi
+
+if [ "$1" == "microdns:run" ]; then
+	shift
+	ISRUNNING=$(docker inspect --format={{.State.Running}} microdns 2> /dev/null)
+	[ $? -eq 0 ] &&	docker rm -f microdns
+
+	#curl -s http://whatismyip.akamai.com/
+	IPV4=$(dig +short myip.opendns.com @resolver1.opendns.com)
+	IPV6=$(dig +short myip.opendns.com @2620:0:ccc::2 aaaa)
+
+	echo "Your IPv4 address is: $IPV4"
+	echo "Your IPv6 address is: $IPV6"
+
+	mkdir -p /home/microdns
+	[ ! -f /home/microdns/dns.conf ] && echo "# domain ipv4 ipv6" > /home/microdns/dns.conf
+
+	docker run -d --restart=always \
+	--name microdns -p 53:53 -p 53:53/udp \
+	--memory 8m \
+	-v /home/microdns:/home \
+	fffaraz/microdns:latest \
+	-ipv4 $IPV4 \
+	-ipv6 $IPV6
+
+	exit 0
+fi
+
+if [ "$1" == "bind:run" ]; then
+	: # https://github.com/sameersbn/docker-bind
+fi
+
+if [ "$1" == "coredns:run" ]; then
+	: # https://github.com/miekg/coredns
+fi
+
+if [ "$1" == "pma:run" ]; then
+	shift
+
+	RUNARG="-d --restart=always"
+	if [ "$1" = "--debug" ]; then
+		shift
+		RUNARG="-it --rm"
+	fi
+
+	HTTPPORT=""
+	if [ "$1" = "--direct" ]; then
+		shift
+		HTTPPORT="-p $1:80"
+		echo "Exposing HTTP Port $1"
+		shift
+	fi
+
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb pma:run [--debug] [--direct PORT] MYSQLSERVER MYSQLROOTPASSWORD [pma status] [CaptchaPublic CaptchaPrivate]"
+		# TODO: controluser controlpass pmadb
+		exit 1
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} ${1}_pma 2> /dev/null)
+	[ $? -eq 0 ] &&	docker rm -f ${1}_pma
+
+	PHPMYADMIN=pma
+	PHPSTATUS=status
+	if [ $# -eq 4 ]; then
+		PHPMYADMIN=$3
+		PHPSTATUS=$4
+	fi
+
+	CaptchaPublic=
+	CaptchaPrivate=
+	if [ $# -eq 6 ]; then
+		CaptchaPublic=$5
+		CaptchaPrivate=$6
+	fi
+
+	docker run $RUNARG \
+	--name=${1}_pma \
+	--net=isolated_nw \
+	--memory=128m \
+	$HTTPPORT \
+	-e MYSQL_SERVER="$1" \
+	-e MYSQL_ROOT_PASSWORD="$2" \
+	-e PHPMYADMIN="$PHPMYADMIN" \
+	-e PHPSTATUS="$PHPSTATUS" \
+	-e CaptchaPublic="$CaptchaPublic" \
+	-e CaptchaPrivate="$CaptchaPrivate" \
+	fffaraz/app/phpmyadmin:latest
+
+	exit 0
+fi
+
+if [ "$1" == "redis:run" ]; then
+	shift
+
+	RUNARGS="-d --restart=always"
+	if [ "$1" == "--debug" ]; then
+		shift
+		RUNARGS="-it --rm"
+	fi
+
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb redis:run [--debug] NAME"
+		exit 1
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $1 2> /dev/null)
+	if [ $? -eq 0 ]; then
+		echo "Stopping the running instance ..."
+		docker stop $1
+		docker rm $1
+	fi
+
+	mkdir -p /home/$1/data
+
+	# /myredis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+
+	docker run $RUNARGS \
+	--name="$1" \
+	--hostname="$1" \
+	--net=isolated_nw \
+	--memory=512m \
+	-v /home/$1/data:/data \
+	redis:alpine redis-server --appendonly yes
+
+	exit 0
+fi
+
+if [ "$1" == "postgres:run" ]; then
+	shift
+
+	RUNARGS="-d --restart=always"
+	if [ "$1" == "--debug" ]; then
+		shift
+		RUNARGS="-it --rm"
+	fi
+
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb postgres:run [--debug] NAME POSTGRES_ROOT_PASSWORD"
+		exit 1
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $1 2> /dev/null)
+	if [ $? -eq 0 ]; then
+		echo "Stopping the running instance ..."
+		docker stop $1
+		docker rm $1
+	fi
+
+	mkdir -p /home/$1/data
+
+	docker run $RUNARGS \
+	--name="$1" \
+	--hostname="$1" \
+	--net=isolated_nw \
+	--memory=512m \
+	-v /home/$1/data:/var/lib/postgresql/data \
+	-e POSTGRES_PASSWORD="$2" \
+	postgres:alpine
+
+	exit 0
+fi
+
+if [ "$1" == "mysqltuner:run" ]; then
+	shift
+	if [ "$#" -lt 2 ]; then
+		echo "Usage: docweb mysqltuner:run MYSQLSERVER MYSQLROOTPASSWORD"
+		exit 1
+	fi
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $1 2> /dev/null)
+	if [ $? -ne 0 ]; then
+		echo "MySQL instance $1 is not running."
+		exit 1
+	fi
+
+	docker run --rm -it \
+	--net=isolated_nw \
+	-v /home/$1/log:/var/log/mysql:ro \
+	fffaraz/app/mysqltuner:latest \
+	--forcemem 256 --forceswap 512 \
+	--host "$1" --user root --pass "$2"
+	#--verbose
+	#--buffers --dbstat --idxstat
+	#--cvefile /vulnerabilities.csv
+
+	# http://mysqltuner.com/
+	# https://github.com/major/MySQLTuner-perl
+	# https://launchpad.net/mysql-tuning-primer
+	# https://github.com/RootService/tuning-primer
+	# http://jeremy.zawodny.com/mysql/mytop/
+	# https://github.com/innotop/innotop
+	# https://github.com/daniel-nichter/hackmysql.com
+	# https://www.percona.com/doc/percona-toolkit/2.2/pt-variable-advisor.html
+	exit 0
+fi
+
+if [ "$1" == "mysql:run" ]; then
+	shift
+
+	RUNARGS="-d --restart=always"
+	if [ "$1" == "--debug" ]; then
+		shift
+		RUNARGS="-it --rm"
+	fi
+
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb mysql:run [--debug] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]"
+		exit 1
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $1 2> /dev/null)
+	if [ $? -eq 0 ]; then
+		echo "Stopping the running instance ..."
+		docker stop $1
+		docker rm $1
+	fi
+
+	#https://hub.docker.com/_/mysql/
+	#https://hub.docker.com/_/mariadb/
+	#https://hub.docker.com/r/mysql/mysql-server/
+	#https://hub.docker.com/_/percona/
+	#https://hub.docker.com/r/percona/percona-server/
+
+	DBSERVER="mariadb"
+	[[ $# -eq 3 ]] && DBSERVER="$3"
+	echo "DBSERVER: $DBSERVER"
+
+	rm   -rf /home/$1/conf.d
+	rm   -rf /home/$1/log
+	mkdir -p /home/$1/backup
+	mkdir -p /home/$1/conf.d
+	mkdir -p /home/$1/datadir
+	mkdir -p /home/$1/entrypoint
+	mkdir -p /home/$1/log
+	chown -R 999:999 /home/$1/log
+
+	cat > /home/$1/conf.d/global.cnf <<'EOL'
+[mysqld]
+default_storage_engine=InnoDB
+skip_name_resolve=1
+general_log=0
+general_log_file=/var/log/mysql/general.log
+innodb_file_per_table=1
+local_infile=0
+log_error=/var/log/mysql/error.log
+log_warnings=2
+long_query_time=1
+max_allowed_packet=1G
+max_connect_errors=1000000
+max_connections=200
+open_files_limit=100000
+performance_schema=0
+skip_external_locking=1
+slow_query_log=1
+slow_query_log_file=/var/log/mysql/slow.log
+#symbolic-links=0
+log_queries_not_using_indexes=0
+#character_set_client_handshake=utf8
+#character_set_connection=utf8
+character_set_filesystem=utf8
+#character_set_results=utf8
+character_set_server=utf8
+#collation_connection=utf8_unicode_ci
+collation_server=utf8_unicode_ci
+#sql_mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+[client]
+default-character-set=utf8
+
+[mysqldump]
+quick
+max_allowed_packet=1G
+
+[mysql]
+default-character-set=utf8
+no-auto-rehash
+
+EOL
+
+	cat > /home/$1/conf.d/default.cnf <<'EOL'
+[mysqld]
+binlog_cache_size=4K
+binlog_stmt_cache_size=4K
+innodb_buffer_pool_instances=1
+innodb_buffer_pool_size=64M
+#innodb_log_file_size=8M
+innodb_ft_cache_size=2M
+innodb_ft_total_cache_size=32M
+innodb_sort_buffer_size=4M
+join_buffer_size=2M
+key_buffer_size=256K
+max_heap_table_size=8M
+query_cache_limit=512K
+query_cache_min_res_unit=2K
+query_cache_size=32M
+query_cache_type=1
+read_buffer_size=1M
+read_rnd_buffer_size=1M
+sort_buffer_size=4M
+table_definition_cache=1K
+table_open_cache=2K
+thread_cache_size=16
+tmp_table_size=8M
+
+EOL
+
+	# echo "
+	# [client]
+	# user=root
+	# password=$2
+	# host=127.0.0.1
+	# " > /home/$1/conf.d/credentials.cnf
+
+	docker run $RUNARGS \
+	--name="$1" \
+	--hostname="$1" \
+	--net=isolated_nw \
+	--memory=512m \
+	-v /home/$1/backup:/backup \
+	-v /home/$1/conf.d:/etc/mysql/conf.d \
+	-v /home/$1/datadir:/var/lib/mysql \
+	-v /home/$1/entrypoint:/docker-entrypoint-initdb.d \
+	-v /home/$1/log:/var/log/mysql \
+	-e MYSQL_ROOT_PASSWORD="$2" \
+	${DBSERVER}:latest
+
+	exit 0
+fi
+
+if [ "$1" == "mysql:client" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:client NAME"
+		exit 1
+	fi
+	#docker exec -it $1 bash
+	docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
+	#docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES; SET PASSWORD FOR root = PASSWORD(\"$1\");"'
+	#docker exec -it $1 sh -c 'exec mysqlreport --user root --password "$MYSQL_ROOT_PASSWORD"'
+	exit 0
+fi
+
+if [ "$1" == "mysql:status" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:status NAME"
+		exit 1
+	fi
+	printf "$(docker exec -it $1 sh -c 'exec mysql -N -B -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SHOW ENGINE INNODB STATUS"')"
+	exit 0
+fi
+
+if [ "$1" == "mysql:optimize" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:optimize NAME"
+		exit 1
+	fi
+	docker exec -it $1 sh -c 'exec mysqlcheck -o --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"'
+	exit 0
+fi
+
+if [ "$1" == "mysql:createuser" ]; then
+	shift
+	if [ "$#" -ne 3 ]; then
+		echo "Usage: docweb mysql:createuser NAME USERNAME PASSWORD"
+		exit 1
+	fi
+
+	# FLUSH PRIVILEGES;
+	# CREATE USER IF NOT EXISTS '$2'@'%' IDENTIFIED WITH mysql_native_password BY '$3';
+
+	echo "
+	CREATE USER IF NOT EXISTS '$2'@'%' IDENTIFIED BY '$3';
+	GRANT USAGE ON *.* TO '$2'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+	CREATE DATABASE IF NOT EXISTS \`$2\` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+	GRANT ALL PRIVILEGES ON \`$2\`.* TO '$2'@'%';
+	GRANT ALL PRIVILEGES ON \`$2\_%\`.* TO '$2'@'%';
+	" > sql.tmp
+
+	cat sql.tmp | docker exec -i $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
+	rm sql.tmp
+	exit 0
+fi
+
+if [ "$1" == "mysql:backup" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:backup NAME [--gzip] [DATABASES...]"
+		exit 1
+	fi
+	MYSQLSERVER=$1
+	shift
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $MYSQLSERVER 2> /dev/null)
+	if [ $? -ne 0 ]; then
+		echo "MySQL instance $MYSQLSERVER is not running."
+		exit 1
+	fi
+	#set -x
+	if [ "$1" == "--gzip" ]; then
+		shift
+		if [ $# -lt 1 ]; then
+			docker exec -it $MYSQLSERVER sh -c \
+				'mysql -N -B -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;" | grep -v -e ^information_schema$ -e ^performance_schema$ -e ^mysql$ -e ^sys$ | xargs mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --skip-comments --default-character-set=utf8 --databases | gzip -5 > /backup/dump_$(date +%Y-%m-%d_%H-%M-%S).sql.gz'
+		else
+			docker exec -it $MYSQLSERVER sh -c \
+				"mysqldump -uroot -p\"\$MYSQL_ROOT_PASSWORD\" --skip-comments --default-character-set=utf8 --databases $(IFS=$' ' ; echo "$*") | gzip -5 > /backup/dump_$(IFS=_ ; echo "$*")_\$(date +%Y-%m-%d_%H-%M-%S).sql.gz"
+			if [ $# -eq 1 ]; then
+				mkdir -p /home/$1/backup/db
+				mv /home/$MYSQLSERVER/backup/${1}_*.sql.gz /home/$1/backup/db/
+			fi
+		fi
+	else
+		if [ $# -lt 1 ]; then
+			docker exec -it $MYSQLSERVER sh -c \
+				'mysql -N -B -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;" | grep -v -e ^information_schema$ -e ^performance_schema$ -e ^mysql$ -e ^sys$ | xargs mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --skip-comments --default-character-set=utf8 --result-file /backup/dump_$(date +%Y-%m-%d_%H-%M-%S).sql --databases'
+		else
+			docker exec -it $MYSQLSERVER sh -c \
+				"mysqldump -uroot -p\"\$MYSQL_ROOT_PASSWORD\" --skip-comments --default-character-set=utf8 --result-file /backup/dump_"$(IFS=_ ; echo "$*")"_\$(date +%Y-%m-%d_%H-%M-%S).sql --databases $(IFS=$' ' ; echo "$*")"
+			if [ $# -eq 1 ]; then
+				mkdir -p /home/$1/backup/db
+				mv /home/$MYSQLSERVER/backup/${1}_*.sql /home/$1/backup/db/
+			fi
+		fi
+	fi
+	# --master-data --single-transaction
+	exit 0
+fi
+
+if [ "$1" == "mysql:import" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:import NAME [--gzip] FILENAME [DATABASE]"
+		exit 1
+	fi
+	MYSQLSERVER=$1
+	shift
+	if [ "$1" == "--gzip" ]; then
+		shift
+		if [ $# -lt 1 ]; then
+			echo "Usage: docweb mysql:import NAME [--gzip] FILENAME [DATABASE]"
+			exit 1
+		fi
+		docker exec -it $MYSQLSERVER sh -c "gunzip < /backup/$1 | mysql -uroot -p\"\$MYSQL_ROOT_PASSWORD\" $2"
+	else
+		if [ $# -lt 1 ]; then
+			echo "Usage: docweb mysql:import NAME [--gzip] FILENAME [DATABASE]"
+			exit 1
+		fi
+		docker exec -it $MYSQLSERVER sh -c "mysql -uroot -p\"\$MYSQL_ROOT_PASSWORD\" $2 < /backup/$1"
+	fi
+	exit 0
+fi
+
+if [ "$1" == "mysql:listdbs" ] || [ "$1" == "mysql:listdb" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:listdbs NAME"
+		exit 1
+	fi
+	docker exec -it $1 sh -c 'mysql -t -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;" | grep -v -e "^| information_schema \+|$" -e "^| performance_schema \+|$" -e "^| mysql \+|$" -e "^| sys \+|$"'
+	exit 0
+fi
+
+if [ "$1" == "mysql:listusers" ] || [ "$1" == "mysql:listuser" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:listusers NAME [--all]"
+		exit 1
+	fi
+	if [ "$2" == "--all" ]; then
+		docker exec -it $1 sh -c \
+		'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SELECT * FROM mysql.user;"'
+	else
+		docker exec -it $1 sh -c \
+		'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SELECT Host,User,max_questions,max_updates,max_connections,max_user_connections,password_expired FROM mysql.user;"'
+		# password_last_changed, password_lifetime, account_locked
+	fi
+	exit 0
+fi
+
+if [ "$1" == "mysql:listproc" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:listproc NAME"
+		exit 1
+	fi
+	docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SHOW PROCESSLIST"'
+	exit 0
+fi
+
+if [ "$1" == "mssql:run" ]; then
+	shift
+
+	RUNARGS="-d --restart=always"
+	if [ "$1" == "--debug" ]; then
+		shift
+		RUNARGS="-it --rm"
+	fi
+
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb mssql:run [--debug] NAME SA_PASSWORD"
+		exit 1
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $1 2> /dev/null)
+	if [ $? -eq 0 ]; then
+		echo "Stopping the running instance ..."
+		docker stop $1
+		docker rm $1
+	fi
+
+	mkdir -p /home/$1
+
+	docker run $RUNARGS \
+	--name="$1" \
+	--hostname="$1" \
+	--net=isolated_nw \
+	--memory=512m \
+	-v /home/$1:/var/opt/mssql \
+	-e 'ACCEPT_EULA=Y' \
+	-e SA_PASSWORD="$2" \
+	microsoft/mssql-server-linux:latest
+
+	exit 0
+fi
+
+if [ "$1" == "memcache:run" ]; then
+	: # https://hub.docker.com/_/memcached/
+fi
+
+if [ "$1" == "volume:create" ]; then
+	shift
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb volume:create NAME SIZE"
+		exit 1
+	fi
+	mkdir -p /home/img
+	truncate -s $2 /home/img/$1.img
+	mkfs.ext4 /home/img/$1.img
+	mkdir -p /home/$1
+	mount /home/img/$1.img /home/$1
+	# http://stackoverflow.com/questions/257844/quickly-create-a-large-file-on-a-linux-system
+	exit 0
+fi
+
+if [ "$1" == "clamav:run" ]; then
+	ISRUNNING=$(docker inspect --format={{.State.Running}} clamav 2> /dev/null)
+	[ $? -eq 0 ] &&	docker rm -f clamav
+	docker run -it --rm -v /home:/home --name=clamav fffaraz/app/clamav:latest
+	exit 0
+fi
+
+if [ "$1" == "ssh" ]; then
+	: # https://github.com/tg123/sshpiper
+fi
+
+if [ "$1" == "bootstrap" ]; then
+	set -euxo pipefail
+	export DEBIAN_FRONTEND=noninteractive
+	apt-get -yq update < /dev/null
+	apt-get -yq upgrade < /dev/null
+	apt-get -yq dist-upgrade < /dev/null
+	$0 install:extras
+	$0 install:docker
+	$0 install:network
+	$0 install:aliases
+	apt-get -yq autoremove < /dev/null
+	apt-get -yq autoclean < /dev/null
+	exit 0
+fi
+
+if [ "$1" == "install:swapfile" ]; then
+	shift
+	if [ $# -lt 1 ] || [ $1 -lt 512 ]; then
+		echo "Usage: docweb install:swapfile SIZE_IN_MB"
+		exit 1
+	fi
+	set -euxo pipefail
+	dd if=/dev/zero of=/swapfile bs=32M count=$(( $1 / 32 ))
+	chown root:root /swapfile
+	chmod 0600 /swapfile
+	mkswap /swapfile
+	echo "/swapfile none swap sw 0 0" >> /etc/fstab
+	echo "vm.swappiness=10" >> /etc/sysctl.conf
+	echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
+	swapon /swapfile
+	sysctl vm.swappiness=10
+	sysctl vm.vfs_cache_pressure=50
+	exit 0
+fi
+
+if [ "$1" == "install:extras" ]; then
+	apt-get -yq install curl git htop iftop iotop lsof vnstat unzip ncdu wget < /dev/null
+	#wget -O- https://bit.ly/glances | /bin/bash
+	exit 0
+fi
+
+if [ "$1" == "install:docker" ]; then
+	set -euxo pipefail
+	apt-get -yq install apt-transport-https ca-certificates < /dev/null
+	apt-get -yq install linux-image-extra-$(uname -r) linux-image-extra-virtual < /dev/null
+
+	wget https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh
+	chmod +x check-config.sh
+	./check-config.sh
+	rm ./check-config.sh
+
+	#curl -sSL https://get.docker.com/ | sh
+	wget -qO- https://get.docker.com/ | sh
+
+	#apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+	#echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" > /etc/apt/sources.list.d/docker.list
+	#apt-get -yq update < /dev/null
+	#apt-get -yq install docker-engine < /dev/null
+
+	exit 0
+fi
+
+if [ "$1" == "install:network" ]; then
+	docker network create --driver bridge isolated_nw
+	exit 0
+fi
+
+if [ "$1" == "install:aliases" ]; then
+	echo 'alias dps="docker ps -a -s --format \"table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Size}}\""' >> ~/.bash_aliases
+	echo 'alias dpsa="docker ps -a -s | less -S"' >> ~/.bash_aliases
+	echo 'alias gitcam="git commit -a -m"' >> ~/.bash_aliases
+	echo 'alias gits="git status"' >> ~/.bash_aliases
+	echo 'alias gitpp="git pull; git push;"' >> ~/.bash_aliases
+	echo 'alias cdh="cd /home"' >> ~/.bash_aliases
+	exit 0
+fi
+
+if [ "$1" == "upgrade" ]; then
+	set -x
+	cd /opt/dockerweb
+	git pull
+	cd ~-
+	exit 0
+fi
+
+if [ "$1" == "install:github" ]; then
+	# ssh-keygen -t rsa -b 4096 -C fffaraz@gmail.com
+	# cat ~/.ssh/id_rsa.pub
+	# https://github.com/settings/keys
+	# ssh -T git@github.com
+	# git config --global user.name "Faraz Fallahi"
+	# git config --global user.email fffaraz@gmail.com
+	# git config --global push.default simple
+	# git config --global core.editor nano
+	exit 0
+fi
+
+if [ "$1" == "wpscan" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb wpscan URL"
+		exit 1
+	fi
+	docker run --rm -it wpscanteam/wpscan --url $1
+fi
+
+if [ "$1" == "cmd" ]; then
+	shift
+	exit 0
+fi
+
+echo "Unknown command '$1'"
+exit 1
+
+# TODO:
+#	https://github.com/docker-slim/docker-slim
+
+# TODO APP LIST:
+# adminer
+#	https://github.com/vrana/adminer
+#	wget http://www.adminer.org/latest.php -O /var/www/index.php
+#	wget https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css -O /var/www/adminer.css
+#	https://www.adminer.org/#download
+# ajenti
+#	https://github.com/ajenti/ajenti
+#	https://github.com/paimpozhil/WhatPanel
+# apaxy
+#	https://github.com/AdamWhitcroft/Apaxy
+#	https://github.com/DirectoryLister/DirectoryLister
+#	https://github.com/marekrei/encode-explorer
+# bolt
+#	https://github.com/bolt/bolt
+# codeigniter
+#	https://github.com/bcit-ci/CodeIgniter
+# django
+#	https://github.com/django/django
+#	https://github.com/rosarior/awesome-django
+# drupal
+#	https://github.com/drupal/drupal
+#	https://github.com/docker-library/drupal
+# gateone
+#	https://github.com/liftoff/GateOne/
+#	https://github.com/glyptodon/
+# gitlab
+#	https://github.com/gitlabhq/gitlabhq
+# gogs
+#	https://github.com/gogits/gogs
+# h5ai
+#	https://github.com/lrsjng/h5ai
+# joomla
+#	https://github.com/joomla/joomla-cms
+# laravel
+#	https://github.com/laravel/laravel
+# mailinabox
+#	https://github.com/mail-in-a-box/mailinabox
+# metabase
+#	docker run -d -p 3000:3000 --net=isolated_nw --name metabase metabase/metabase
+# octobercms
+#	https://github.com/octobercms/october
+# owncloud
+#	https://owncloud.org/
+# paperwork
+#	https://github.com/twostairs/paperwork
+# piwik
+#	https://piwik.org/
+# polr
+#	https://github.com/Cydrobolt/polr
+# pydio
+#	https://pydio.com/
+#	https://github.com/pydio/pydio-core
+# redash
+#	http://redash.io/
+#	https://github.com/getredash/redash
+# seafile
+#	https://www.seafile.com
+#	https://github.com/haiwen/seafile
+# webmin
+# wordpress
+#	https://github.com/jbfink/docker-wordpress
+#	https://fa.wordpress.org/
+# caddy
+#	https://github.com/mholt/caddy
+# cherokee
+# tengine
+#	https://github.com/alibaba/tengine
+# mailcatcher
+#	https://github.com/sj26/mailcatcher
+# MailHog
+#	https://github.com/mailhog/MailHog
