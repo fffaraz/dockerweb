@@ -394,21 +394,13 @@ fi
 if [ "$1" == "microdns:run" ]; then
 	shift
 	#curl -s http://whatismyip.akamai.com/
-	IPV4=$(dig +short myip.opendns.com @resolver1.opendns.com)
+	IPV4=$(dig +short myip.opendns.com @resolver1.opendns.com) || IPV4=""
 	echo "Your IPv4 address is: $IPV4"
-	IPV6=$(dig +short myip.opendns.com @2620:0:ccc::2 aaaa)
+	IPV6=$(dig +short myip.opendns.com @2620:0:ccc::2 aaaa) || IPV6=""
 	echo "Your IPv6 address is: $IPV6"
 
-	if [ ${#IPV4} -gt 2 ]; then
-		IPV4="-ipv4 $IPV4"
-	else
-		IPV4=""
-	fi
-	if [ ${#IPV6} -gt 2 ]; then
-		IPV6="-ipv6 $IPV6"
-	else
-		IPV6=""
-	fi
+	[ ! -z "$IPV4" ] && IPV4="-ipv4 $IPV4"
+	[ ! -z "$IPV6" ] && IPV6="-ipv6 $IPV6"
 
 	ISRUNNING=$(docker inspect --format={{.State.Running}} microdns 2> /dev/null)
 	[ $? -eq 0 ] &&	docker rm -f microdns
