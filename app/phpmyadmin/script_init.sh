@@ -1,11 +1,12 @@
 #!/bin/bash
 set -euxo pipefail
 
-# install phpMyAdmin
+# Install phpMyAdmin
 # https://www.phpmyadmin.net/downloads/
-# https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_6_4.zip
+# https://github.com/phpmyadmin/phpmyadmin/releases
+# https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_6_5_2.zip
 
-PMA_VERSION=4.6.4
+PMA_VERSION=4.6.5.2
 cd /opt
 wget --no-verbose https://files.phpmyadmin.net/phpMyAdmin/$PMA_VERSION/phpMyAdmin-$PMA_VERSION-english.zip
 unzip -q phpMyAdmin-$PMA_VERSION-english.zip
@@ -62,7 +63,7 @@ EOL
 # date | sha256sum | base64 | head -c 32
 sed -i -e "s/__SECRET__/$(date | md5sum | base64)/" /opt/phpMyAdmin/config.inc.php
 
-# install php db monitor
+# Install php database status
 mkdir /opt/status
 
 cat > /opt/status/db.php <<'EOL'
@@ -219,6 +220,6 @@ echo '</table><br>';
 
 EOL
 
-# clean up
+# Clean up
 rm /script_init.sh
 exit 0
