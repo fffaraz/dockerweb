@@ -109,11 +109,14 @@ docweb stop NAME
 ```
 docweb run [--debug|--bash] [--direct PORT] IMAGE NAME [WEBUSER_PASSWORD SSH_PORT]
 docweb stop NAME
+docweb logs NAME
 docweb update NAME
 docweb exec [--root] NAME
 docweb clean NAME
 docweb backup NAME
 docweb status NAME
+docweb log:nginx NAME [--error]
+docweb log:php NAME [--error]
 ```
 
 WWW (public_hmtl) root directory: `/home/NAME/www/public`
