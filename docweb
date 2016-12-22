@@ -35,6 +35,7 @@ if [ "$1" == "clean:all" ]; then
 	[ ! -z "$containers" ] && docker rm $containers
 	volumes=$(docker volume ls -q)
 	[ ! -z "$volumes" ] && docker volume rm $volumes
+	$0 clean
 	exit 0
 fi
 
