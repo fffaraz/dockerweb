@@ -16,6 +16,7 @@ To install the latest stable release, you can run the following commands as root
 ```
 git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
 export PATH=$PATH:/opt/dockerweb
+echo 'PATH=$PATH:/opt/dockerweb' >> ~/.profile
 ```
 
 To create swap space on a regular file run `docweb install:swapfile SIZE_IN_MB`
