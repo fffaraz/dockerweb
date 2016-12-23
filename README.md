@@ -14,8 +14,7 @@ A docker-powered single-file PaaS for shared cloud web hosting management.
 To install the latest stable release, you can run the following commands as root:
 
 ```
-cd /opt
-git clone https://github.com/fffaraz/dockerweb.git
+git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
 export PATH=$PATH:/opt/dockerweb
 ```
 
