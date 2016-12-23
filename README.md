@@ -31,7 +31,7 @@ Optionally, to install some useful packages run `docweb install:extras` and `doc
 
 ### Upgrading
 
-To upgrade you just need to run `docweb upgrade` first and then rebuild all the images with `docweb build:all` if necessary. 
+To upgrade you just need to run `docweb upgrade` first and then if necessary rebuild all the images with `docweb build:all` and re-run all the containers to use new images built.
 
 ## How to run services
 
