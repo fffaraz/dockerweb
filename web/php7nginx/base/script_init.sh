@@ -16,7 +16,7 @@ adduser --home /home/webuser --shell /bin/bash --no-create-home --gecos "" --ing
 export DEBIAN_FRONTEND=noninteractive
 apt-get -yq update < /dev/null
 apt-get -yq upgrade < /dev/null
-apt-get -yq install bash ca-certificates curl git mysql-client nano tree wget unzip xz-utils < /dev/null # perl python logrotate
+apt-get -yq install bash ca-certificates curl git mysql-client nano tree wget unzip xz-utils < /dev/null # perl python nodejs logrotate
 apt-get -yq install openssl openssh-client openssh-sftp-server dropbear # openssh
 apt-get -yq install $BUILD_DEPS zlib1g-dev libpcre3-dev libssl-dev libxslt1-dev libgd2-xpm-dev libperl-dev libbz2-dev libfreetype6-dev libjpeg-turbo8-dev libmcrypt-dev libpng12-dev libxml2-dev libcurl4-gnutls-dev < /dev/null
 # libmysqlclient-dev bison libcurl4-openssl-dev libjpeg-dev libpspell-dev librecode-dev
