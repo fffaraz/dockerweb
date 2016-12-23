@@ -194,6 +194,7 @@ Then update the proxy server with `docweb proxy:update`
 - [ ] Reducing proxy image size by removing build dependencies after install.
 - [ ] Reducing php7nginx/base image size by removing build dependencies after install.
 - [ ] logrotate
+- [ ] phpMyAdmin auto latest version
 - [ ] /home/proxy/blocklists.conf
 - [ ] Requests rate limit
 - [ ] Mail Forwarder
