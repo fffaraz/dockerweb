@@ -206,3 +206,4 @@ If this project help you reduce time to develop and you would like to donate to 
 [![PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/frz288)
 [![Venmo](https://img.shields.io/badge/Donate-Venmo-green.svg)](https://venmo.com/?txn=pay&audience=public&recipients=fffaraz&note=DockerWeb)
 [![Square](https://img.shields.io/badge/Donate-Square-green.svg)](https://cash.me/$fffaraz)
+[![SayThanks](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg)](https://saythanks.io/to/fffaraz)
