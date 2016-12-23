@@ -14,8 +14,12 @@ apt-get -yq install git
 
 mkdir -p /opt
 git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
+
 export PATH=$PATH:/opt/dockerweb
 echo 'export PATH=$PATH:/opt/dockerweb' >> ~/.profile
+
+#alias docweb="/opt/dockerweb/docweb"
+#echo 'alias docweb="/opt/dockerweb/docweb"' >> ~/.bash_aliases
 
 #docweb install:swapfile 1024
 docweb bootstrap
