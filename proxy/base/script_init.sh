@@ -93,7 +93,6 @@ sed -i -e 's/"\x84\xaa\x63\x55\xe7"/"\x84\xc2\x3b\x07\xef"/g' src/http/v2/ngx_ht
 --without-select_module \
 --without-poll_module \
 --with-threads \
---with-ipv6 \
 --with-http_ssl_module \
 --with-http_v2_module \
 --with-http_realip_module \
