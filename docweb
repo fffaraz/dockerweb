@@ -945,6 +945,15 @@ if [ "$1" == "clamav:run" ]; then
 	exit 0
 fi
 
+if [ "$1" == "wpscan" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb wpscan URL"
+		exit 1
+	fi
+	docker run --rm -it wpscanteam/wpscan --url $1
+fi
+
 if [ "$1" == "ssh" ]; then
 	: # https://github.com/tg123/sshpiper
 fi
@@ -1044,15 +1053,6 @@ if [ "$1" == "install:github" ]; then
 	# git config --global push.default simple
 	# git config --global core.editor nano
 	exit 0
-fi
-
-if [ "$1" == "wpscan" ]; then
-	shift
-	if [ $# -lt 1 ]; then
-		echo "Usage: docweb wpscan URL"
-		exit 1
-	fi
-	docker run --rm -it wpscanteam/wpscan --url $1
 fi
 
 if [ "$1" == "cmd" ]; then
