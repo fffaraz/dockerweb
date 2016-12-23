@@ -3,6 +3,7 @@ set -euxo pipefail
 
 rm -rf /home/webuser/tmp
 mkdir -p /home/webuser/.ssh
+mkdir -p /home/webuser/backup
 mkdir -p /home/webuser/log/php
 mkdir -p /home/webuser/log/nginx
 mkdir -p /home/webuser/conf/nginx
