@@ -1,0 +1,95 @@
+
+ssh-keygen -t rsa -b 4096 -C fffaraz@gmail.com
+cat ~/.ssh/id_rsa.pub
+https://github.com/settings/keys
+ssh -T git@github.com
+git config --global user.name "Faraz Fallahi"
+git config --global user.email fffaraz@gmail.com
+git config --global push.default simple
+git config --global core.editor nano
+
+
+glances --disable-sensors -w -p 81
+docker run -it --rm --volume=/var/run/docker.sock:/var/run/docker.sock --publish=0.0.0.0:8000:80 gliderlabs/logspout
+
+
+TODO:
+	https://github.com/docker-slim/docker-slim
+	https://github.com/influxdata/influxdb
+
+
+TODO APP LIST:
+adminer
+	https://github.com/vrana/adminer
+	wget http://www.adminer.org/latest.php -O /var/www/index.php
+	wget https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css -O /var/www/adminer.css
+	https://www.adminer.org/#download
+ajenti
+	https://github.com/ajenti/ajenti
+	https://github.com/paimpozhil/WhatPanel
+apaxy
+	https://github.com/AdamWhitcroft/Apaxy
+	https://github.com/DirectoryLister/DirectoryLister
+	https://github.com/marekrei/encode-explorer
+bolt
+	https://github.com/bolt/bolt
+codeigniter
+	https://github.com/bcit-ci/CodeIgniter
+django
+	https://github.com/django/django
+	https://github.com/rosarior/awesome-django
+drupal
+	https://github.com/drupal/drupal
+	https://github.com/docker-library/drupal
+gateone
+	https://github.com/liftoff/GateOne/
+	https://github.com/glyptodon/
+gitlab
+	https://github.com/gitlabhq/gitlabhq
+gogs
+	https://github.com/gogits/gogs
+h5ai
+	https://github.com/lrsjng/h5ai
+joomla
+	https://github.com/joomla/joomla-cms
+laravel
+	https://github.com/laravel/laravel
+mailinabox
+	https://github.com/mail-in-a-box/mailinabox
+metabase
+	docker run -d -p 3000:3000 --net=isolated_nw --name metabase metabase/metabase
+octobercms
+	https://github.com/octobercms/october
+owncloud
+	https://owncloud.org/
+paperwork
+	https://github.com/twostairs/paperwork
+piwik
+	https://piwik.org/
+polr
+	https://github.com/Cydrobolt/polr
+pydio
+	https://pydio.com/
+	https://github.com/pydio/pydio-core
+redash
+	http://redash.io/
+	https://github.com/getredash/redash
+seafile
+	https://www.seafile.com
+	https://github.com/haiwen/seafile
+webmin
+wordpress
+	https://github.com/jbfink/docker-wordpress
+	https://fa.wordpress.org/
+caddy
+	https://github.com/mholt/caddy
+cherokee
+tengine
+	https://github.com/alibaba/tengine
+mailcatcher
+	https://github.com/sj26/mailcatcher
+MailHog
+	https://github.com/mailhog/MailHog
+
+
+https://github.com/vmware/harbor
