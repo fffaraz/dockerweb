@@ -5,7 +5,7 @@ mkdir -p /home/webuser/app
 chown -R webuser:webuser /home/webuser
 cd /home/webuser/app
 
-iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 3000
-
 npm install
+
 exec npm start
+#exec yarn start
