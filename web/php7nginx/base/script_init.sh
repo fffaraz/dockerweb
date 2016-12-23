@@ -155,6 +155,7 @@ rm -rf /opt/php/php
 apt-get purge -yq --auto-remove $BUILD_DEPS
 apt-get -yq autoremove < /dev/null
 apt-get -yq autoclean < /dev/null
+rm -rf /var/log/letsencrypt/*
 rm -rf /var/lib/apt/lists/*
 rm -rf /var/tmp/*
 rm -rf /tmp/*

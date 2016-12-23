@@ -36,10 +36,12 @@ while read -r -a line; do
 	fi
 
 	[ $NORELOAD -eq 1 ] && [ $SSLCERT -eq 1 ] && \
-	( set -x; /opt/certbot-auto certonly -n --agree-tos --email fffaraz@gmail.com --renew-by-default \
+	( set -x; /opt/certbot-auto certonly -n --agree-tos --email fffaraz@gmail.com \
+	--keep-until-expiring \
 	--standalone --preferred-challenges tls-sni-01 \
 	--domains ${DOMAINS::-1} )
 	# --webroot --webroot-path /var/lib/letsencrypt/
+	# --renew-by-default
 
 	SSLCRT="/opt/nginx/conf/cert/cert.crt"
 	SSLKEY="/opt/nginx/conf/cert/cert.key"
