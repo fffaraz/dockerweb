@@ -49,13 +49,14 @@ client_max_body_size 1G;
 default_type application/octet-stream;
 gzip on;
 gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+#gzip_disable "msie6";
 gzip_vary on;
 gzip_http_version 1.1;
-gzip_comp_level 2;
+gzip_comp_level 2; #6
 gzip_buffers 16 8k;
-gzip_min_length 1k;
+gzip_min_length 512;
 gzip_proxied any; #expired no-cache no-store private auth;
-gzip_types text/plain application/javascript application/x-javascript text/javascript text/xml text/css application/xml;
+gzip_types text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json application/xml application/xml+rss application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
 keepalive_timeout 65;
 large_client_header_buffers 4 16k;
 open_file_cache          max=1000 inactive=20s;
