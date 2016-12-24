@@ -65,9 +65,9 @@ Logs Directory: `/home/proxy/log/nginx/`
 Config File Format: `CONTAINER CATCHALL WILDCARD SSLCERT DOMAIN1 [DOMAINS...]`
 
 * `CONTAINER` : The name of App's container.
-* `CATCHALL` : Set to 1 for the default app. Proxies all unmatched domain names to the app. Optional. One app only.
-* `WILDCARD` : Whether to also proxy all the subdomains to the app.
-* `SSLCERT` : Request for a valid TLS/SSL certificate.
+* `CATCHALL` : Set to 1 for the default app. Proxies all unmatched domain names to that container. Optional. One app only.
+* `WILDCARD` : Whether to also proxy all subdomains of app's domain names to that container.
+* `SSLCERT` : Request for a valid TLS/SSL certificate from letsencrypt.
 * `DOMAIN1` : Primary domain name for the app.
 * `[DOMAINS...]` : Optional additional domain names.
 
