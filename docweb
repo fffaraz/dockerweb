@@ -335,7 +335,7 @@ if [ "$1" == "log:php" ]; then
 		exit 1
 	fi
 	if [ $# -eq 2 ] && [ "$2" == "--error" ]; then
-		tail -f /home/$1/log/php/error.webuser.log
+		tail -f /home/$1/log/php/error.log
 	elif [ $# -eq 2 ] && [ "$2" == "--mail" ]; then
 		tail -f /home/$1/log/php/mail.log
 	else
