@@ -12,6 +12,7 @@ git config --global core.editor nano
 glances --disable-sensors -w -p 81
 docker run -it --rm --volume=/var/run/docker.sock:/var/run/docker.sock --publish=0.0.0.0:8000:80 gliderlabs/logspout
 
+https://git.cloudron.io/cloudron/box/blob/master/baseimage/initializeBaseUbuntuImage.sh
 
 TODO:
 	https://github.com/docker-slim/docker-slim
