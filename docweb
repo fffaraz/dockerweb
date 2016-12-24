@@ -1021,8 +1021,9 @@ if [ "$1" == "install:docker" ]; then
 fi
 
 if [ "$1" == "install:youtube-dl" ]; then
-	apt-get install ffmpeg
-	wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+	set -x
+	apt-get -yq install ffmpeg
+	wget -q https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
 	chmod a+rx /usr/local/bin/youtube-dl
 	youtube-dl -U
 	exit 0
