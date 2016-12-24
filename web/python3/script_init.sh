@@ -31,6 +31,7 @@ uwsgi_param  SERVER_NAME        $server_name;
 ' > /etc/nginx/uwsgi_params
 
 echo '
+daemon off;
 user webuser;
 worker_processes 1;
 pid /run/nginx.pid;
