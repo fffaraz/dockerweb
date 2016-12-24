@@ -8,8 +8,8 @@ apt-get update
 apt-get -yq install ca-certificates nano nginx tree wget
 pip install django gunicorn psycopg2 uwsgi Flask
 
-setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/uwsgi
-setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f /usr/bin/python3)
+#setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/uwsgi
+#setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f /usr/bin/python3)
 
 echo '
 uwsgi_param  QUERY_STRING       $query_string;
