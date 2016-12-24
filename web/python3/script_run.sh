@@ -21,7 +21,7 @@ chown -R webuser:webuser /home/webuser
 cd /home/webuser/www
 
 uwsgi --uid webuser --gid webuser --socket 127.0.0.1:8000 --protocol=http --wsgi-file wsgi.py &
-exec /usr/sbin/nginx
+/usr/sbin/nginx
 
 #exec uwsgi --ini myapp.ini
 #exec uwsgi --json myapp.json
