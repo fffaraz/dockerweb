@@ -267,7 +267,7 @@ php_flag[display_errors]=on
 php_admin_flag[log_errors]=on
 php_admin_value[memory_limit]=128M
 php_admin_value[cgi.fix_pathinfo]=1
-php_admin_value[error_log]=/home/webuser/log/php/error.webuser.log
+php_admin_value[error_log]=/home/webuser/log/php/error.log
 ;php_admin_value[sendmail_path]=
 
 pm=dynamic
