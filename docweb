@@ -133,6 +133,16 @@ if [ "$1" == "stats" ]; then
 	exit 0
 fi
 
+if [ "$1" == "ps" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb ps NAME"
+		exit 1
+	fi
+	docker exec "$1" ps -o user,comm,pid,ppid,pgid,time,vsz,rss,args
+	exit 0
+fi
+
 if [ "$1" == "status" ]; then
 	shift
 	if [ $# -lt 1 ]; then

@@ -115,6 +115,7 @@ docweb update NAME
 docweb exec [--root] NAME
 docweb clean NAME
 docweb backup NAME
+docweb ps NAME
 docweb status NAME
 docweb log:nginx NAME [--error]
 docweb log:php NAME [--error]

@@ -30,8 +30,8 @@ http {
 	#	if ($http_host ~* ^www\.(.*)$ ) { return 301 $scheme://$1$request_uri; }
 	#	location ^~ /.well-known/acme-challenge {
 	#		alias /var/lib/letsencrypt/.well-known/acme-challenge;
-	#		default_type "text/plain";
 	#		try_files $uri =404;
+	#		default_type "text/plain";
 	#	}
 	#	location / { return 301 https://$host$request_uri; }
 	#}
