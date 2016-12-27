@@ -996,6 +996,7 @@ fi
 if [ "$1" == "install:extras" ]; then
 	apt-get -yq install curl git htop iftop iotop lsof vnstat unzip ncdu wget < /dev/null
 	#wget -O- https://bit.ly/glances | /bin/bash
+	#wget -O /usr/local/bin https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
 	exit 0
 fi
 
