@@ -994,9 +994,10 @@ if [ "$1" == "install:swapfile" ]; then
 fi
 
 if [ "$1" == "install:extras" ]; then
+	wget -O- https://bit.ly/glances | /bin/bash
 	apt-get -yq install curl git htop iftop iotop lsof vnstat unzip ncdu wget < /dev/null
-	#wget -O- https://bit.ly/glances | /bin/bash
-	#wget -O /usr/local/bin https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
+	wget -O /usr/local/bin/httpstat https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
+	chmod +x /usr/local/bin/httpstat
 	exit 0
 fi
 
