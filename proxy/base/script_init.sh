@@ -121,11 +121,13 @@ chmod a+x certbot-auto
 
 # Default ssl cert
 mkdir -p /opt/nginx/conf/cert
-openssl req -x509 -nodes -sha256 -days 730 -newkey rsa:2048 \
+openssl req -x509 -nodes -sha256 -days 730 -newkey rsa:4096 \
 -keyout /opt/nginx/conf/cert/cert.key -out /opt/nginx/conf/cert/cert.crt \
--subj "/CN=MyCertificate/subjectAltName=DNS.1=*.com,DNS.2=*.ir"
+-subj "/"
+# -subj "/subjectAltName=DNS:yoursite.com,DNS:www.yoursite.com"
+# -subj "/CN=MyCertificate/subjectAltName=DNS.1=*.com,DNS.2=*.ir"
 # -subj "/C=US/ST=New York/L=New York City/O=Company/OU=Department/CN=MyCertificate/emailAddress=ssl@example.com/subjectAltName=DNS.1=*"
-openssl dhparam -out /opt/nginx/conf/cert/dhparam.pem 2048
+openssl dhparam -out /opt/nginx/conf/cert/dhparam.pem 2048 # -5 4096
 
 # Clean up
 apt-get purge -yq --auto-remove $BUILD_DEPS
