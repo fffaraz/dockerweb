@@ -159,9 +159,9 @@ docweb mysqltuner:run MYSQLSERVER MYSQLROOTPASSWORD
 
 ### Etc.
 
-* `docweb clean` To remove stopped containers, orphaned images and orphaned volumes.
-* `docweb clean:all` To remove all containers and volumes.
-* `docweb clean:img` To remove all images.
+* `docweb rm` To remove stopped containers, orphaned images and orphaned volumes.
+* `docweb rm:all` To remove all containers and volumes.
+* `docweb rm:img` To remove all images.
 * `docweb build NAME` To build an image.
 * `docweb stats` Prints host status.
 * `docweb volume:create NAME SIZE`

@@ -14,7 +14,7 @@ if [ $# -lt 1 ]; then
 	exit 1
 fi
 
-if [ "$1" == "clean" ]; then
+if [ "$1" == "rm" ]; then
 	# Remove stopped containers
 	stopped_containers=$(docker ps -q -f status=exited)
 	[ ! -z "$stopped_containers" ] && docker rm $stopped_containers
@@ -27,19 +27,19 @@ if [ "$1" == "clean" ]; then
 	exit 0
 fi
 
-if [ "$1" == "clean:all" ]; then
-	$0 clean
+if [ "$1" == "rm:all" ]; then
+	$0 rm
 	# Remove all containers and volumes
 	containers=$(docker ps -a -q)
 	[ ! -z "$containers" ] && docker stop $containers
 	[ ! -z "$containers" ] && docker rm $containers
 	volumes=$(docker volume ls -q)
 	[ ! -z "$volumes" ] && docker volume rm $volumes
-	$0 clean
+	$0 rm
 	exit 0
 fi
 
-if [ "$1" == "clean:img" ]; then
+if [ "$1" == "rm:img" ]; then
 	# Remove all images
 	docker rmi $(docker images -q)
 	exit 0
