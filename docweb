@@ -388,9 +388,9 @@ if [ "$1" == "proxy:update" ]; then
 fi
 
 if [ "$1" == "proxy:status" ]; then
-	:
 	# https://github.com/lebinh/ngxtop
 	# https://github.com/allinurl/goaccess
+	exit 0
 fi
 
 if [ "$1" == "microdns:run" ]; then
@@ -421,11 +421,13 @@ if [ "$1" == "microdns:run" ]; then
 fi
 
 if [ "$1" == "bind:run" ]; then
-	: # https://github.com/sameersbn/docker-bind
+	# https://github.com/sameersbn/docker-bind
+	exit 0
 fi
 
 if [ "$1" == "coredns:run" ]; then
-	: # https://github.com/miekg/coredns
+	# https://github.com/miekg/coredns
+	exit 0
 fi
 
 if [ "$1" == "pma:run" ]; then
@@ -920,7 +922,8 @@ if [ "$1" == "mssql:run" ]; then
 fi
 
 if [ "$1" == "memcache:run" ]; then
-	: # https://hub.docker.com/_/memcached/
+	# https://hub.docker.com/_/memcached/
+	exit 0
 fi
 
 if [ "$1" == "volume:create" ]; then
@@ -952,10 +955,12 @@ if [ "$1" == "wpscan" ]; then
 		exit 1
 	fi
 	docker run --rm -it wpscanteam/wpscan --url $1
+	exit 0
 fi
 
 if [ "$1" == "ssh" ]; then
-	: # https://github.com/tg123/sshpiper
+	# https://github.com/tg123/sshpiper
+	exit 0
 fi
 
 if [ "$1" == "bootstrap" ]; then
