@@ -1006,12 +1006,7 @@ if [ "$1" == "install:docker" ]; then
 	apt-get -yq install apt-transport-https ca-certificates < /dev/null
 	apt-get -yq install linux-image-extra-$(uname -r) linux-image-extra-virtual < /dev/null
 
-	wget https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh
-	chmod +x check-config.sh
-	./check-config.sh
-	rm ./check-config.sh
-
-	#curl -sSL https://get.docker.com/ | sh
+	wget -qO- https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh | /bin/bash
 	wget -qO- https://get.docker.com/ | sh
 
 	#apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
