@@ -218,7 +218,9 @@ if [ "$1" == "run" ]; then
 	$SSHPORT \
 	fffaraz/web/$1:latest
 	# --ulimit <type>=<soft limit>[:<hard limit>]
-	# --kernel-memory
+	# --ulimit nproc=64:64
+	# --memory-swap=256m
+	# --kernel-memory=4M
 	# --cap-drop=all
 	# --cap-add=NET_BIND_SERVICE
 
