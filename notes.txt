@@ -49,6 +49,8 @@ gitlab
 	https://github.com/gitlabhq/gitlabhq
 gogs
 	https://github.com/gogits/gogs
+gitea
+	https://github.com/go-gitea/gitea
 h5ai
 	https://github.com/lrsjng/h5ai
 joomla
