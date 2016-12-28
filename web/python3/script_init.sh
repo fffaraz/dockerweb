@@ -8,9 +8,6 @@ apt-get update
 apt-get -yq install ca-certificates nano nginx tree wget
 pip install django gunicorn psycopg2 uwsgi Flask
 
-#setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/uwsgi
-#setcap CAP_NET_BIND_SERVICE=+eip $(readlink -f /usr/bin/python3)
-
 echo '
 uwsgi_param  QUERY_STRING       $query_string;
 uwsgi_param  REQUEST_METHOD     $request_method;
@@ -35,6 +32,7 @@ daemon off;
 user webuser;
 worker_processes 1;
 pid /run/nginx.pid;
+error_log /home/webuser/log/nginx/error.log;
 events {
 	worker_connections 1024;
 	multi_accept on;
@@ -50,7 +48,6 @@ http {
 	include /etc/nginx/mime.types;
 	default_type application/octet-stream;
 	access_log /home/webuser/log/nginx/access.log;
-	error_log /home/webuser/log/nginx/error.log;
 	server {
 		listen 80 default_server;
 		location /media  {
