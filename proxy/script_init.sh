@@ -152,13 +152,13 @@ listen [::]:443 ssl http2 default_server;
 echo '
 root /home/webuser/www;
 index index.html index.default.html;
+location /basic_status { stub_status; }
+location /nginx_status { vhost_traffic_status_display; vhost_traffic_status_display_format html; }
+location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
 ssl_certificate         /opt/nginx/conf/cert/cert.crt;
 ssl_certificate_key     /opt/nginx/conf/cert/cert.key;
 ssl_trusted_certificate /opt/nginx/conf/cert/cert.crt;
 include ssl_params;
-location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
-location /basic_status { stub_status; }
-location /nginx_status { vhost_traffic_status_display; vhost_traffic_status_display_format html; }
 ' > /opt/nginx/conf/default_server
 
 # clean up

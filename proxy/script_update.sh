@@ -53,15 +53,17 @@ while read -r -a line; do
 server
 {
 	$SERVERNAME
+	location / {
+		#set $target http://$CONTAINER.isolated_nw:80;
+		#proxy_pass http://$target;
+		proxy_pass http://$CONTAINER.isolated_nw:80;
+		include proxy_params;
+	}
+	location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
 	ssl_certificate         $SSLCRT;
 	ssl_certificate_key     $SSLKEY;
 	ssl_trusted_certificate $SSLCRT;
 	include ssl_params;
-	location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
-	location / {
-		proxy_pass http://$CONTAINER.isolated_nw:80;
-		include proxy_params;
-	}
 }
 " > /opt/nginx/conf/conf.d/$CONTAINER.conf
 
