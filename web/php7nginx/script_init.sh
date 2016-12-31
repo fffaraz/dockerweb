@@ -79,7 +79,7 @@ http {
 		listen 80 default_server;
 		root /home/webuser/www/public;
 		include server_params;
-		#include /home/webuser/conf/nginx/default.conf;
+		include /home/webuser/conf/nginx/default.conf*;
 	}
 	include /opt/nginx/conf/conf.d/*.conf;
 	include /home/webuser/conf/nginx/conf.d/*.conf;
