@@ -54,8 +54,8 @@ server
 {
 	$SERVERNAME
 	location / {
-		#set $target http://$CONTAINER.isolated_nw:80;
-		#proxy_pass http://$target;
+		#set \$target http://$CONTAINER.isolated_nw:80;
+		#proxy_pass http://\$target;
 		proxy_pass http://$CONTAINER.isolated_nw:80;
 		include proxy_params;
 	}
