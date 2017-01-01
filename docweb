@@ -390,6 +390,7 @@ if [ "$1" == "proxy:run" ]; then
 	-v /home/proxy/ssl/etc:/etc/letsencrypt \
 	-v /home/proxy/ssl/lib:/var/lib/letsencrypt \
 	-v /home/proxy/ssl/log:/var/log/letsencrypt \
+	-e CERTEMAIL="fffaraz@gmail.com" \
 	fffaraz/proxy:latest \
 	$@
 
