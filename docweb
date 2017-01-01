@@ -416,6 +416,7 @@ if [ "$1" == "proxy:log" ]; then
 fi
 
 if [ "$1" == "proxy:status" ]; then
+	shift
 	# https://github.com/lebinh/ngxtop
 	# https://github.com/allinurl/goaccess
 	exit 0
@@ -449,11 +450,13 @@ if [ "$1" == "microdns:run" ]; then
 fi
 
 if [ "$1" == "bind:run" ]; then
+	shift
 	# https://github.com/sameersbn/docker-bind
 	exit 0
 fi
 
 if [ "$1" == "coredns:run" ]; then
+	shift
 	# https://github.com/miekg/coredns
 	exit 0
 fi
@@ -950,6 +953,7 @@ if [ "$1" == "mssql:run" ]; then
 fi
 
 if [ "$1" == "memcache:run" ]; then
+	shift
 	# https://hub.docker.com/_/memcached/
 	exit 0
 fi
@@ -970,6 +974,7 @@ if [ "$1" == "volume:create" ]; then
 fi
 
 if [ "$1" == "clamav:run" ]; then
+	shift
 	ISRUNNING=$(docker inspect --format={{.State.Running}} clamav 2> /dev/null)
 	[ $? -eq 0 ] &&	docker rm -f clamav
 	docker run -it --rm -v /home:/home --name=clamav fffaraz/app/clamav:latest
@@ -987,6 +992,7 @@ if [ "$1" == "wpscan" ]; then
 fi
 
 if [ "$1" == "ssh" ]; then
+	shift
 	# https://github.com/tg123/sshpiper
 	exit 0
 fi
