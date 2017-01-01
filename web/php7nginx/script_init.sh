@@ -5,7 +5,7 @@ set -euxo pipefail
 
 mkdir -p /etc/security
 echo '
-webuser hard nproc 300
+webuser hard nproc 256
 ' > /etc/security/limits.conf
 
 echo '
@@ -74,6 +74,8 @@ http {
 	open_file_cache_errors   off;
 	#log_format main $http_x_forwarded_for - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent";
 	access_log /home/webuser/log/nginx/access.log combined;
+	index index.html index.htm index.php index.default.html;
+	autoindex on;
 	server {
 		server_name _;
 		listen 80 default_server;
@@ -87,18 +89,7 @@ http {
 ' > /opt/nginx/conf/nginx.conf
 
 echo '
-location / { 
-	index index.html index.htm index.php index.default.html;
-	try_files $uri $uri/ /index.php$is_args$args;
-	#try_files $uri $uri/ /index.php?q=$uri&$args;
-	#try_files $uri $uri/ =404;
-	autoindex on;
-}
-#location ~ \.php$ {
-#	try_files $uri =404;
-#	fastcgi_split_path_info ^(.+\.php)(/.+)$;
-#	include fastcgi_params;
-#}
+try_files $uri $uri/ /index.php$is_args$args =404;
 location ~ [^/]\.php(/|$) {
 	#try_files $uri =404;
 	fastcgi_split_path_info ^(.+?\.php)(/.*)$;
@@ -106,7 +97,7 @@ location ~ [^/]\.php(/|$) {
 	include fastcgi_params;
 }
 location ~ ^/(fpm_status)$ {
-	#allow 1.2.3.4#your-ip;
+	#allow 1.2.3.4;
 	#deny all;
 	include fastcgi_params;
 }
@@ -362,8 +353,6 @@ chmod +x /opt/bin/phpsendmail
 
 # Clean up
 sync
-rm -rf /home/webuser/log
-rm -rf /home/webuser/tmp
-ls -alh /home/webuser
+rm -rf /home/webuser
 rm /script_init.sh
 exit 0
