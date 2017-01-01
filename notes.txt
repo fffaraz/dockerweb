@@ -14,6 +14,11 @@ docker run -it --rm --volume=/var/run/docker.sock:/var/run/docker.sock --publish
 
 https://git.cloudron.io/cloudron/box/blob/master/baseimage/initializeBaseUbuntuImage.sh
 
+Bash Programmable Completion:
+	http://www.tldp.org/LDP/abs/html/tabexpansion.html
+	http://askubuntu.com/questions/68175/how-to-create-script-with-auto-complete
+	/etc/bash_completion.d/*
+
 DNS:
 	https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-an-authoritative-only-dns-server-on-ubuntu-14-04
 	https://www.digitalocean.com/community/tutorials/how-to-setup-dnssec-on-an-authoritative-bind-dns-server--2
@@ -21,7 +26,6 @@ DNS:
 TODO:
 	https://github.com/docker-slim/docker-slim
 	https://github.com/influxdata/influxdb
-
 
 TODO APP LIST:
 adminer

@@ -200,6 +200,7 @@ Then update the proxy server with `docweb proxy:update`
 - [ ] /home/proxy/blocklists.conf
 - [ ] Requests rate limit
 - [ ] Mail Forwarder
+- [ ] Bash Auto-Completion
 
 ## Donation
 
