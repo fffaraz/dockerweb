@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-# configure openssh
+# Configure openssh
 
 mkdir -p /etc/security
 echo '
@@ -41,10 +41,11 @@ echo '
 Welcome
 ' > /etc/motd
 
-# configure nginx
-mkdir -p /opt/nginx/conf/conf.d
-
+# Configure nginx
 # https://codex.wordpress.org/Nginx
+# http://nginx.org/en/docs/http/ngx_http_log_module.html
+
+mkdir -p /opt/nginx/conf/conf.d
 
 echo '
 daemon off;
@@ -71,7 +72,6 @@ http {
 	open_file_cache_valid    60s;
 	open_file_cache_min_uses 5;
 	open_file_cache_errors   off;
-	# http://nginx.org/en/docs/http/ngx_http_log_module.html
 	#log_format main $http_x_forwarded_for - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent";
 	access_log /home/webuser/log/nginx/access.log combined;
 	server {
@@ -158,7 +158,7 @@ fastcgi_temp_file_write_size    256k;
 #fastcgi_intercept_errors       on;
 ' > /opt/nginx/conf/fastcgi_params
 
-# configure bash
+# Configure bash
 
 cat > /etc/profile.d/aliases.sh <<'EOL'
 alias ll="ls -alh"
@@ -179,7 +179,7 @@ export PATH=$PATH:/home/webuser/spark-installer
 EOL
 source /etc/profile.d/path.sh
 
-# configure php
+# Configure php
 
 mkdir -p /opt/php/conf/conf.d
 echo '
@@ -284,7 +284,7 @@ pm.status_path=/fpm_status
 mkdir -p /home/webuser/tmp/php/opcache
 mkdir -p /home/webuser/tmp/php/systemp
 
-# install composer
+# Install composer
 cd /opt
 mkdir -p /opt/bin
 wget -qO /opt/bin/composer-setup.php https://getcomposer.org/installer
@@ -295,19 +295,20 @@ mkdir -p /opt/.composer
 export COMPOSER_HOME=/opt/.composer
 composer -V
 
-# install laravel
+# Install laravel
 composer global require laravel/installer
 laravel --version
 
-# install drush
+# Install drush
 wget -qO /opt/bin/drush https://s3.amazonaws.com/files.drush.org/drush.phar
 chmod +x /opt/bin/drush
 
-# install phan https://github.com/etsy/phan
+# Install phan 
+# https://github.com/etsy/phan
 #composer global require --dev etsy/phan:dev-master
 #composer global install
 
-# install node.js & npm
+# Install node.js & npm
 NODE_VERSION=6.9.1
 cd /opt
 wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
@@ -315,11 +316,14 @@ tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
 rm node-v${NODE_VERSION}-linux-x64.tar.xz
 mv node-v${NODE_VERSION}-linux-x64 node
 
-# bower, gulp, yo, grunt
-# sass, compass
-# imagemagic ffmpeg
+# Install gulp
+npm install --global gulp-cli
 
-# install sendmail
+# bower, yo, grunt
+# sass, compass
+# imagemagic, ffmpeg
+
+# Install sendmail
 cat > /opt/bin/phpsendmail <<'EOL'
 #!/opt/php/bin/php
 <?php
@@ -360,7 +364,7 @@ return shell_exec($command);
 EOL
 chmod +x /opt/bin/phpsendmail
 
-# clean up
+# Clean up
 sync
 rm -rf /home/webuser/log
 rm -rf /home/webuser/tmp
