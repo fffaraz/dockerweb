@@ -309,7 +309,7 @@ chmod +x /opt/bin/drush
 #composer global install
 
 # Install node.js & npm
-NODE_VERSION=6.9.1
+NODE_VERSION=6.9.2
 cd /opt
 wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
 tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
@@ -328,37 +328,33 @@ cat > /opt/bin/phpsendmail <<'EOL'
 #!/opt/php/bin/php
 <?php
 
-/**
-  https://www.howtoforge.com/how-to-log-emails-sent-with-phps-mail-function-to-detect-form-spam
-  This script is a sendmail wrapper for php to log calls of the php mail() function.
-  Author: Till Brehm, www.ispconfig.org
-  (Hopefully) secured by David Goodwin <david @ _palepurple_.co.uk>
+/*
+https://www.howtoforge.com/how-to-log-emails-sent-with-phps-mail-function-to-detect-form-spam
+This script is a sendmail wrapper for php to log calls of the php mail() function.
+Author: Till Brehm, www.ispconfig.org
+(Hopefully) secured by David Goodwin <david @ _palepurple_.co.uk>
 */
 
 $sendmail_bin = '/usr/sbin/sendmail';
 $logfile = '/home/webuser/log/php/phpsendmail.log';
 
-//* Get the email content
+// Get the email content
 $logline = '';
 $pointer = fopen('php://stdin', 'r');
 
-$mail = "";
+$mail = '';
 while ($line = fgets($pointer)) {
-        if(preg_match('/^to:/i', $line) || preg_match('/^from:/i', $line)) {
-                $logline .= trim($line).' ';
-        }
-        $mail .= $line;
+	if(preg_match('/^to:/i', $line) || preg_match('/^from:/i', $line)) $logline .= trim($line) . ' ';
+	$mail .= $line;
 }
 
-//* compose the sendmail command
-$command = 'echo ' . escapeshellarg($mail) . ' | '.$sendmail_bin.' -t -i';
-for ($i = 1; $i < $_SERVER['argc']; $i++) {
-        $command .= escapeshellarg($_SERVER['argv'][$i]).' ';
-}
+// compose the sendmail command
+$command = 'echo ' . escapeshellarg($mail) . ' | ' . $sendmail_bin . ' -t -i ';
+for ($i = 1; $i < $_SERVER['argc']; $i++) $command .= escapeshellarg($_SERVER['argv'][$i]) . ' ';
 
-//* Write the log
+// Write the log
 file_put_contents($logfile, date('Y-m-d H:i:s') . ' ' . $_ENV['PWD'] . ' ' . $logline, FILE_APPEND | LOCK_EX);
-//* Execute the command
+// Execute the command
 return shell_exec($command);
 
 EOL
