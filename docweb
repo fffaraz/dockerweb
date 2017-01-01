@@ -321,17 +321,19 @@ fi
 if [ "$1" == "log:nginx" ]; then
 	shift
 	if [ $# -lt 1 ]; then
-		echo "Usage: docweb log:nginx NAME [--error]"
+		echo "Usage: docweb log:nginx NAME [--access | --error]"
 		exit 1
 	fi
 	if [ ! -d /home/$1 ]; then
 		echo "Directory /home/$1 doesn't exist"
 		exit 1
 	fi
-	if [ $# -eq 2 ] && [ "$2" == "--error" ]; then
+	if [ $# -eq 2 ] && [ "$2" == "--access" ]; then
+		tail -f /home/$1/log/nginx/access.log
+	elif [ $# -eq 2 ] && [ "$2" == "--error" ]; then
 		tail -f /home/$1/log/nginx/error.log
 	else
-		tail -f /home/$1/log/nginx/access.log
+		tail -f /home/$1/log/nginx/*.log
 	fi
 	exit 0
 fi
@@ -339,19 +341,21 @@ fi
 if [ "$1" == "log:php" ]; then
 	shift
 	if [ $# -lt 1 ]; then
-		echo "Usage: docweb log:php NAME [--error | --mail]"
+		echo "Usage: docweb log:php NAME [--access | --error | --mail]"
 		exit 1
 	fi
 	if [ ! -d /home/$1 ]; then
 		echo "Directory /home/$1 doesn't exist"
 		exit 1
 	fi
-	if [ $# -eq 2 ] && [ "$2" == "--error" ]; then
+	if [ $# -eq 2 ] && [ "$2" == "--access" ]; then 
+		tail -f /home/$1/log/php/access.log
+	elif [ $# -eq 2 ] && [ "$2" == "--error" ]; then
 		tail -f /home/$1/log/php/error.log
 	elif [ $# -eq 2 ] && [ "$2" == "--mail" ]; then
 		tail -f /home/$1/log/php/mail.log
 	else
-		tail -f /home/$1/log/php/access.log
+		tail -f /home/$1/log/php/*.log
 	fi
 	exit 0
 fi
@@ -396,6 +400,18 @@ fi
 if [ "$1" == "proxy:update" ]; then
 	shift
 	docker exec -it proxy /script_update.sh $@
+	exit 0
+fi
+
+if [ "$1" == "proxy:log" ]; then
+	shift
+	if [ $# -eq 1 ] && [ "$1" == "--trafic" ]; then
+		tail -f /home/proxy/log/nginx/trafic.log
+	elif [ $# -eq 1 ] && [ "$1" == "--error" ]; then
+		tail -f /home/proxy/log/nginx/error.log
+	else
+		tail -f /home/proxy/log/nginx/*.log
+	fi
 	exit 0
 fi
 
