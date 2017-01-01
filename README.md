@@ -194,7 +194,8 @@ Then update the proxy server with `docweb proxy:update`
 
 - [ ] Reducing proxy/base image size by removing build dependencies.
 - [ ] Reducing php7nginx/base image size by removing build dependencies.
-- [ ] Memory usage limit as a parameter for `docweb run`
+- [ ] Add Memory usage limit as a parameter for `docweb run`
+- [ ] Add certbot email as a a parameter for `docweb proxy:run`
 - [ ] logrotate
 - [ ] phpMyAdmin auto latest version
 - [ ] /home/proxy/blocklists.conf
