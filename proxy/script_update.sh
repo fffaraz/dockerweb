@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-NORELOAD=0
-[ $# -gt 0 ] && [ "$1" == "--no-reload" ] && NORELOAD=1
+RELOADNGNIX=1
+[ $# -gt 0 ] && [ "$1" == "--no-reload" ] && RELOADNGNIX=0
 [ $# -gt 0 ] && [ "$1" == "--debug" ] && set -x
 
 [ ! -f /home/webuser/websites.conf ] && echo "# CONTAINER CATCHALL WILDCARD SSLCERT DOMAIN1 [DOMAINS...]" > /home/webuser/websites.conf
@@ -35,13 +35,15 @@ while read -r -a line; do
 		SERVERNAME="include listen_default_params; server_name _;"
 	fi
 
-	[ $NORELOAD -eq 1 ] && [ $SSLCERT -eq 1 ] && \
-	( set -x; /opt/certbot-auto certonly -n --agree-tos --email fffaraz@gmail.com \
-	--keep-until-expiring \
-	--standalone --preferred-challenges tls-sni-01 \
-	--domains ${DOMAINS::-1} )
-	# --webroot --webroot-path /var/lib/letsencrypt/
-	# --renew-by-default
+	if [ $SSLCERT -eq 1 ]; then
+		CERTPLUGIN="--standalone --preferred-challenges tls-sni-01"
+		[ $RELOADNGNIX -eq 1 ] && CERTPLUGIN="--webroot --webroot-path /var/lib/letsencrypt/"
+		( set -x;
+		/opt/certbot-auto certonly -n --agree-tos --email fffaraz@gmail.com \
+		--keep-until-expiring \
+		$CERTPLUGIN \
+		--domains ${DOMAINS::-1} )
+	fi
 
 	SSLCRT="/opt/nginx/conf/cert/cert.crt"
 	SSLKEY="/opt/nginx/conf/cert/cert.key"
@@ -91,7 +93,7 @@ fi
 
 /opt/nginx/sbin/nginx -t
 
-[ $NORELOAD -eq 0 ] && /opt/nginx/sbin/nginx -s reload
+[ $RELOADNGNIX -eq 1 ] && /opt/nginx/sbin/nginx -s reload
 
 #mv access.log access.log.0
 #kill -USR1 `cat master.nginx.pid`
