@@ -89,7 +89,7 @@ http {
 ' > /opt/nginx/conf/nginx.conf
 
 echo '
-try_files $uri $uri/ /index.php$is_args$args =404;
+try_files $uri $uri/ /index.php$is_args$args;
 location ~ [^/]\.php(/|$) {
 	#try_files $uri =404;
 	fastcgi_split_path_info ^(.+?\.php)(/.*)$;
