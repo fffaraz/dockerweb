@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-# configure nginx
+# Configure nginx
 # https://github.com/h5bp/server-configs-nginx
 # https://support.cloudflare.com/hc/en-us/articles/200170706
 # https://github.com/cloudflare/ngx_brotli_module
@@ -161,6 +161,6 @@ ssl_trusted_certificate /opt/nginx/conf/cert/cert.crt;
 include ssl_params;
 ' > /opt/nginx/conf/default_server
 
-# clean up
+# Clean up
 rm /script_init.sh
 exit 0

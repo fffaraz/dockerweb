@@ -133,8 +133,19 @@ openssl dhparam -out /opt/nginx/conf/cert/dhparam.pem 2048 # -5 4096
 apt-get purge -yq --auto-remove $BUILD_DEPS
 apt-get -yq autoremove < /dev/null
 apt-get -yq autoclean < /dev/null
+sync
+
+rm -rf /var/log/letsencrypt/*
+rm -rf /usr/share/doc
+rm -rf /usr/share/man
+
 rm -rf /var/lib/apt/lists/*
+rm -rf /var/lib/apt
+rm -rf /var/cache/apt
+
+rm -rf /home/webuser
 rm -rf /var/tmp/*
 rm -rf /tmp/*
+
 rm /script_init.sh
 exit 0
