@@ -90,7 +90,7 @@ if [ "$1" == "stats" ]; then
 	echo
 	free -h
 	echo
-	df -h /dev/vda1
+	df -h /dev/[shv]d[a-z][1-9]
 
 	echo
 	echo --------------------------------------------------------------------------------
@@ -311,6 +311,7 @@ if [ "$1" == "backup" ]; then
 	fi
 	mkdir -p /home/backup
 	FILEPATH=/home/backup/$1_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
+	# TODO: pigz
 	tar --exclude=$1/log --exclude=$1/tmp --directory=/home -czf $FILEPATH $1
 	ls -lh $FILEPATH
 	#gzip -v -t $FILEPATH
