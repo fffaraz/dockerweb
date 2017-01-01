@@ -82,6 +82,7 @@ docweb mysql:optimize NAME
 docweb mysql:backup NAME [--gzip] [DATABASES...]
 docweb mysql:import NAME [--gzip] FILENAME [DATABASE]
 docweb mysql:createuser NAME USERNAME PASSWORD
+docweb mysql:createdb MYSQLSERVER DBNAME
 docweb mysql:listusers NAME
 docweb mysql:listproc NAME
 docweb mysql:listdbs NAME
@@ -196,6 +197,7 @@ Then update the proxy server with `docweb proxy:update`
 - [ ] Reducing php7nginx/base image size by removing build dependencies.
 - [ ] Add Memory usage limit as a parameter for `docweb run`
 - [ ] Add certbot email as a a parameter for `docweb proxy:run`
+- [ ] Add gzip compression level as a a parameter for `docweb proxy:run`
 - [ ] logrotate
 - [ ] phpMyAdmin auto latest version
 - [ ] /home/proxy/blocklists.conf

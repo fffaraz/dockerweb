@@ -90,7 +90,11 @@ if [ "$1" == "stats" ]; then
 	echo
 	free -h
 	echo
+	vmstat
+	echo
 	df -h /dev/[hmsv]d?([a-z])+([1-9])
+	echo
+	iostat
 
 	echo
 	echo --------------------------------------------------------------------------------
@@ -109,6 +113,7 @@ if [ "$1" == "stats" ]; then
 		#cat cat /etc/lsb-release
 		#dmesg | grep Memory
 		#lsof +D /home
+		#dstat -tdD total 60
 
 		echo
 		echo --------------------------------------------------------------------------------
@@ -811,6 +816,16 @@ if [ "$1" == "mysql:createuser" ]; then
 	exit 0
 fi
 
+if [ "$1" == "mysql:createdb" ]; then
+	shift
+	if [ "$#" -lt 2 ]; then
+		echo "Usage: docweb mysql:createdb MYSQLSERVER DBNAME"
+		exit 1
+	fi
+	echo "CREATE DATABASE IF NOT EXISTS \`$2\` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;" | docker exec -i $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
+	exit 0
+fi
+
 if [ "$1" == "mysql:backup" ]; then
 	shift
 	if [ $# -lt 1 ]; then
@@ -1035,7 +1050,7 @@ fi
 
 if [ "$1" == "install:extras" ]; then
 	wget -O- https://bit.ly/glances | /bin/bash
-	apt-get -yq install curl git htop iftop iotop lsof vnstat unzip ncdu wget < /dev/null
+	apt-get -yq install curl dstat git htop iftop iotop lsof vnstat unzip ncdu wget < /dev/null # sysstat (sar)
 	wget -O /usr/local/bin/httpstat https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
 	chmod +x /usr/local/bin/httpstat
 	exit 0
