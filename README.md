@@ -201,6 +201,7 @@ Then update the proxy server with `docweb proxy:update`
 - [ ] Requests rate limit
 - [ ] Mail Forwarder
 - [ ] Bash Auto-Completion
+- [ ] Auto latest node.js version detection for php7nginx image
 
 ## Donation
 
