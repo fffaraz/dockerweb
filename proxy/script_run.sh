@@ -2,12 +2,13 @@
 set -euxo pipefail
 export TERM=xterm
 
-mkdir -p /home/webuser/log/nginx
+rm -rf /home/webuser/tmp
 mkdir -p /home/webuser/tmp/nginx/client
 mkdir -p /home/webuser/tmp/nginx/proxy
 mkdir -p /home/webuser/tmp/nginx/fastcgi
 mkdir -p /home/webuser/tmp/nginx/uwsgi
 mkdir -p /home/webuser/tmp/nginx/scgi
+mkdir -p /home/webuser/log/nginx
 mkdir -p /home/webuser/www
 
 SERVER_NAME=$(hostname)
