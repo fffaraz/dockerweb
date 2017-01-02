@@ -830,6 +830,7 @@ if [ "$1" == "mysql:createuser" ]; then
 
 	# FLUSH PRIVILEGES;
 	# CREATE USER IF NOT EXISTS '$2'@'%' IDENTIFIED WITH mysql_native_password BY '$3';
+	# docker exec <<EOF ... EOF
 
 	echo "
 	CREATE USER IF NOT EXISTS '$2'@'%' IDENTIFIED BY '$3';
