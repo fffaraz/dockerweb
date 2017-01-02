@@ -13,15 +13,18 @@ echo '
 daemon off;
 worker_processes auto;
 worker_rlimit_nofile 20000;
+#include /home/webuser/conf/nginx/core.d/*.conf;
 events {
 	worker_connections 10000;
 	multi_accept on;
 	use epoll;
+	#include /home/webuser/conf/nginx/events.d/*.conf;
 }
 http {
 	include mime.types;
 	include global_params;
 	vhost_traffic_status_zone;
+	#include /home/webuser/conf/nginx/http.d/*.conf;
 	#server {
 	#	listen 80 default_server;
 	#	listen [::]:80 default_server;
@@ -41,15 +44,21 @@ http {
 
 echo '
 #aio threads;
+default_type application/octet-stream;
+
 log_format traffic "$time_iso8601,$server_name,$remote_addr,$bytes_sent,$request_length,$request_time,$status,$request_uri";
 access_log /home/webuser/log/nginx/traffic.log traffic;
+
+#log_format main $remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for" $request_length $request_time "$upstream_response_length" "$upstream_response_time" "$host";
+#access_log /home/webuser/log/nginx/access.log  main;
+
 client_body_buffer_size 64K;
 client_body_timeout 30;
 client_max_body_size 1G;
-default_type application/octet-stream;
+
 gzip on;
-gzip_disable "MSIE [1-6]\.(?!.*SV1)";
-#gzip_disable "msie6";
+gzip_disable "msie6";
+#gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 gzip_vary on;
 gzip_http_version 1.1;
 gzip_comp_level 2; #6
@@ -84,6 +93,32 @@ server_tokens off;
 #	VN no;
 #	TW no;
 #}
+
+# CloudFlare proxy addresses
+set_real_ip_from    103.21.244.0/22;
+set_real_ip_from    103.22.200.0/22;
+set_real_ip_from    103.31.4.0/22;
+set_real_ip_from    104.16.0.0/12;
+set_real_ip_from    108.162.192.0/18;
+set_real_ip_from    131.0.72.0/22;
+set_real_ip_from    141.101.64.0/18;
+set_real_ip_from    162.158.0.0/15;
+set_real_ip_from    172.64.0.0/13;
+set_real_ip_from    173.245.48.0/20;
+set_real_ip_from    188.114.96.0/20;
+set_real_ip_from    190.93.240.0/20;
+set_real_ip_from    197.234.240.0/22;
+set_real_ip_from    198.41.128.0/17;
+set_real_ip_from    199.27.128.0/21;
+set_real_ip_from    2400:cb00::/32;
+set_real_ip_from    2405:8100::/32;
+set_real_ip_from    2405:b500::/32;
+set_real_ip_from    2606:4700::/32;
+set_real_ip_from    2803:f800::/32;
+set_real_ip_from    2c0f:f248::/32;
+set_real_ip_from    2a06:98c0::/29;
+real_ip_header      X-Forwarded-For;
+
 ' > /opt/nginx/conf/global_params
 
 # https://cipherli.st/
