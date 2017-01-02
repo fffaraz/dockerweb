@@ -9,8 +9,10 @@ fi
 
 set -euxo pipefail
 
-apt-get -yq update
-apt-get -yq install git
+export DEBIAN_FRONTEND=noninteractive
+apt-get -yq update < /dev/null
+apt-get -yq --fix-broken install < /dev/null
+apt-get -yq install apt-transport-https ca-certificates git wget < /dev/null
 
 mkdir -p /opt
 git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
@@ -21,5 +23,33 @@ echo 'export PATH=$PATH:/opt/dockerweb' >> ~/.profile
 #alias docweb="/opt/dockerweb/docweb"
 #echo 'alias docweb="/opt/dockerweb/docweb"' >> ~/.bash_aliases
 
+#cat /proc/meminfo | grep SwapTotal:
+#cat /proc/meminfo | grep MemTotal:
 #docweb install:swapfile 1024
+
 docweb bootstrap
+
+
+# bash completion for the `docweb` command
+
+# _docweb_complete() {
+# 	local OLD_IFS="$IFS"
+# 	local cur=${COMP_WORDS[COMP_CWORD]}
+
+# 	IFS=$'\n';  # want to preserve spaces at the end
+# 	local opts="$(docweb cli completions --line="$COMP_LINE" --point="$COMP_POINT")"
+
+# 	if [[ "$opts" =~ \<file\>\s* ]]
+# 	then
+# 		COMPREPLY=( $(compgen -f -- $cur) )
+# 	elif [[ $opts = "" ]]
+# 	then
+# 		COMPREPLY=( $(compgen -f -- $cur) )
+# 	else
+# 		COMPREPLY=( ${opts[*]} )
+# 	fi
+
+# 	IFS="$OLD_IFS"
+# 	return 0
+# }
+# complete -o nospace -F _docweb_complete docweb
