@@ -104,3 +104,42 @@ MailHog
 
 
 https://github.com/vmware/harbor
+
+
+email
+Analog		
+Awstats		
+Webalizer
+DKIM
+SPF
+Max hourly emails per domain
+Disk space usage warnings
+Disk quota usage warnings
+Include databases in disk usage calculations (Use INFORMATION_SCHEMA to acquire MySQL disk usage)
+Out of memory warnings
+Critical load threshold
+Bandwidth usage warning
+PHP max execution time 
+PHP max POST size
+PHP max upload size
+ioncube
+sourceguardian
+zend
+Always redirect to SSL
+I/O priority level (bandwidth usage, stats logs, nightly backups, quota checks)
+Update Preferences
+Brute Force Protection
+ModSecurity (https://waf.comodo.com/)
+Fork Bomb Protection
+Log Rotation
+Backup Scheduling and Retention
+View Bandwidth Usage
+Email Delivery Reports
+Email Queue
+munin
+
+https://www.zimbra.com/open-source-email-overview/
+http://www.iredmail.org/
+https://github.com/andryyy/mailcow-dockerized
+http://modoboa.org/en/
+https://github.com/Mailu/Mailu
