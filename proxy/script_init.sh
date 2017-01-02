@@ -170,6 +170,16 @@ proxy_send_timeout 30s;
 #proxy_cache_bypass $http_upgrade;
 ' > /opt/nginx/conf/proxy_params
 
+# pagespeed on;
+# pagespeed FileCachePath /var/cache/pagespeed;
+# location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" { add_header "" ""; }
+# location ~ "^/ngx_pagespeed_static/" { }
+# location ~ "^/ngx_pagespeed_beacon$" { }
+# location /ngx_pagespeed_statistics { deny all; }
+# location /ngx_pagespeed_global_statistics { deny all; }
+# location /ngx_pagespeed_message { deny all; }
+# location /pagespeed_console { deny all; }
+
 echo '
 listen 80;
 listen [::]:80;
