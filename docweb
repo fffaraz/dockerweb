@@ -92,7 +92,7 @@ if [ "$1" == "stats" ]; then
 	echo
 	vmstat
 	echo
-	df -h /dev/[hmsv]d?([a-z])+([1-9])
+	( shopt -s extglob; df -h /dev/[hmsv]d?([a-z])+([1-9]) )
 	echo
 	iostat
 
@@ -673,6 +673,7 @@ default_storage_engine=InnoDB
 skip_name_resolve=1
 general_log=0
 general_log_file=/var/log/mysql/general.log
+#innodb_fast_shutdown=0
 innodb_file_per_table=1
 local_infile=0
 log_error=/var/log/mysql/error.log
@@ -757,19 +758,35 @@ EOL
 	-e MYSQL_ROOT_PASSWORD="$2" \
 	${DBSERVER}:latest
 
+	# docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES; SET PASSWORD FOR root = PASSWORD(\"$1\");"'
+
+	exit 0
+fi
+
+if [ "$1" == "mysql:stop" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:stop NAME"
+		exit 1
+	fi
+	docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SET GLOBAL innodb_fast_shutdown = 0"'
+	sleep 2
+	docker stop $1
+	docker rm $1
 	exit 0
 fi
 
 if [ "$1" == "mysql:client" ]; then
 	shift
 	if [ $# -lt 1 ]; then
-		echo "Usage: docweb mysql:client NAME"
+		echo "Usage: docweb mysql:client NAME [--bash]"
 		exit 1
 	fi
-	#docker exec -it $1 bash
-	docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
-	#docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES; SET PASSWORD FOR root = PASSWORD(\"$1\");"'
-	#docker exec -it $1 sh -c 'exec mysqlreport --user root --password "$MYSQL_ROOT_PASSWORD"'
+	if [ "$2" == "--bash" ]; then
+		docker exec -it $1 bash
+	else
+		docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
+	fi
 	exit 0
 fi
 
@@ -779,7 +796,18 @@ if [ "$1" == "mysql:status" ]; then
 		echo "Usage: docweb mysql:status NAME"
 		exit 1
 	fi
+	# SHOW ENGINE INNODB STATUSG
 	printf "$(docker exec -it $1 sh -c 'exec mysql -N -B -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SHOW ENGINE INNODB STATUS"')"
+	exit 0
+fi
+
+if [ "$1" == "mysql:report" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:report NAME"
+		exit 1
+	fi
+	docker exec -it $1 sh -c 'exec mysqlreport --user root --password "$MYSQL_ROOT_PASSWORD"'
 	exit 0
 fi
 
@@ -866,6 +894,7 @@ if [ "$1" == "mysql:backup" ]; then
 			fi
 		fi
 	fi
+	# --default-character-set=utf8
 	# --master-data --single-transaction
 	exit 0
 fi
@@ -892,6 +921,25 @@ if [ "$1" == "mysql:import" ]; then
 		fi
 		docker exec -it $MYSQLSERVER sh -c "mysql -uroot -p\"\$MYSQL_ROOT_PASSWORD\" $2 < /backup/$1"
 	fi
+	exit 0
+fi
+
+if [ "$1" == "mysql:backupusers" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:backupusers NAME"
+		exit 1
+	fi
+	MYSQLSERVER=$1
+	shift
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $MYSQLSERVER 2> /dev/null)
+	if [ $? -ne 0 ]; then
+		echo "MySQL instance $MYSQLSERVER is not running."
+		exit 1
+	fi
+	# mysql.user
+	# mysql.db
+	# mysqldump -u root -p mysql user > user_table_dump.sql
 	exit 0
 fi
 
