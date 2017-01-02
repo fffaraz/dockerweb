@@ -310,7 +310,7 @@ mv node-v${NODE_VERSION}-linux-x64 node
 # Install gulp
 npm install --global gulp-cli
 
-# bower, yo, grunt
+# bower, yo, grunt, yarn
 # sass, compass
 # imagemagic, ffmpeg
 
