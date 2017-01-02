@@ -114,6 +114,7 @@ location = /favicon.ico { access_log off; log_not_found off; }
 #location ~* /(?:uploads|files)/.*\.php$ { deny all; }
 ' > /opt/nginx/conf/server_params
 
+# https://www.digitalocean.com/community/tutorials/understanding-and-implementing-fastcgi-proxying-in-nginx
 echo '
 fastcgi_param CONTENT_LENGTH    $content_length;
 fastcgi_param CONTENT_TYPE      $content_type;
