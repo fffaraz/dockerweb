@@ -206,6 +206,7 @@ Then update the proxy server with `docweb proxy:update`
 - [ ] Bash Auto-Completion
 - [ ] Auto latest node.js version detection for php7nginx image
 - [ ] Redirect www to non-www
+- [ ] fail2ban
 
 ## Donation
 
