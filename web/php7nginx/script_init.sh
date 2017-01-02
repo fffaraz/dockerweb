@@ -232,34 +232,46 @@ date.timezone=UTC
 
 echo '
 [global]
-log_level=notice
-error_log=/home/webuser/log/php/php-fpm.log
-emergency_restart_threshold=10
-emergency_restart_interval=1m
-process_control_timeout=10s
-events.mechanism=epoll
+log_level = notice
+error_log = /home/webuser/log/php/php-fpm.log
+emergency_restart_threshold = 10
+emergency_restart_interval = 1m
+process_control_timeout = 10s
+events.mechanism = epoll
 
 [webuser]
-user=webuser
-group=webuser
-listen=/opt/php/var/run/webuser.sock
-listen.owner=webuser
-listen.group=webuser
-listen.mode=0660
-clear_env=no
-catch_workers_output=yes
-request_terminate_timeout=600s
-request_slowlog_timeout=2s
+;prefix = /home/webuser
+user = webuser
+group = webuser
+listen = /opt/php/var/run/webuser.sock
+listen.owner = webuser
+listen.group = webuser
+listen.mode = 0660
+clear_env = no
+catch_workers_output = yes
+request_terminate_timeout = 600s
+request_slowlog_timeout = 2s
 access.log = /home/webuser/log/php/access.log
-access.format = "%R - %u %t \"%m %l %r%Q%q\" %s %f %{mili}dms %{kilo}Mkb %C%%"
-slowlog=/home/webuser/log/php/slow.log
-security.limit_extensions=.php
-php_flag[display_errors]=on
-php_admin_flag[log_errors]=on
-php_admin_value[memory_limit]=128M
-php_admin_value[cgi.fix_pathinfo]=1
-php_admin_value[error_log]=/home/webuser/log/php/error.log
-;php_admin_value[sendmail_path]=
+access.format = "%{HTTP_X_FORWARDED_FOR}e - %R - %u %t \"%m %l %r%Q%q\" %s %f %{mili}dms %{kilo}Mkb %C%%"
+;access.format = "%{HTTP_X_FORWARDED_FOR}e - [%t] \"%m %r%Q%q\" %s %l - %P %p %{seconds}d %{bytes}M %{user}C%% %{system}C%% \"%{REQUEST_URI}e\""
+slowlog = /home/webuser/log/php/slow.log
+security.limit_extensions = .php
+php_flag[display_errors] = on
+php_admin_flag[log_errors] = on
+php_admin_value[memory_limit] = 128M
+php_admin_value[cgi.fix_pathinfo] = 1
+php_admin_value[error_log] = /home/webuser/log/php/error.log
+php_value[mail.log] = /home/webuser/log/php/mail.log
+;php_admin_value[sendmail_path] =
+
+;php_value[doc_root] = /home/webuser/www/public
+;php_value[upload_tmp_dir] = /home/webuser/tmp/php/upload
+;php_value[session.save_path] = /home/webuser/tmp/php/session
+
+;env[PATH] = /opt/php/bin:/sbin:/usr/sbin:/bin:/usr/bin
+;env[TMPDIR] = /home/webuser/tmp/tmp
+;env[TEMP] = /home/webuser/tmp/tmp
+;env[TMP] = /home/webuser/tmp/tmp
 
 pm=dynamic
 pm.start_servers=1
