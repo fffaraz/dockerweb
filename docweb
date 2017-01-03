@@ -79,6 +79,7 @@ if [ "$1" == "build:all" ] || [ "$1" == "build:core" ]; then
 fi
 
 if [ "$1" == "stats" ]; then
+	shift
 	echo
 	uname -a
 	echo
@@ -104,7 +105,7 @@ if [ "$1" == "stats" ]; then
 	# alias ds='while true; do TEXT=$(docker stats --no-stream $(docker ps --format={{.Names}})); sleep 0.1; clear; echo "$TEXT"; done'
 	# https://www.datadoghq.com/blog/how-to-collect-docker-metrics/
 
-	if [ "$1" = "-f" ]; then
+	if [ "$1" == "-f" ]; then
 		#cat /etc/lsb-release
 		#cat /proc/cpuinfo
 		#cat /proc/meminfo
