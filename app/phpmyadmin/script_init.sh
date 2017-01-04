@@ -16,6 +16,8 @@ mv phpMyAdmin-$PMA_VERSION-english phpMyAdmin
 # http://docs.phpmyadmin.net/en/latest/config.html
 # https://www.google.com/recaptcha/
 
+# https://github.com/nazar-pc/docker-phpmyadmin/blob/master/config.inc.php
+
 cat > /opt/phpMyAdmin/config.inc.php <<'EOL'
 <?php
 $cfg['blowfish_secret'] = '__SECRET__';
