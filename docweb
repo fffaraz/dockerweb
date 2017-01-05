@@ -156,7 +156,7 @@ if [ "$1" == "status" ]; then
 		exit 1
 	fi
 	# user,group,comm,pid,ppid,pgid,etime,nice,rgroup,ruser,time,tty,vsz,stat,rss,args
-	RESULT=$(docker exec "$1" ps -o user,comm,pid,ppid,pgid,time,vsz,rss,args | grep -v "ps -o ")
+	RESULT=$(docker exec "$1" ps -auxo user,comm,pid,ppid,pgid,time,vsz,rss,args | grep -v "ps -auxo ")
 	echo "$RESULT" | grep -v "php-fpm: pool webuser"
 	echo "$RESULT" | grep "php-fpm: pool webuser"
 	# killall -9 php
