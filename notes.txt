@@ -12,6 +12,14 @@ git config --global core.editor nano
 glances --disable-sensors -w -p 81
 docker run -it --rm --volume=/var/run/docker.sock:/var/run/docker.sock --publish=0.0.0.0:8000:80 gliderlabs/logspout
 
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+netstat -anp |grep 'tcp\|udp' | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+netstat -n | grep :80 |wc -l
+iptables -A INPUT -s IPADRESS -j DROP
+
+.bash_profile
+echo 'ALERT - Root Shell Access on:' `date` `who` | mail -s "Alert: Root Access from `who | awk '{print $6}'`" mail@something.com
+
 /var/log/auth.log 
 
 https://git.cloudron.io/cloudron/box/blob/master/baseimage/initializeBaseUbuntuImage.sh

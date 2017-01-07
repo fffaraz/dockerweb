@@ -37,6 +37,7 @@ Disconnect IMMEDIATELY if you are not an authorized user!
 ' > /etc/issue
 
 # Display SSH Welcome Message AFTER the Login
+# ALERT! That is a secured area. Your IP is logged. Administrator has been notified
 echo '
 Welcome
 ' > /etc/motd

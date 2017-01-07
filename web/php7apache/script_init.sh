@@ -32,3 +32,24 @@ rm /script_init.sh
 #    IPCConnectTimeout 300
 #    IPCCommTimeout 7200
 # </IfModule>
+
+# Work around annoying fcgid limitations
+# <IfModule mod_fcgid.c>
+# FcgidMaxRequestLen 1024000
+# FcgidMaxRequestsPerProcess 64
+# FcgidMaxProcesses 8
+# FcgidMaxProcessesPerClass 4
+# FcgidConnectTimeout 60
+# FcgidIOTimeout 60
+# FcgidFixPathinfo 1
+# FcgidIdleTimeout 600
+# FcgidIdleScanInterval 120
+# FcgidBusyTimeout 120
+# FcgidBusyScanInterval 60
+# FcgidErrorScanInterval 9
+# FcgidZombieScanInterval 9
+# FcgidProcessLifeTime 3600
+# </IfModule>
+
+# https://www.digitalocean.com/community/tutorials/how-to-protect-against-dos-and-ddos-with-mod_evasive-for-apache-on-centos-7
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-mod_security-with-apache-on-debian-ubuntu
