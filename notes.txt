@@ -29,6 +29,11 @@ Bash Programmable Completion:
 	http://askubuntu.com/questions/68175/how-to-create-script-with-auto-complete
 	/etc/bash_completion.d/*
 
+EMAIL:
+	https://github.com/zixia/docker-simple-mail-forwarder
+	https://github.com/jbeda/docker-postfix-forwarder
+	https://github.com/tomav/docker-mailserver
+
 DNS:
 	https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-an-authoritative-only-dns-server-on-ubuntu-14-04
 	https://www.digitalocean.com/community/tutorials/how-to-setup-dnssec-on-an-authoritative-bind-dns-server--2
