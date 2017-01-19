@@ -74,7 +74,7 @@ Config File Format: `CONTAINER CATCHALL WILDCARD SSLCERT DOMAIN1 [DOMAINS...]`
 ### MySQL
 
 ```
-docweb mysql:run [--debug] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]
+docweb mysql:run [--debug] [--memory M] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]
 docweb stop NAME
 docweb mysql:client NAME
 docweb mysql:status NAME

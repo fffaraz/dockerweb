@@ -639,8 +639,15 @@ if [ "$1" == "mysql:run" ]; then
 		RUNARGS="-it --rm"
 	fi
 
+	MEMORY=512
+	if [ "$1" == "--memory" ]; then
+		shift
+		MEMORY=$1
+		shift
+	fi
+
 	if [ $# -lt 2 ]; then
-		echo "Usage: docweb mysql:run [--debug] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]"
+		echo "Usage: docweb mysql:run [--debug] [--memory M] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]"
 		exit 1
 	fi
 
@@ -676,7 +683,7 @@ default_storage_engine=InnoDB
 skip_name_resolve=1
 general_log=0
 general_log_file=/var/log/mysql/general.log
-#innodb_fast_shutdown=0
+innodb_fast_shutdown=0
 innodb_file_per_table=1
 local_infile=0
 log_error=/var/log/mysql/error.log
@@ -714,12 +721,12 @@ no-auto-rehash
 
 EOL
 
-	cat > /home/$1/conf.d/default.cnf <<'EOL'
+	echo "
 [mysqld]
 binlog_cache_size=4K
 binlog_stmt_cache_size=4K
 innodb_buffer_pool_instances=1
-innodb_buffer_pool_size=64M
+innodb_buffer_pool_size=$((MEMORY/8))
 #innodb_log_file_size=8M
 innodb_ft_cache_size=2M
 innodb_ft_total_cache_size=32M
@@ -739,7 +746,7 @@ table_open_cache=2K
 thread_cache_size=16
 tmp_table_size=8M
 
-EOL
+" > /home/$1/conf.d/default.cnf
 
 	# echo "
 	# [client]
@@ -752,7 +759,7 @@ EOL
 	--name="$1" \
 	--hostname="$1" \
 	--net=isolated_nw \
-	--memory=512m \
+	--memory=${MEMORY}m \
 	-v /home/$1/backup:/backup \
 	-v /home/$1/conf.d:/etc/mysql/conf.d \
 	-v /home/$1/datadir:/var/lib/mysql \
