@@ -1071,6 +1071,7 @@ if [ "$1" == "bootstrap" ]; then
 	apt-get -yq update < /dev/null
 	apt-get -yq upgrade < /dev/null
 	apt-get -yq dist-upgrade < /dev/null
+	apt-get -yq dnsutils sysstat git < /dev/null
 	$0 install:extras
 	$0 install:docker
 	$0 install:network
@@ -1102,7 +1103,7 @@ fi
 
 if [ "$1" == "install:extras" ]; then
 	wget -O- https://bit.ly/glances | /bin/bash
-	apt-get -yq install curl dstat git htop iftop iotop lsof pwgen vnstat unzip ncdu wget < /dev/null # sysstat (sar)
+	apt-get -yq install curl dstat htop iftop iotop lsof pwgen vnstat unzip ncdu wget < /dev/null # sysstat (sar)
 	wget -O /usr/local/bin/httpstat https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
 	chmod +x /usr/local/bin/httpstat
 	exit 0
@@ -1110,7 +1111,7 @@ fi
 
 if [ "$1" == "install:docker" ]; then
 	set -euxo pipefail
-	apt-get -yq install apt-transport-https ca-certificates dnsutils < /dev/null
+	apt-get -yq install apt-transport-https ca-certificates < /dev/null
 	apt-get -yq install linux-image-extra-$(uname -r) linux-image-extra-virtual < /dev/null
 
 	wget -qO- https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh | /bin/bash
