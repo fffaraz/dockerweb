@@ -93,9 +93,9 @@ if [ "$1" == "stats" ]; then
 	echo
 	vmstat
 	echo
-	df -h /dev/[hmsv]d?([a-z])[1-9] | grep -v udev
+	df -h | grep --color=never -e Filesystem -e '^/dev/'
 	echo
-	df -i /dev/[hmsv]d?([a-z])[1-9] | grep -v udev
+	df -i | grep --color=never -e Filesystem -e '^/dev/'
 	echo
 	iostat
 
