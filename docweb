@@ -887,9 +887,9 @@ if [ "$1" == "mysql:backup" ]; then
 		else
 			docker exec -it $MYSQLSERVER sh -c \
 				"mysqldump -uroot -p\"\$MYSQL_ROOT_PASSWORD\" --skip-comments --default-character-set=utf8 --databases $(IFS=$' ' ; echo "$*") | gzip -5 > /backup/dump_$(IFS=_ ; echo "$*")_\$(date +%Y-%m-%d_%H-%M-%S).sql.gz"
-			if [ $# -eq 1 ]; then
+			if [ $# -eq 1 ] && [ -d /home/$1 ]; then
 				mkdir -p /home/$1/backup/db
-				mv /home/$MYSQLSERVER/backup/${1}_*.sql.gz /home/$1/backup/db/
+				mv /home/$MYSQLSERVER/backup/dump_${1}_*.sql.gz /home/$1/backup/db/
 			fi
 		fi
 	else
@@ -899,9 +899,9 @@ if [ "$1" == "mysql:backup" ]; then
 		else
 			docker exec -it $MYSQLSERVER sh -c \
 				"mysqldump -uroot -p\"\$MYSQL_ROOT_PASSWORD\" --skip-comments --default-character-set=utf8 --result-file /backup/dump_"$(IFS=_ ; echo "$*")"_\$(date +%Y-%m-%d_%H-%M-%S).sql --databases $(IFS=$' ' ; echo "$*")"
-			if [ $# -eq 1 ]; then
+			if [ $# -eq 1 ] && [ -d /home/$1 ]; then
 				mkdir -p /home/$1/backup/db
-				mv /home/$MYSQLSERVER/backup/${1}_*.sql /home/$1/backup/db/
+				mv /home/$MYSQLSERVER/backup/dump_${1}_*.sql /home/$1/backup/db/
 			fi
 		fi
 	fi
