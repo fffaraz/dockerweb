@@ -320,7 +320,7 @@ if [ "$1" == "backup" ]; then
 	mkdir -p /home/backup
 	FILEPATH=/home/backup/$1_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
 	# TODO: pigz
-	tar --exclude=$1/log --exclude=$1/tmp --directory=/home -czf $FILEPATH $1
+	tar --exclude=$1/backup --exclude=$1/log --exclude=$1/tmp --directory=/home -czf $FILEPATH $1
 	ls -lh $FILEPATH
 	#gzip -v -t $FILEPATH
 	exit 0
