@@ -17,6 +17,8 @@ netstat -anp |grep 'tcp\|udp' | awk '{print $5}' | cut -d: -f1 | sort | uniq -c 
 netstat -n | grep :80 |wc -l
 iptables -A INPUT -s IPADRESS -j DROP
 
+zgrep sshd /var/log/auth.log* | grep rhost | sed -re 's/.*rhost=([^ ]+).*/\1/' | sort | uniq -c | sort -n
+
 .bash_profile
 echo 'ALERT - Root Shell Access on:' `date` `who` | mail -s "Alert: Root Access from `who | awk '{print $6}'`" mail@something.com
 
