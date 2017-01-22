@@ -1041,7 +1041,7 @@ if [ "$1" == "mailfwd:run" ]; then
 	[ $? -eq 0 ] &&	docker rm -f mailfwd
 
 	mkdir -p /home/mailfwd
-	[ ! -f /home/mailfwd/mail.conf ] && echo "" > /home/mailfwd/mail.conf
+	[ ! -f /home/mailfwd/mail.conf ] && echo "@example.com:fffaraz@gmail.com" > /home/mailfwd/mail.conf
 
 	docker run -d --restart=always \
 	--name mailfwd -p 25:25 \
