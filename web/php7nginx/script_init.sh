@@ -77,6 +77,8 @@ http {
 	access_log /home/webuser/log/nginx/access.log combined;
 	index index.html index.htm index.php index.default.html;
 	autoindex on;
+	#set_real_ip_from 0.0.0.0/0;
+	#real_ip_header X-Forwarded-For; # X-Real-IP
 	server {
 		server_name _;
 		listen 80 default_server;

@@ -76,7 +76,9 @@ cd nginx-$NGINX_VERSION
 --without-select_module \
 --without-poll_module \
 --without-http_gzip_module \
---without-http_proxy_module
+--without-http_proxy_module \
+--with-http_realip_module
+
 make -j${NPROC}
 make install
 cd /opt
