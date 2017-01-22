@@ -461,7 +461,25 @@ fi
 
 if [ "$1" == "bind:run" ]; then
 	shift
-	# https://github.com/sameersbn/docker-bind
+
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb bind:run ROOT_PASSWORD WEBMIN_ENABLED"
+		exit 1
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} bindwebmin 2> /dev/null)
+	[ $? -eq 0 ] &&	docker rm -f bindwebmin
+
+	mkdir -p /home/bindwebmin
+
+	docker run -d --restart=always \
+	--name bindwebmin --memory 128m \
+	-p 53:53 -p 53:53/udp -p 10000:10000 \
+	-v /home/bindwebmin:/data \
+	-e ROOT_PASSWORD="$1" \
+	-e WEBMIN_ENABLED="$2" \
+	fffaraz/bindwebmin
+
 	exit 0
 fi
 
