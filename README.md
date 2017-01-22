@@ -36,7 +36,7 @@ To upgrade you just need to run `docweb upgrade` first and then if necessary reb
 
 ## How to run services
 
-### DNS Server
+### The DNS Server
 
 [MicroDNS](https://github.com/fffaraz/microdns) is a tiny DNS server that is used to (almost) always return your host's IP address for any query sent to it. Hence you will just need to set your domains' dns setting to point to your host's IP address and you don't have to also add them in a config file on the host any more.
 
@@ -45,7 +45,7 @@ docweb microdns:run
 docweb stop microdns
 ```
 
-### Reverse Proxy
+### The Reverse Proxy Server
 
 This is the main web server listening on ports 80 and 443 and proxying requests to the apps based on their domain names.
 It also provides TLS/SSL encryption using valid certificates signed by [Let's Encrypt](https://letsencrypt.org/) and is responsible for output gzip compression.
@@ -71,7 +71,7 @@ Config File Format: `CONTAINER CATCHALL WILDCARD SSLCERT DOMAIN1 [DOMAINS...]`
 * `DOMAIN1` : Primary domain name for the app.
 * `[DOMAINS...]` : Optional additional domain names.
 
-### MySQL
+### MySQL Server
 
 ```
 docweb mysql:run [--debug] [--memory M] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]
@@ -92,18 +92,24 @@ Default Image: `mariadb`
 
 MySQL Backup / Import Directory: `/home/NAME/backup`
 
-### PostgreSQL
+### PostgreSQL Server
 
 ```
 docweb postgres:run [--debug] NAME POSTGRES_PASSWORD
 docweb stop NAME
 ```
 
-### Redis
+### Redis Server
 
 ```
 docweb redis:run [--debug] NAME
 docweb stop NAME
+```
+
+### Mail Forwarder
+
+```
+docweb mailfwd:run
 ```
 
 ### Web Apps

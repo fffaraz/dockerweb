@@ -174,5 +174,9 @@ munin
 https://www.zimbra.com/open-source-email-overview/
 http://www.iredmail.org/
 https://github.com/andryyy/mailcow-dockerized
+https://github.com/n-at/docker-ox-app-suite
+https://github.com/sb-minimal/docker-ubuntu-open-exchange
+https://github.com/lava/dockermail
+https://github.com/ONLYOFFICE/Docker-CommunityServer
 http://modoboa.org/en/
 https://github.com/Mailu/Mailu
