@@ -112,6 +112,8 @@ docweb stop NAME
 docweb mailfwd:run
 ```
 
+Using [zixia/docker-simple-mail-forwarder](https://github.com/zixia/docker-simple-mail-forwarder) Image. Config File: `/home/mailfwd/mail.conf`
+
 ### Web Apps
 
 ```
