@@ -98,6 +98,7 @@ if [ "$1" == "stats" ]; then
 	df -i | grep --color=never -e Filesystem -e '^/dev/'
 	echo
 	iostat
+	#docker system df
 
 	echo
 	echo --------------------------------------------------------------------------------
