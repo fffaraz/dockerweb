@@ -37,6 +37,7 @@ if [ "$1" == "rm:all" ]; then
 	[ ! -z "$volumes" ] && docker volume rm $volumes
 	$0 rm
 	exit 0
+	#docker system prune
 fi
 
 if [ "$1" == "rm:img" ]; then
