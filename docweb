@@ -393,7 +393,7 @@ if [ "$1" == "proxy:run" ]; then
 
 	docker run $RUNARG \
 	--name=proxy \
-	--hostname=$(hostname) \
+	--hostname=$(hostname --fqdn) \
 	--net=isolated_nw \
 	--memory=128m \
 	-p 80:80 -p 443:443 \
