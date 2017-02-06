@@ -1084,6 +1084,8 @@ if [ "$1" == "volume:create" ]; then
 	mkdir -p /home/$1
 	mount /home/img/$1.img /home/$1
 	# http://stackoverflow.com/questions/257844/quickly-create-a-large-file-on-a-linux-system
+	# https://docs.docker.com/engine/reference/commandline/run/#/set-storage-driver-options-per-container
+	# http://stackoverflow.com/questions/29029326/how-to-define-a-disk-quota-for-docker-containers
 	exit 0
 fi
 
