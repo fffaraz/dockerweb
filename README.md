@@ -11,7 +11,7 @@ A docker-powered single-file PaaS for shared cloud web/app hosting management.
 
 ## Installing
 
-To install the latest stable release, you can run the following commands as root:
+After you changed the default root password and ssh port, to install the latest stable release, you can run the following commands as root:
 
 ```
 git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
