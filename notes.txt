@@ -41,6 +41,8 @@ DNS:
 	https://www.digitalocean.com/community/tutorials/how-to-setup-dnssec-on-an-authoritative-bind-dns-server--2
 	https://github.com/obi12341/docker-pdns
 	https://github.com/poweradmin/poweradmin
+	https://github.com/yswery/PHP-DNS-SERVER
+	https://github.com/jethrocarr/namedmanager
 
 TODO:
 	https://github.com/docker-slim/docker-slim
