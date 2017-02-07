@@ -4,9 +4,9 @@ set -euxo pipefail
 # Install phpMyAdmin
 # https://www.phpmyadmin.net/downloads/
 # https://github.com/phpmyadmin/phpmyadmin/releases
-# https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_6_5_2.zip
+# https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_6_6.zip
 
-PMA_VERSION=4.6.5.2
+PMA_VERSION=4.6.6
 cd /opt
 wget --no-verbose https://files.phpmyadmin.net/phpMyAdmin/$PMA_VERSION/phpMyAdmin-$PMA_VERSION-english.zip
 unzip -q phpMyAdmin-$PMA_VERSION-english.zip
