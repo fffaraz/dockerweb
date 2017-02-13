@@ -5,6 +5,8 @@ set -euxo pipefail
 # https://github.com/h5bp/server-configs-nginx
 # https://support.cloudflare.com/hc/en-us/articles/200170706
 # https://github.com/cloudflare/ngx_brotli_module
+# https://github.com/google/ngx_brotli
+# https://github.com/google/zopfli
 # https://waf.comodo.com/
 
 mkdir -p /opt/nginx/conf/conf.d
