@@ -5,6 +5,7 @@ set -euxo pipefail
 # https://www.phpmyadmin.net/downloads/
 # https://github.com/phpmyadmin/phpmyadmin/releases
 # https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_6_5_2.zip
+# https://github.com/phpmyadmin/docker
 
 PMA_VERSION=4.6.5.2
 cd /opt
