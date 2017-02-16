@@ -201,6 +201,7 @@ Then update the proxy server with `docweb proxy:update`
 
 ## TODO List
 
+- [ ] Always forward to https flag in `/home/proxy/websites.conf`
 - [ ] Reducing proxy/base image size by removing build dependencies.
 - [ ] Reducing php7nginx/base image size by removing build dependencies.
 - [ ] Add Memory usage limit as a parameter for `docweb run`
