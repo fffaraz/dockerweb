@@ -14,13 +14,14 @@ while read -r -a line; do
 	CATCHALL=${line[1]}
 	WILDCARD=${line[2]}
 	SSLCERT=${line[3]}
-	DOMAIN1=${line[4]}
+	HTTPSONLY=${line[4]}
+	DOMAIN1=${line[5]}
 	# TODO: input validation
 
 	echo -e "\nAPP: $CONTAINER\n"
 	DOMAINS=""
-	SERVERNAME="include listen_params; server_name"
-	for (( i=4; i<${#line[@]}; i++ )); do
+	SERVERNAME="server_name"
+	for (( i=5; i<${#line[@]}; i++ )); do
 		DOMAINS=$DOMAINS"${line[$i]},www.${line[$i]},"
 		if [ $WILDCARD -eq 1 ]; then
 			SERVERNAME=$SERVERNAME" ${line[$i]} *.${line[$i]}"
@@ -29,10 +30,18 @@ while read -r -a line; do
 		fi
 	done
 	SERVERNAME=$SERVERNAME";"
+	
+	LISTENPARAM="include listen_params;"
+	HTTPREDIRECT=""
+	if [ $HTTPSONLY -eq 1 ]; then
+		LISTENPARAM="include listen_params_https;"
+		HTTPREDIRECT="server { include listen_params_http; $SERVERNAME location / { return 301 https://\$host\$request_uri; } }"
+	fi
 
 	if [ $CATCHALL -eq 1 ]; then
 		HASCATCHALL=1
-		SERVERNAME="include listen_default_params; server_name _;"
+		SERVERNAME="server_name _;"
+		LISTENPARAM="include listen_params_default;"
 	fi
 
 	if [ $SSLCERT -eq 1 ]; then
@@ -52,8 +61,10 @@ while read -r -a line; do
 		SSLKEY="/etc/letsencrypt/live/$DOMAIN1/privkey.pem"
 	fi
 	echo "
+$HTTPREDIRECT
 server
 {
+	$LISTENPARAM
 	$SERVERNAME
 	location / {
 		#set \$target http://$CONTAINER.isolated_nw:80;
@@ -76,7 +87,7 @@ if [ $HASCATCHALL -eq 0 ]; then
 server
 {
 	server_name _ "";
-	include listen_default_params;
+	include listen_params_default;
 	include default_server;
 }
 ' > /opt/nginx/conf/conf.d/default_server.conf
