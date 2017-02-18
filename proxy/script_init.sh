@@ -191,11 +191,21 @@ listen [::]:443 http2 ssl;
 ' > /opt/nginx/conf/listen_params
 
 echo '
+listen 80;
+listen [::]:80;
+' > /opt/nginx/conf/listen_params_http
+
+echo '
+listen 443 http2 ssl;
+listen [::]:443 http2 ssl;
+' > /opt/nginx/conf/listen_params_https
+
+echo '
 listen 80 default_server;
 listen [::]:80 default_server;
 listen 443 ssl http2 default_server;
 listen [::]:443 ssl http2 default_server;
-' > /opt/nginx/conf/listen_default_params
+' > /opt/nginx/conf/listen_params_default
 
 echo '
 root /home/webuser/www;
