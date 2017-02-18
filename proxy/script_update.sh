@@ -5,7 +5,7 @@ RELOADNGNIX=1
 [ $# -gt 0 ] && [ "$1" == "--no-reload" ] && RELOADNGNIX=0
 [ $# -gt 0 ] && [ "$1" == "--debug" ] && set -x
 
-[ ! -f /home/webuser/websites.conf ] && echo "# CONTAINER CATCHALL WILDCARD SSLCERT DOMAIN1 [DOMAINS...]" > /home/webuser/websites.conf
+[ ! -f /home/webuser/websites.conf ] && echo "# CONTAINER CATCHALL WILDCARD SSLCERT HTTPSONLY DOMAIN1 [DOMAINS...]" > /home/webuser/websites.conf
 rm -f /opt/nginx/conf/conf.d/*.conf
 HASCATCHALL=0
 
