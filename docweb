@@ -1119,7 +1119,7 @@ if [ "$1" == "bootstrap" ]; then
 	apt-get -yq update < /dev/null
 	apt-get -yq upgrade < /dev/null
 	apt-get -yq dist-upgrade < /dev/null
-	apt-get -yq dnsutils sysstat git < /dev/null
+	apt-get -yq install dnsutils sysstat git < /dev/null
 	$0 install:extras
 	$0 install:docker
 	$0 install:network
