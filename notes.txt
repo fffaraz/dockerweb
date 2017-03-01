@@ -35,6 +35,21 @@ EMAIL:
 	https://github.com/zixia/docker-simple-mail-forwarder
 	https://github.com/jbeda/docker-postfix-forwarder
 	https://github.com/tomav/docker-mailserver
+	https://github.com/mail-in-a-box/mailinabox
+	https://github.com/andryyy/mailcow-dockerized
+	https://github.com/lava/dockermail
+	https://github.com/hardware/mailserver
+	https://github.com/Mailu/Mailu
+	https://github.com/ONLYOFFICE/Docker-CommunityServer
+	https://github.com/modoboa/modoboa
+	https://github.com/n-at/docker-ox-app-suite
+	https://github.com/sb-minimal/docker-ubuntu-open-exchange
+	http://www.iredmail.org/
+	https://www.zimbra.com/open-source-email-overview/
+
+EMAIL CATCHER:
+	https://github.com/mailhog/MailHog
+	https://github.com/sj26/mailcatcher
 
 DNS:
 	https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-an-authoritative-only-dns-server-on-ubuntu-14-04
@@ -102,8 +117,6 @@ joomla
 	https://github.com/joomla/joomla-cms
 laravel
 	https://github.com/laravel/laravel
-mailinabox
-	https://github.com/mail-in-a-box/mailinabox
 metabase
 	docker run -d -p 3000:3000 --net=isolated_nw --name metabase metabase/metabase
 octobercms
@@ -134,16 +147,10 @@ caddy
 cherokee
 tengine
 	https://github.com/alibaba/tengine
-mailcatcher
-	https://github.com/sj26/mailcatcher
-MailHog
-	https://github.com/mailhog/MailHog
-
+	
 
 https://github.com/vmware/harbor
 
-
-email
 Analog		
 Awstats		
 Webalizer
@@ -175,12 +182,11 @@ Email Delivery Reports
 Email Queue
 munin
 
-https://www.zimbra.com/open-source-email-overview/
-http://www.iredmail.org/
-https://github.com/andryyy/mailcow-dockerized
-https://github.com/n-at/docker-ox-app-suite
-https://github.com/sb-minimal/docker-ubuntu-open-exchange
-https://github.com/lava/dockermail
-https://github.com/ONLYOFFICE/Docker-CommunityServer
-http://modoboa.org/en/
-https://github.com/Mailu/Mailu
+https://github.com/minio/minio
+https://github.com/ceph/ceph
+https://github.com/ceph/ceph-docker
+https://github.com/chrislusf/seaweedfs
+https://github.com/coreos/torus
+https://github.com/rook/rook
+https://github.com/s3git/s3git
+https://github.com/leo-project/leofs
