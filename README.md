@@ -217,6 +217,7 @@ Then update the proxy server with `docweb proxy:update`
 - [ ] Redirect www to non-www
 - [ ] fail2ban
 
+<!---
 ## Donation
 
 If this project help you reduce time to develop and you would like to donate to this cause, feel free to send money my way via one of the links below:
@@ -225,3 +226,4 @@ If this project help you reduce time to develop and you would like to donate to 
 [![Venmo](https://img.shields.io/badge/Donate-Venmo-green.svg)](https://venmo.com/?txn=pay&audience=public&recipients=fffaraz&note=DockerWeb)
 [![Square](https://img.shields.io/badge/Donate-Square-green.svg)](https://cash.me/$fffaraz)
 [![SayThanks](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg)](https://saythanks.io/to/fffaraz)
+-->
