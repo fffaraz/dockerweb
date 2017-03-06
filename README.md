@@ -149,7 +149,7 @@ docweb stop MYSQLSERVER_pma
 Then add the following line to your `/home/proxy/websites.conf` and then run `dockweb proxy:update`.
 
 ```
-MYSQLSERVER_pma 0 0 0 pma.example.com
+MYSQLSERVER_pma 0 0 0 0 pma.example.com
 ```
 
 phpMyAdmin can be accessed from `http://pma.example.com/pma/`
@@ -185,17 +185,17 @@ To create a new PHP website with NGINX webserver and MariaDB database server and
 
 ```
 docweb mysql:run db1 mysqlrootpassword
-docweb mysql:createuser db1 mysite dbpassword
+docweb mysql:createuser db1 example.com db_password
 docweb pma:run db1 mysqlrootpassword
-docweb run php7nginx mysite
+docweb run php7nginx example.com
 docweb proxy:run
 ```
 
 Then add the following lines to `/home/proxy/websites.conf`
 
 ```
-db1_pma 0 0 0 pma.mysite.com
-mysite 0 0 0 mysite.com
+db1_pma 0 0 0 0 pma.example.com
+example.com 0 0 0 0 example.com
 ```
 
 Then update the proxy server with `docweb proxy:update`
