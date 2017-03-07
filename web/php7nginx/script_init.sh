@@ -79,6 +79,10 @@ http {
 	autoindex on;
 	#set_real_ip_from 0.0.0.0/0;
 	#real_ip_header X-Forwarded-For; # X-Real-IP
+	map $http_x_forwarded_proto $fe_https {
+		default off;
+		https on;
+	}
 	server {
 		server_name _;
 		listen 80 default_server;
@@ -124,7 +128,7 @@ fastcgi_param CONTENT_TYPE      $content_type;
 fastcgi_param DOCUMENT_ROOT     $document_root;
 fastcgi_param DOCUMENT_URI      $document_uri;
 fastcgi_param GATEWAY_INTERFACE CGI/1.1;
-fastcgi_param HTTPS             $https if_not_empty;
+fastcgi_param HTTPS             $fe_https; # $https if_not_empty;
 fastcgi_param HTTP_PROXY        "";
 fastcgi_param PATH_INFO         $fastcgi_path_info;
 fastcgi_param PATH_TRANSLATED   $document_root$fastcgi_path_info;
