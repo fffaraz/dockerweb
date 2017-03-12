@@ -728,6 +728,8 @@ character_set_server=utf8
 #collation_connection=utf8_unicode_ci
 collation_server=utf8_unicode_ci
 #sql_mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+#skip-innodb_doublewrite
+#innodb_doublewrite = 0
 
 [client]
 default-character-set=utf8
