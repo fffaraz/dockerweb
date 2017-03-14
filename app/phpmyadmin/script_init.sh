@@ -32,6 +32,7 @@ $cfg['VersionCheck'] = false;
 $cfg['ExecTimeLimit'] = 600;
 $cfg['CaptchaLoginPublicKey'] = '__CaptchaPublic__';
 $cfg['CaptchaLoginPrivateKey'] = '__CaptchaPrivate__';
+//$cfg['ZeroConf'] = false;
 
 $cfg['Servers'][1]['auth_type'] = 'cookie';
 $cfg['Servers'][1]['connect_type'] = 'tcp';
@@ -41,6 +42,9 @@ $cfg['Servers'][1]['AllowNoPassword'] = false;
 $cfg['Servers'][1]['host'] = '__MYSQLSERVER__.isolated_nw';
 $cfg['Servers'][1]['verbose'] = '__MYSQLSERVER__';
 $cfg['Servers'][1]['hide_db'] = '^(information_schema|performance_schema|mysql|sys)$';
+//$cfg['Servers'][1]['controluser'] = 'pma';
+//$cfg['Servers'][1]['controlpass'] = 'pmapass';
+//$cfg['Servers'][1]['pmadb'] = 'pma';
 
 $cfg['Servers'][2]['auth_type'] = 'cookie';
 $cfg['Servers'][2]['connect_type'] = 'tcp';
