@@ -660,6 +660,14 @@ if [ "$1" == "mysql:run" ]; then
 		RUNARGS="-it --rm"
 	fi
 
+	MYSQLPORT=""
+	if [ "$1" = "--direct" ]; then
+		shift
+		MYSQLPORT="-p $1:3306"
+		echo "Exposing MySQL Port $1"
+		shift
+	fi
+
 	MEMORY=512
 	if [ "$1" == "--memory" ]; then
 		shift
@@ -783,6 +791,7 @@ tmp_table_size=8M
 	--hostname="$1" \
 	--net=isolated_nw \
 	--memory=${MEMORY}m \
+	$MYSQLPORT \
 	-v /home/$1/backup:/backup \
 	-v /home/$1/conf.d:/etc/mysql/conf.d \
 	-v /home/$1/datadir:/var/lib/mysql \
