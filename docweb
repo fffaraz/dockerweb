@@ -757,7 +757,7 @@ EOL
 binlog_cache_size=4K
 binlog_stmt_cache_size=4K
 innodb_buffer_pool_instances=1
-innodb_buffer_pool_size=$((MEMORY/8))
+innodb_buffer_pool_size=$((MEMORY/8))M
 #innodb_log_file_size=8M
 innodb_ft_cache_size=2M
 innodb_ft_total_cache_size=32M
