@@ -690,11 +690,12 @@ if [ "$1" == "mysql:run" ]; then
 		docker rm $1
 	fi
 
-	#https://hub.docker.com/_/mysql/
-	#https://hub.docker.com/_/mariadb/
-	#https://hub.docker.com/r/mysql/mysql-server/
-	#https://hub.docker.com/_/percona/
-	#https://hub.docker.com/r/percona/percona-server/
+	# https://hub.docker.com/_/mysql/
+	# https://hub.docker.com/_/mariadb/
+	# https://hub.docker.com/r/mysql/mysql-server/
+	# https://hub.docker.com/_/percona/
+	# https://hub.docker.com/r/percona/percona-server/
+	# https://github.com/mysql/mysql-sys
 
 	DBSERVER="mariadb"
 	[[ $# -eq 3 ]] && DBSERVER="$3"
@@ -760,7 +761,7 @@ EOL
 binlog_cache_size=4K
 binlog_stmt_cache_size=4K
 innodb_buffer_pool_instances=1
-innodb_buffer_pool_size=$((MEMORY/8))M
+innodb_buffer_pool_size=$((MEMORY/4))M
 #innodb_log_file_size=8M
 innodb_ft_cache_size=2M
 innodb_ft_total_cache_size=32M
