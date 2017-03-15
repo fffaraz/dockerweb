@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euxo pipefail
 
+# https://github.com/imoore76/phpvirtualbox
+# vboxwebsrv --host 172.17.0.1 --authentication null
+
 PVB_VERSION=5.0-5
 cd /opt
 wget --no-verbose -O phpvirtualbox.zip https://sourceforge.net/projects/phpvirtualbox/files/phpvirtualbox-$PVB_VERSION.zip/download
