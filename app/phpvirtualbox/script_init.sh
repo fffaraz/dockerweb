@@ -6,8 +6,8 @@ cd /opt
 wget --no-verbose -O phpvirtualbox.zip https://sourceforge.net/projects/phpvirtualbox/files/phpvirtualbox-$PVB_VERSION.zip/download
 unzip -q phpvirtualbox.zip
 rm phpvirtualbox.zip
+mv phpvirtualbox-$PVB_VERSION phpvirtualbox
 
-# https://github.com/clue/docker-phpvirtualbox/blob/master/config.php
 cat > /opt/phpvirtualbox/config.php <<'EOL'
 <?php
 class phpVBoxConfig {
