@@ -320,7 +320,7 @@ chmod +x /opt/bin/drush
 #composer global install
 
 # Install node.js & npm
-NODE_VERSION=6.9.2
+NODE_VERSION=6.10.0
 cd /opt
 wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
 tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
