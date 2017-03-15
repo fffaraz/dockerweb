@@ -11,8 +11,8 @@ mv phpvirtualbox-$PVB_VERSION phpvirtualbox
 cat > /opt/phpvirtualbox/config.php <<'EOL'
 <?php
 class phpVBoxConfig {
-var $username = 'vbox';
-var $password = 'pass';
+var $username = '';
+var $password = '';
 var $location = 'http://172.17.0.1:18083/';
 var $language = 'en';
 var $vrdeports = '9000-9100';
@@ -23,6 +23,7 @@ var $hostMemInfoRefreshInterval = 5;
 var $consoleResolutions = array('640x480','800x600','1024x768','1280x720','1440x900');
 var $consoleKeyboardLayout = 'EN';
 var $nicMax = 4;
+var $noAuth = true;
 }
 EOL
 
