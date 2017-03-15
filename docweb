@@ -549,6 +549,36 @@ if [ "$1" == "pma:run" ]; then
 	exit 0
 fi
 
+if [ "$1" == "pbv:run" ]; then
+	shift
+
+	RUNARG="-d --restart=always"
+	if [ "$1" = "--debug" ]; then
+		shift
+		RUNARG="-it --rm"
+	fi
+
+	HTTPPORT=""
+	if [ "$1" = "--direct" ]; then
+		shift
+		HTTPPORT="-p $1:80"
+		echo "Exposing HTTP Port $1"
+		shift
+	fi
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} pvb 2> /dev/null)
+	[ $? -eq 0 ] &&	docker rm -f pvb
+
+	docker run $RUNARG \
+	--name=pvb \
+	--net=isolated_nw \
+	--memory=128m \
+	$HTTPPORT \
+	fffaraz/app/phpvirtualbox:latest
+
+	exit 0
+fi
+
 if [ "$1" == "redis:run" ]; then
 	shift
 
@@ -1200,6 +1230,28 @@ if [ "$1" == "install:docker" ]; then
 
 	exit 0
 fi
+
+if [ "$1" == "install:vbox" ]; then
+	set -euxo pipefail
+	apt-get -yq install build-essential dkms
+	echo 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib' >> /etc/apt/sources.list
+	wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add -
+	apt-get -yq update < /dev/null
+	apt-get install virtualbox-5.1
+	# https://www.virtualbox.org/wiki/Downloads
+	wget http://download.virtualbox.org/virtualbox/5.1.16/Oracle_VM_VirtualBox_Extension_Pack-5.1.16-113841.vbox-extpack
+	VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-5.1.16-113841.vbox-extpack
+	#useradd -m vbox -G vboxusers
+	#echo 'VBOXWEB_USER=vbox' > /etc/default/virtualbox
+	#echo 'VBOXWEB_HOST=172.17.0.1' >> /etc/default/virtualbox
+	#echo 'VBOXWEB_LOGFILE=/var/log/vboxweb' >> /etc/default/virtualbox
+	#echo 'VBOXWEB_PIDFILE=/var/run/vbox/vboxweb-service' >> /etc/default/virtualbox
+	#systemctl enable vboxweb-service
+	#systemctl start vboxweb-service
+	#systemctl status vboxdrv
+	#su vbox -c '/usr/bin/vboxwebsrv -H 172.17.0.1 --background'
+	exit 0
+fi	
 
 if [ "$1" == "install:youtube-dl" ]; then
 	set -x

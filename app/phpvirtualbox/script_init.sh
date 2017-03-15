@@ -2,7 +2,9 @@
 set -euxo pipefail
 
 # https://github.com/imoore76/phpvirtualbox
-# vboxwebsrv --host 172.17.0.1 --authentication null
+# vboxwebsrv --host 172.17.0.1 --authentication null --background
+# --pidfile
+# --logfile
 
 PVB_VERSION=5.0-5
 cd /opt
