@@ -3,10 +3,9 @@ set -euxo pipefail
 
 PVB_VERSION=5.0-5
 cd /opt
-wget --no-verbose https://sourceforge.net/projects/phpvirtualbox/files/phpvirtualbox-$PVB_VERSION.zip/download
-unzip -q phpvirtualbox-$PVB_VERSION.zip
-rm phpvirtualbox-$PVB_VERSION.zip
-mv phpvirtualbox-$PVB_VERSION phpvirtualbox
+wget --no-verbose -O phpvirtualbox.zip https://sourceforge.net/projects/phpvirtualbox/files/phpvirtualbox-$PVB_VERSION.zip/download
+unzip -q phpvirtualbox.zip
+rm phpvirtualbox.zip
 
 # https://github.com/clue/docker-phpvirtualbox/blob/master/config.php
 cat > /opt/phpvirtualbox/config.php <<'EOL'
