@@ -2,7 +2,9 @@
 set -euxo pipefail
 
 # https://github.com/imoore76/phpvirtualbox
+# killall vboxwebsrv
 # vboxwebsrv --host 172.17.0.1 --authentication null --background
+# --port 18083
 # --pidfile
 # --logfile
 
