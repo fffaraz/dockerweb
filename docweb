@@ -724,17 +724,17 @@ log_warnings=2
 long_query_time=1
 max_allowed_packet=1G
 max_connect_errors=1000000
-max_connections=200
+max_connections=500
 open_files_limit=100000
 performance_schema=0
 skip_external_locking=1
 slow_query_log=1
 slow_query_log_file=/var/log/mysql/slow.log
-# symbolic-links=0
 log_queries_not_using_indexes=0
 character_set_server=utf8
 character_set_filesystem=utf8
 collation_server=utf8_unicode_ci
+# symbolic-links=0
 # character_set_results=utf8
 # character_set_client_handshake=utf8
 # character_set_connection=utf8
@@ -782,7 +782,7 @@ table_open_cache=2K
 thread_cache_size=16
 tmp_table_size=8M
 
-" > /home/$1/conf.d/default.cnf
+" > /home/$1/conf.d/limits.cnf
 
 	# echo "
 	# [client]
