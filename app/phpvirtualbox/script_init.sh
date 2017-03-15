@@ -8,6 +8,8 @@ unzip -q phpvirtualbox.zip
 rm phpvirtualbox.zip
 mv phpvirtualbox-$PVB_VERSION phpvirtualbox
 
+wget --no-verbose -O /opt/phpvirtualbox/endpoints/lib/vboxconnector.php https://raw.githubusercontent.com/mikedld/phpvirtualbox/10b6a7383c810dfa6261869cb1f9cc8bca2ad814/endpoints/lib/vboxconnector.php
+
 cat > /opt/phpvirtualbox/config.php <<'EOL'
 <?php
 class phpVBoxConfig {
