@@ -1233,7 +1233,7 @@ fi
 
 if [ "$1" == "install:vbox" ]; then
 	set -euxo pipefail
-	apt-get -yq install build-essential dkms
+	apt-get -yq install linux-headers-$(uname -r) build-essential dkms
 	echo 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib' >> /etc/apt/sources.list
 	wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add -
 	apt-get -yq update < /dev/null
@@ -1250,6 +1250,7 @@ if [ "$1" == "install:vbox" ]; then
 	#systemctl start vboxweb-service
 	#systemctl status vboxdrv
 	#su vbox -c '/usr/bin/vboxwebsrv -H 172.17.0.1 --background'
+	#VBoxManage --version
 	exit 0
 fi	
 

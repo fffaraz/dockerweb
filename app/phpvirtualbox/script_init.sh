@@ -18,8 +18,8 @@ wget --no-verbose -O /opt/phpvirtualbox/endpoints/lib/vboxconnector.php https://
 cat > /opt/phpvirtualbox/config.php <<'EOL'
 <?php
 class phpVBoxConfig {
-var $username = '';
-var $password = '';
+var $username = 'vbox';
+var $password = 'pass';
 var $location = 'http://172.17.0.1:18083/';
 var $language = 'en';
 var $vrdeports = '9000-9100';

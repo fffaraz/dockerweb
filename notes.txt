@@ -192,3 +192,15 @@ https://github.com/coreos/torus
 https://github.com/rook/rook
 https://github.com/s3git/s3git
 https://github.com/leo-project/leofs
+
+
+VBoxManage createvm --name "Ubuntu 16.04 Server" --register
+VBoxManage modifyvm "Ubuntu 16.04 Server" --memory 2048 --acpi on --boot1 dvd --nic1 bridged --bridgeadapter1 ens33
+VBoxManage createhd --filename /home/administrator/Ubuntu_16_04_Server.vdi --size 10000
+VBoxManage storagectl "Ubuntu 16.04 Server" --name "IDE Controller" --add ide
+VBoxManage storageattach "Ubuntu 16.04 Server" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium /home/administrator/Ubuntu_16_04_Server.vdi
+VBoxManage storageattach "Ubuntu 16.04 Server" --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium /home/administrator/iso/ubuntu-16.04-server-amd64.iso
+VBoxManage modifyvm "Ubuntu 16.04 Server" --vrde on
+VBoxHeadless --startvm "Ubuntu 16.04 Server"
+VBoxManage controlvm "Ubuntu 16.04 Server" poweroff
+VBoxManage controlvm "Ubuntu 16.04 Server" reset
