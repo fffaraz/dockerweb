@@ -18,7 +18,7 @@ git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
 export PATH=$PATH:/opt/dockerweb
 ```
 
-To add `/opt/dockerweb` to your $PATH permanently run `echo 'export PATH=$PATH:/opt/dockerweb' >> ~/.profile` or `echo 'PATH=$PATH:/opt/dockerweb' >> /etc/environment`
+To add `/opt/dockerweb` to your $PATH permanently run `echo 'export PATH=$PATH:/opt/dockerweb' >> ~/.profile`
 
 To create swap space on a regular file run `docweb install:swapfile SIZE_IN_MB`
 
