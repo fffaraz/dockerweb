@@ -75,18 +75,19 @@ Config File Format: `CONTAINER CATCHALL WILDCARD SSLCERT DOMAIN1 [DOMAINS...]`
 ### MySQL Server
 
 ```
-docweb mysql:run [--debug] [--direct PORT] [--memory M] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]
-docweb stop NAME
+docweb mysql:run [--debug] [--direct PORT] [--memory M] NAME MYSQL_ROOT_PASSWORD [mariadb|mysql|mysql/mysql-server]
+docweb mysql:stop NAME
 docweb mysql:client NAME
 docweb mysql:status NAME
 docweb mysql:optimize NAME
 docweb mysql:backup NAME [--gzip] [DATABASES...]
 docweb mysql:import NAME [--gzip] FILENAME [DATABASE]
 docweb mysql:createuser NAME USERNAME PASSWORD
-docweb mysql:createdb MYSQLSERVER DBNAME
+docweb mysql:createdb NAME DB
 docweb mysql:listusers NAME
 docweb mysql:listproc NAME
 docweb mysql:listdbs NAME
+docweb mysql:tuner NAME MYSQL_ROOT_PASSWORD
 ```
 
 Default Image: `mariadb`
@@ -160,12 +161,6 @@ Status page `http://pma.example.com/status/`
 
 ```
 docweb clamav:run
-```
-
-### MySQLTuner
-
-```
-docweb mysqltuner:run MYSQLSERVER MYSQLROOTPASSWORD
 ```
 
 ### Etc.

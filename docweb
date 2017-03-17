@@ -254,8 +254,9 @@ if [ "$1" == "stop" ]; then
 		echo "Usage: docweb stop NAME"
 		exit 1
 	fi
-	docker stop $1
-	#docker kill $2
+	docker stop --time 86400 $1
+	#docker kill $1
+	#docker kill --signal SIGTERM $1
 	docker rm $1
 	exit 0
 fi
@@ -650,10 +651,10 @@ if [ "$1" == "postgres:run" ]; then
 	exit 0
 fi
 
-if [ "$1" == "mysqltuner:run" ]; then
+if [ "$1" == "mysql:tuner" ]; then
 	shift
 	if [ "$#" -lt 2 ]; then
-		echo "Usage: docweb mysqltuner:run MYSQLSERVER MYSQLROOTPASSWORD"
+		echo "Usage: docweb mysql:tuner MYSQLSERVER MYSQLROOTPASSWORD"
 		exit 1
 	fi
 
@@ -850,7 +851,8 @@ if [ "$1" == "mysql:stop" ]; then
 	fi
 	docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SET GLOBAL innodb_fast_shutdown = 0"'
 	sleep 2
-	docker stop $1
+	docker stop --time 86400 $1
+	#docker kill --signal SIGTERM $1
 	docker rm $1
 	exit 0
 fi
