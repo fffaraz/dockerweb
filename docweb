@@ -256,7 +256,7 @@ if [ "$1" == "stop" ]; then
 	fi
 	docker stop --time 86400 $1
 	#docker kill $1
-	#docker kill --signal SIGTERM $1
+	#docker kill --signal TERM $1
 	docker rm $1
 	exit 0
 fi
@@ -849,10 +849,11 @@ if [ "$1" == "mysql:stop" ]; then
 		echo "Usage: docweb mysql:stop NAME"
 		exit 1
 	fi
-	docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SET GLOBAL innodb_fast_shutdown = 0"'
-	sleep 2
+	#docker exec -it $1 sh -c 'exec mysqladmin -uroot -p"$MYSQL_ROOT_PASSWORD" shutdown'
+	#docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SET GLOBAL innodb_fast_shutdown = 0"'
+	#sleep 2
 	docker stop --time 86400 $1
-	#docker kill --signal SIGTERM $1
+	#docker kill --signal TERM $1
 	docker rm $1
 	exit 0
 fi
