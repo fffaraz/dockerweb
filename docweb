@@ -550,7 +550,7 @@ if [ "$1" == "pma:run" ]; then
 	exit 0
 fi
 
-if [ "$1" == "pbv:run" ]; then
+if [ "$1" == "pvb:run" ]; then
 	shift
 
 	RUNARG="-d --restart=always"
