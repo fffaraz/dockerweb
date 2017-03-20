@@ -719,7 +719,7 @@ if [ "$1" == "mysql:run" ]; then
 	ISRUNNING=$(docker inspect --format={{.State.Running}} $1 2> /dev/null)
 	if [ $? -eq 0 ]; then
 		echo "Stopping the running instance ..."
-		docker stop $1
+		docker stop --time 86400 $1
 		docker rm $1
 	fi
 
