@@ -1170,7 +1170,7 @@ if [ "$1" == "bootstrap" ]; then
 	apt-get -yq update < /dev/null
 	apt-get -yq upgrade < /dev/null
 	apt-get -yq dist-upgrade < /dev/null
-	apt-get -yq install dnsutils git sysstat < /dev/null
+	apt-get -yq install dnsutils sysstat < /dev/null
 	$0 install:extras
 	$0 install:docker
 	$0 install:network
@@ -1201,14 +1201,14 @@ if [ "$1" == "install:swapfile" ]; then
 fi
 
 if [ "$1" == "install:extras" ]; then
-	wget -O- https://bit.ly/glances | /bin/bash
-	
 	apt-get -yq install curl dstat htop iftop iotop lsof pwgen smem vnstat unzip ncdu wget < /dev/null
-	
+
+	wget -O- https://bit.ly/glances | /bin/bash
+
 	wget -O /usr/local/bin/httpstat https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
 	chmod +x /usr/local/bin/httpstat
 
-	wget -O /usr/local/bin/ctop https://github.com/bcicen/ctop/releases/download/v0.4.1/ctop-0.4.1-linux-amd64
+	wget -O /usr/local/bin/ctop https://github.com/bcicen/ctop/releases/download/v0.5.1/ctop-0.5.1-linux-amd64
 	chmod +x /usr/local/bin/ctop
 
 	exit 0
@@ -1222,6 +1222,7 @@ if [ "$1" == "install:docker" ]; then
 	wget -qO- https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh | /bin/bash
 	wget -qO- https://get.docker.com/ | sh
 
+	# https://docs.docker.com/compose/install/
 	# https://github.com/docker/compose/releases
 	curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
