@@ -1218,8 +1218,9 @@ if [ "$1" == "install:docker" ]; then
 	set -euxo pipefail
 	apt-get -yq install apt-transport-https ca-certificates < /dev/null
 	apt-get -yq install linux-image-extra-$(uname -r) linux-image-extra-virtual < /dev/null
+	# TODO: zfs ?
 
-	wget -qO- https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh | /bin/bash
+	# wget -qO- https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh | /bin/bash
 	wget -qO- https://get.docker.com/ | sh
 
 	# https://docs.docker.com/compose/install/
