@@ -1,3 +1,6 @@
+TODO:
+db1_pma -> pma_db1
+Optional DOMAIN 1
 
 ssh-keygen -t rsa -b 4096 -C fffaraz@gmail.com
 cat ~/.ssh/id_rsa.pub
