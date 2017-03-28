@@ -9,26 +9,30 @@ fi
 
 set -euxo pipefail
 
+sed -i "s/Port 22/Port 7071/" /etc/ssh/sshd_config
+service ssh restart
+
 export DEBIAN_FRONTEND=noninteractive
 apt-get -yq update < /dev/null
+apt-get -yq upgrade < /dev/null
+apt-get -yq dist-upgrade < /dev/null
 apt-get -yq --fix-broken install < /dev/null
 apt-get -yq install apt-transport-https ca-certificates git wget < /dev/null
 
 mkdir -p /opt
 git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
 
-export PATH=$PATH:/opt/dockerweb
 echo 'export PATH=$PATH:/opt/dockerweb' >> ~/.profile
+export PATH=$PATH:/opt/dockerweb
 
-#alias docweb="/opt/dockerweb/docweb"
 #echo 'alias docweb="/opt/dockerweb/docweb"' >> ~/.bash_aliases
+#alias docweb="/opt/dockerweb/docweb"
 
 #cat /proc/meminfo | grep SwapTotal:
 #cat /proc/meminfo | grep MemTotal:
 #docweb install:swapfile 1024
 
 docweb bootstrap
-
 
 # bash completion for the `docweb` command
 
