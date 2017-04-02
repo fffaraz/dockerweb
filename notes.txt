@@ -70,6 +70,7 @@ TODO:
 	https://github.com/cytopia/mysqldump-secure
 	https://github.com/pixelb/ps_mem
 	https://github.com/Yelp/dumb-init
+	https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion
 
 PHP:
 	https://github.com/virustotal/yara
