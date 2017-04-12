@@ -1,5 +1,6 @@
 TODO:
 db1_pma -> pma_db1
+webuser -> user
 Optional DOMAIN 1
 
 ssh-keygen -t rsa -b 4096 -C fffaraz@gmail.com
