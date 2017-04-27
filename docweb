@@ -977,8 +977,12 @@ if [ "$1" == "mysql:backup" ]; then
 			fi
 		fi
 	fi
+	# https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html
 	# --default-character-set=utf8
-	# --master-data --single-transaction
+	# --add-locks
+	# --master-data
+	# --quick
+	# TODO: --single-transaction
 	exit 0
 fi
 
