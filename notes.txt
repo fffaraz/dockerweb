@@ -19,6 +19,7 @@ TODO:
 db1_pma -> pma_db1
 webuser -> user
 Optional DOMAIN 1
+https://github.com/yandex/gixy
 
 ssh-keygen -t rsa -b 4096 -C fffaraz@gmail.com
 cat ~/.ssh/id_rsa.pub
