@@ -29,6 +29,7 @@ chmod -R 700 /home/webuser/.ssh
 #find /home/webuser/www -type f -exec chmod 0644 {} \;
 
 NEWUSER=$(hostname | tr -d "_.-")
+# FIXME: useradd: user 'ebaf07630337' already exists
 useradd --no-create-home --home-dir /home/$NEWUSER --shell /bin/bash --gid webuser --non-unique --uid $(id -u webuser) $NEWUSER
 ln -s /home/webuser /home/$NEWUSER
 
