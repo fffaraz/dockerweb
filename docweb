@@ -1294,5 +1294,14 @@ if [ "$1" == "upgrade" ]; then
 	exit 0
 fi
 
+if [ "$1" == "upgrade:os" ]; then
+	apt-get -yq update < /dev/null
+	apt-get -yq upgrade < /dev/null
+	apt-get -yq dist-upgrade < /dev/null
+	apt-get -yq autoremove < /dev/null
+	apt-get -yq autoclean < /dev/null
+	exit 0
+fi
+
 echo "Unknown command '$1'"
 exit 1
