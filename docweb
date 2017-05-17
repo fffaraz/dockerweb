@@ -439,6 +439,19 @@ fi
 if [ "$1" == "microdns:run" ]; then
 	shift
 
+	DNSTTL="-ttl 3600"
+	if [ "$1" = "--ttl" ]; then
+		shift
+		DNSTTL="-ttl $1"
+		shift
+	fi
+
+	DNSLOG=""
+	if [ "$1" = "--log" ]; then
+		shift
+		DNSLOG="-log"
+	fi
+
 	#curl -s http://whatismyip.akamai.com/
 	IPV4=$(dig +short myip.opendns.com @resolver1.opendns.com) || IPV4=""
 	echo "Your IPv4 address is: $IPV4"
@@ -452,14 +465,14 @@ if [ "$1" == "microdns:run" ]; then
 	[ $? -eq 0 ] &&	docker rm -f microdns
 
 	mkdir -p /home/microdns
-	[ ! -f /home/microdns/dns.conf ] && echo "# domain ipv4 ipv6" > /home/microdns/dns.conf
+	[ ! -f /home/microdns/dns.conf ] && echo "# domain. IPv4 IPv6" > /home/microdns/dns.conf
 
 	docker run -d --restart=always \
 	--name microdns -p 53:53 -p 53:53/udp \
 	--memory 8m \
 	-v /home/microdns:/home \
 	fffaraz/microdns:latest \
-	$IPV4 $IPV6
+	$IPV4 $IPV6 $DNSTTL $DNSLOG -conf /home/dns.conf
 
 	exit 0
 fi
