@@ -45,6 +45,7 @@ while read -r -a line; do
 	fi
 
 	if [ $SSLCERT -eq 1 ]; then
+		# TODO: dnslookup ${DOMAINS::-1} skip if failed
 		CERTPLUGIN="--standalone --preferred-challenges tls-sni-01"
 		[ $RELOADNGNIX -eq 1 ] && CERTPLUGIN="--webroot --webroot-path /var/lib/letsencrypt/"
 		( set -x;
