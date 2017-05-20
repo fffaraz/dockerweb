@@ -477,6 +477,11 @@ if [ "$1" == "microdns:run" ]; then
 	exit 0
 fi
 
+if [ "$1" == "microdns:log" ]; then
+	docker logs -f microdns
+	exit 0
+fi
+
 if [ "$1" == "bind:run" ]; then
 	shift
 
