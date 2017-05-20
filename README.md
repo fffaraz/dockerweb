@@ -41,7 +41,8 @@ To upgrade you just need to run `docweb upgrade` first and then if necessary reb
 [MicroDNS](https://github.com/fffaraz/microdns) is a tiny DNS server that is used to (almost) always return your host's IP address for any query sent to it. Hence you will just need to set your domains' dns setting to point to your host's IP address and you don't have to also add them in a config file on the host any more.
 
 ```
-docweb microdns:run
+docweb microdns:run [--ttl 3600] [--log]
+docweb microdns:log
 docweb stop microdns
 ```
 
