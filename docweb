@@ -274,6 +274,7 @@ if [ "$1" == "exec" ]; then
 		exit 1
 	fi
 
+	# TODO: cd /home/webuser/
 	if [ $RUNASROOT -eq 1 ]; then
 		docker exec -it $1 /bin/bash -l
 	else
