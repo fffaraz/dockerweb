@@ -32,7 +32,7 @@ export PATH=$PATH:/opt/dockerweb
 #cat /proc/meminfo | grep MemTotal:
 #docweb install:swapfile 1024
 
-docweb bootstrap
+#docweb bootstrap
 
 # bash completion for the `docweb` command
 
