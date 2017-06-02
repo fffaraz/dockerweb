@@ -23,7 +23,6 @@ mkdir -p /opt
 git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
 
 echo 'export PATH=$PATH:/opt/dockerweb' >> ~/.profile
-export PATH=$PATH:/opt/dockerweb
 
 #echo 'alias docweb="/opt/dockerweb/docweb"' >> ~/.bash_aliases
 #alias docweb="/opt/dockerweb/docweb"
