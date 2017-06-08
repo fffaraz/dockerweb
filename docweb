@@ -1234,6 +1234,9 @@ if [ "$1" == "install:extras" ]; then
 	wget -O /usr/local/bin/ctop https://github.com/bcicen/ctop/releases/download/v0.5.1/ctop-0.5.1-linux-amd64
 	chmod +x /usr/local/bin/ctop
 
+	curl -sSf https://moncho.github.io/dry/dryup.sh | sh
+	chmod 755 /usr/local/bin/dry
+
 	exit 0
 fi
 
