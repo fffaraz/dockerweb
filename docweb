@@ -1231,7 +1231,7 @@ if [ "$1" == "install:extras" ]; then
 	wget -O /usr/local/bin/httpstat https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
 	chmod +x /usr/local/bin/httpstat
 
-	wget -O /usr/local/bin/ctop https://github.com/bcicen/ctop/releases/download/v0.5.1/ctop-0.5.1-linux-amd64
+	wget -O /usr/local/bin/ctop https://github.com/bcicen/ctop/releases/download/v0.6.0/ctop-0.6.0-linux-amd64
 	chmod +x /usr/local/bin/ctop
 
 	curl -sSf https://moncho.github.io/dry/dryup.sh | sh
@@ -1251,7 +1251,7 @@ if [ "$1" == "install:docker" ]; then
 
 	# https://docs.docker.com/compose/install/
 	# https://github.com/docker/compose/releases
-	curl -L "https://github.com/docker/compose/releases/download/1.12.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	curl -L "https://github.com/docker/compose/releases/download/1.14.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
 
 	#apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
