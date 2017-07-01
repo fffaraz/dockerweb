@@ -23,6 +23,16 @@ UseDNS no
 MaxStartups 2:30:10
 Subsystem sftp /usr/lib/ssh/sftp-server
 #Subsystem sftp internal-sftp
+
+#Match User webuser
+#ForceCommand internal-sftp
+#PasswordAuthentication yes
+#ChrootDirectory /home/webuser
+#PermitTunnel no
+#AllowAgentForwarding no
+#AllowTcpForwarding no
+#X11Forwarding no
+
 ' > /etc/ssh/sshd_config
 
 # Display SSH Warning Message BEFORE the Login
