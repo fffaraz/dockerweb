@@ -275,9 +275,9 @@ if [ "$1" == "exec" ]; then
 	fi
 
 	if [ $RUNASROOT -eq 1 ]; then
-		docker exec -it -e COLUMNS=$COLUMNS -e LINES=$LINES -e TERM=$TERM $1 /bin/bash -c 'cd /home/webuser; exec /bin/bash -l'
+		docker exec -it -e COLUMNS=$COLUMNS -e LINES=$LINES -e TERM=$TERM $1 /bin/bash -c 'cd /home/webuser; exec /bin/bash -i -l'
 	else
-		docker exec -it --user webuser -e COLUMNS=$COLUMNS -e LINES=$LINES -e TERM=$TERM $1 /bin/bash -c 'cd /home/webuser; exec /bin/bash -l'
+		docker exec -it --user webuser -e COLUMNS=$COLUMNS -e LINES=$LINES -e TERM=$TERM $1 /bin/bash -c 'cd /home/webuser; exec /bin/bash -i -l'
 	fi
 
 	exit 0
