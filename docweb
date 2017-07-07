@@ -275,10 +275,12 @@ if [ "$1" == "exec" ]; then
 	fi
 
 	# TODO: cd /home/webuser/
+	ENVS="-e COLUMNS=$COLUMNS -e LINES=$LINES -e TERM=$TERM"
+	PARAMS="/bin/bash -c 'cd /home/webuser; exec /bin/bash -l'"
 	if [ $RUNASROOT -eq 1 ]; then
-		docker exec -it $1 /bin/bash -l
+		docker exec -it $ENVS $1 $PARAMS
 	else
-		docker exec -it --user webuser $1 /bin/bash -l
+		docker exec -it --user webuser $ENVS $1 $PARAMS
 	fi
 
 	exit 0
