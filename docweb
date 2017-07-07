@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2016 Faraz Fallahi <fffaraz@gmail.com>
+# Copyright 2016-2017 Faraz Fallahi <fffaraz@gmail.com>
 # docweb is not responsible for misuse or for any damage that you may cause!
 # You agree that you use this software at your own risk.
 
@@ -280,6 +280,7 @@ if [ "$1" == "exec" ]; then
 	if [ $RUNASROOT -eq 1 ]; then
 		docker exec -it $ENVS $1 $PARAMS
 	else
+		set -euxo pipefail
 		docker exec -it --user webuser $ENVS $1 $PARAMS
 	fi
 
