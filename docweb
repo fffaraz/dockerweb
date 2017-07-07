@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 
 # Copyright 2016-2017 Faraz Fallahi <fffaraz@gmail.com>
 # docweb is not responsible for misuse or for any damage that you may cause!
