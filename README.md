@@ -203,6 +203,8 @@ Then update the proxy server with `docweb proxy:update`
 <!---
 ## Donation
 
+If this helps you [why not buy me a beer](https://www.paypal.me/frz288) :beer:
+
 If this project help you reduce time to develop and you would like to donate to this cause, feel free to send money my way via one of the links below:
 
 [![PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/frz288)
