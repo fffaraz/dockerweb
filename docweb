@@ -1335,6 +1335,7 @@ if [ "$1" == "upgrade" ]; then
 fi
 
 if [ "$1" == "upgrade:os" ]; then
+	export DEBIAN_FRONTEND=noninteractive
 	apt-get -yq update < /dev/null
 	apt-get -yq upgrade < /dev/null
 	apt-get -yq dist-upgrade < /dev/null
