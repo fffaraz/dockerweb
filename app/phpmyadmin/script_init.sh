@@ -4,10 +4,10 @@ set -euxo pipefail
 # Install phpMyAdmin
 # https://www.phpmyadmin.net/downloads/
 # https://github.com/phpmyadmin/phpmyadmin/releases
-# https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_6_6.zip
+# https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_7_4.zip
 # https://github.com/phpmyadmin/docker
 
-PMA_VERSION=4.6.6
+PMA_VERSION=4.7.4
 cd /opt
 wget --no-verbose https://files.phpmyadmin.net/phpMyAdmin/$PMA_VERSION/phpMyAdmin-$PMA_VERSION-english.zip
 unzip -q phpMyAdmin-$PMA_VERSION-english.zip
