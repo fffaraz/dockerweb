@@ -36,10 +36,10 @@ rm master.zip
 
 # ngx_pagespeed
 cd /opt
-wget -q https://github.com/pagespeed/ngx_pagespeed/archive/latest-beta.zip
-unzip latest-beta.zip
-rm latest-beta.zip
-cd ngx_pagespeed-latest-beta/
+wget -q https://github.com/pagespeed/ngx_pagespeed/archive/latest-stable.zip
+unzip latest-stable.zip
+rm latest-stable.zip
+cd ngx_pagespeed-latest-stable/
 psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
 wget -q ${psol_url}
 tar -xzf $(basename ${psol_url})
