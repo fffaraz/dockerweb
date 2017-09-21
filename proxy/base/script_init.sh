@@ -100,9 +100,9 @@ sed -i -e 's/"\\x84\\xaa\\x63\\x55\\xe7"/"\\x84\\xc2\\x3b\\x07\\xef"/g' src/http
 --with-http_gunzip_module \
 --with-http_gzip_static_module \
 --with-http_stub_status_module \
---add-module=/opt/nginx-module-vts-master \
---add-module=/opt/ngx_pagespeed-latest-stable
-#--add-module=/opt/naxsi-master/naxsi_src #put naxsi first in your ./configure
+--add-module=/opt/nginx-module-vts-master
+#--add-module=/opt/ngx_pagespeed-latest-stable # FIXME
+#--add-module=/opt/naxsi-master/naxsi_src # put naxsi first in your ./configure
 #--with-ngx_http_status_module
 
 make -j${NPROC}
