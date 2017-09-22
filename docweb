@@ -747,15 +747,21 @@ if [ "$1" == "mysql:run" ]; then
 		MEMORY=$1
 		shift
 	fi
-	
+
 	SKIPGRANT=""
 	if [ "$1" == "--skip-grant" ]; then
 		shift
-		SKIPGRANT="mysqld_safe --skip-grant-tables --skip-networking"
+		SKIPGRANT="mysqld_safe --skip-grant-tables"
+	fi
+
+	SKIPNET=""
+	if [ "$1" == "--skip-net" ]; then
+		shift
+		SKIPNET="--skip-networking"
 	fi
 
 	if [ $# -lt 2 ]; then
-		echo "Usage: docweb mysql:run [--debug] [--direct PORT] [--memory M] [--skip-grant] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]"
+		echo "Usage: docweb mysql:run [--debug] [--direct PORT] [--memory M] [--skip-grant] [--skip-net] NAME MYSQL_ROOT_PASSWORD [mysql|mariadb|mysql/mysql-server]"
 		exit 1
 	fi
 
@@ -879,7 +885,7 @@ tmp_table_size=32M
 	-v /home/$1/entrypoint:/docker-entrypoint-initdb.d \
 	-v /home/$1/log:/var/log/mysql \
 	-e MYSQL_ROOT_PASSWORD="$2" \
-	${DBSERVER}:latest $SKIPGRANT
+	${DBSERVER}:latest $SKIPGRANT $SKIPNET
 
 	# docker exec -it $1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES; SET PASSWORD FOR root = PASSWORD(\"$1\");"'
 
