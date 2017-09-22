@@ -751,7 +751,7 @@ if [ "$1" == "mysql:run" ]; then
 	SKIPGRANT=""
 	if [ "$1" == "--skip-grant" ]; then
 		shift
-		SKIPGRANT="--skip-grant-tables --skip-networking"
+		SKIPGRANT="mysqld_safe --skip-grant-tables --skip-networking"
 	fi
 
 	if [ $# -lt 2 ]; then
