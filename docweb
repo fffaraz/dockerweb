@@ -301,7 +301,7 @@ fi
 if [ "$1" == "update" ]; then
 	shift
 	if [ $# -lt 1 ]; then
-		echo "Usage: ./update.sh NAME [args]"
+		echo "Usage: docweb update NAME [args]"
 		exit 1
 	fi
 	docker exec -it $1 /script_update.sh $@
