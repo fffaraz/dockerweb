@@ -318,6 +318,7 @@ composer -V
 
 # Install laravel
 composer global require laravel/installer
+composer global require laravel/lumen-installer
 laravel --version
 
 # Install drush
