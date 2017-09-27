@@ -1353,6 +1353,7 @@ if [ "$1" == "upgrade:os" ]; then
 	apt-get -yq dist-upgrade < /dev/null
 	apt-get -yq autoremove < /dev/null
 	apt-get -yq autoclean < /dev/null
+	apt-get -yq clean < /dev/null
 	exit 0
 fi
 
