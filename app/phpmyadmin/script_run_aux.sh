@@ -3,15 +3,23 @@
 echo "<html><body><h1>It works!</h1></body></html>" > /home/webuser/www/public/index.html
 
 if [ -z "${PHPMYADMIN:+x}" ]; then
-	ln -s /opt/phpMyAdmin /home/webuser/www/public/pma
+	if [ ! -L /home/webuser/www/public/pma ]; then
+		ln -s /opt/phpMyAdmin /home/webuser/www/public/pma
+	fi
 else
-	ln -s /opt/phpMyAdmin /home/webuser/www/public/$PHPMYADMIN
+	if [ ! -L /home/webuser/www/public/$PHPMYADMIN ]; then
+		ln -s /opt/phpMyAdmin /home/webuser/www/public/$PHPMYADMIN
+	fi
 fi
 
 if [ -z "${PHPSTATUS:+x}" ]; then
-	ln -s /opt/status /home/webuser/www/public/status
+	if [ ! -L /home/webuser/www/public/status ]; then
+		ln -s /opt/status /home/webuser/www/public/status
+	fi
 else
-	ln -s /opt/status /home/webuser/www/public/$PHPSTATUS
+	if [ ! -L /home/webuser/www/public/$PHPSTATUS ]; then
+		ln -s /opt/status /home/webuser/www/public/$PHPSTATUS
+	fi
 fi
 
 echo $MYSQL_ROOT_PASSWORD > /opt/mysql_root_password.txt
