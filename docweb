@@ -1257,6 +1257,9 @@ if [ "$1" == "install:extras" ]; then
 	apt-get -yq install curl dstat htop iftop iotop logtop lsof pv pwgen smem tree vnstat unzip ncdu wget whois < /dev/null
 
 	wget -O- https://bit.ly/glances | /bin/bash
+	
+	wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+	chmod +x speedtest-cli
 
 	wget -O /usr/local/bin/httpstat https://raw.githubusercontent.com/reorx/httpstat/master/httpstat.py
 	chmod +x /usr/local/bin/httpstat
