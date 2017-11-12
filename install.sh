@@ -13,11 +13,13 @@ sed -i "s/Port 22/Port 7071/" /etc/ssh/sshd_config
 service ssh restart
 
 export DEBIAN_FRONTEND=noninteractive
-apt-get -yq update < /dev/null
-apt-get -yq upgrade < /dev/null
-apt-get -yq dist-upgrade < /dev/null
-apt-get -yq --fix-broken install < /dev/null
-apt-get -yq install apt-transport-https ca-certificates git wget < /dev/null
+apt -yq update < /dev/null
+apt -yq upgrade < /dev/null
+apt -yq dist-upgrade < /dev/null
+apt -yq full-upgrade  < /dev/null
+apt -yq --fix-broken install < /dev/null
+apt -yq install apt-transport-https ca-certificates git wget < /dev/null
+apt -yq autoremove < /dev/null
 
 mkdir -p /opt
 git clone https://github.com/fffaraz/dockerweb.git /opt/dockerweb
