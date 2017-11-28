@@ -1254,7 +1254,7 @@ if [ "$1" == "install:swapfile" ]; then
 fi
 
 if [ "$1" == "install:extras" ]; then
-	apt-get -yq install curl dstat htop iftop iotop logtop lsof pv pwgen smem tree vnstat unzip ncdu wget whois < /dev/null
+	apt-get -yq install curl dstat htop iftop iotop logtop lsof pv pwgen p7zip-full smem tree vnstat unzip ncdu wget whois < /dev/null
 
 	wget -O- https://bit.ly/glances | /bin/bash
 	
@@ -1284,7 +1284,7 @@ if [ "$1" == "install:docker" ]; then
 
 	# https://docs.docker.com/compose/install/
 	# https://github.com/docker/compose/releases
-	curl -L "https://github.com/docker/compose/releases/download/1.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	curl -L "https://github.com/docker/compose/releases/download/1.17.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
 
 	#apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
