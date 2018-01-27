@@ -96,6 +96,7 @@ http {
 	server {
 		server_name _;
 		listen 80 default_server;
+		listen [::]:80 default_server;
 		root /home/webuser/www/public;
 		include server_params;
 		include /home/webuser/conf/nginx/default.conf*;
