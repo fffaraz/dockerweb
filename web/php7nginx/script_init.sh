@@ -319,12 +319,12 @@ composer -V
 
 # Install laravel
 composer global require laravel/installer
-composer global require laravel/lumen-installer
+#composer global require laravel/lumen-installer
 laravel --version
 
 # Install drush
-wget -qO /opt/bin/drush https://s3.amazonaws.com/files.drush.org/drush.phar
-chmod +x /opt/bin/drush
+#wget -qO /opt/bin/drush https://s3.amazonaws.com/files.drush.org/drush.phar
+#chmod +x /opt/bin/drush
 
 # Install phan 
 # https://github.com/etsy/phan
@@ -332,7 +332,7 @@ chmod +x /opt/bin/drush
 #composer global install
 
 # Install node.js & npm
-NODE_VERSION=6.10.0
+NODE_VERSION=8.9.4
 cd /opt
 wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
 tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
