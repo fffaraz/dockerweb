@@ -48,6 +48,8 @@ echo 'ALERT - Root Shell Access on:' `date` `who` | mail -s "Alert: Root Access 
 
 https://git.cloudron.io/cloudron/box/blob/master/baseimage/initializeBaseUbuntuImage.sh
 
+https://github.com/php-pm/php-pm
+
 https://github.com/banianhost/images
 
 Docker Utilities:
