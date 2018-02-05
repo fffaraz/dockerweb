@@ -35,22 +35,22 @@ unzip master.zip
 rm master.zip
 
 # ngx_pagespeed
-cd /opt
-wget -q https://github.com/pagespeed/ngx_pagespeed/archive/latest-stable.zip
-unzip latest-stable.zip
-rm latest-stable.zip
-cd ngx_pagespeed-latest-stable/
-psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
-wget -q ${psol_url}
-tar -xzf $(basename ${psol_url})
+#cd /opt
+#wget -q https://github.com/apache/incubator-pagespeed-ngx/archive/latest-stable.zip
+#unzip latest-stable.zip
+#rm latest-stable.zip
+#cd incubator-pagespeed-ngx-latest-stable/
+#psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
+#wget -q ${psol_url}
+#tar -xzf $(basename ${psol_url})
 
 # NAXSI is an open-source, high performance, low rules maintenance WAF for NGINX
 # http://www.bluemind.org/linux-nginx-waf-reverse-proxy-for-wordpress-running-apache/
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-naxsi-on-ubuntu-14-04
-cd /opt
-wget -q https://github.com/nbs-system/naxsi/archive/master.zip
-unzip master.zip
-rm master.zip
+#cd /opt
+#wget -q https://github.com/nbs-system/naxsi/archive/master.zip
+#unzip master.zip
+#rm master.zip
 
 # Install NGINX
 # https://ngxpagespeed.com/install
