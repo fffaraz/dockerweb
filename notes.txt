@@ -66,14 +66,14 @@ Bash Programmable Completion:
 	http://askubuntu.com/questions/68175/how-to-create-script-with-auto-complete
 	/etc/bash_completion.d/*
 
-EMAIL:
+EMAIL:  https://github.com/hardware/mailserver
+
 	https://github.com/zixia/docker-simple-mail-forwarder
 	https://github.com/jbeda/docker-postfix-forwarder
 	https://github.com/tomav/docker-mailserver
 	https://github.com/mail-in-a-box/mailinabox
 	https://github.com/andryyy/mailcow-dockerized
 	https://github.com/lava/dockermail
-	https://github.com/hardware/mailserver
 	https://github.com/Mailu/Mailu
 	https://github.com/ONLYOFFICE/Docker-CommunityServer
 	https://github.com/modoboa/modoboa
