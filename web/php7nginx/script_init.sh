@@ -310,18 +310,20 @@ php -v
 # Install composer
 cd /opt
 mkdir -p /opt/bin
-wget -qO /opt/bin/composer-setup.php https://getcomposer.org/installer
-php /opt/bin/composer-setup.php --install-dir=/opt/bin --filename=composer --disable-tls
-rm /opt/bin/composer-setup.php
+#wget -qO /opt/bin/composer-setup.php https://getcomposer.org/installer
+#php /opt/bin/composer-setup.php --install-dir=/opt/bin --filename=composer
+#rm /opt/bin/composer-setup.php
+
+wget -qO /opt/bin/composer https://getcomposer.org/download/1.6.3/composer.phar
 chmod +x /opt/bin/composer
 mkdir -p /opt/.composer
 export COMPOSER_HOME=/opt/.composer
 #php /opt/bin/composer -V FIXME
 
 # Install laravel
-#composer global require laravel/installer
+composer global require laravel/installer
 #composer global require laravel/lumen-installer
-#laravel --version
+laravel --version
 
 # Install drush
 #wget -qO /opt/bin/drush https://s3.amazonaws.com/files.drush.org/drush.phar
