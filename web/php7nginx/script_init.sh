@@ -316,7 +316,7 @@ rm /opt/bin/composer-setup.php
 chmod +x /opt/bin/composer
 mkdir -p /opt/.composer
 export COMPOSER_HOME=/opt/.composer
-php /opt/bin/composer -V
+#php /opt/bin/composer -V FIXME
 
 # Install laravel
 composer global require laravel/installer
