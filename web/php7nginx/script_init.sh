@@ -310,13 +310,15 @@ php -v
 # Install composer
 cd /opt
 mkdir -p /opt/bin
-wget -qO /opt/bin/composer-setup.php https://getcomposer.org/installer
-php /opt/bin/composer-setup.php --install-dir=/opt/bin --filename=composer --disable-tls
-rm /opt/bin/composer-setup.php
+#wget -qO /opt/bin/composer-setup.php https://getcomposer.org/installer
+#php /opt/bin/composer-setup.php --install-dir=/opt/bin --filename=composer
+#rm /opt/bin/composer-setup.php
+
+wget -qO /opt/bin/composer https://getcomposer.org/download/1.6.3/composer.phar
 chmod +x /opt/bin/composer
 mkdir -p /opt/.composer
 export COMPOSER_HOME=/opt/.composer
-php /opt/bin/composer -V
+#php /opt/bin/composer -V FIXME
 
 # Install laravel
 composer global require laravel/installer
@@ -333,15 +335,15 @@ laravel --version
 #composer global install
 
 # Install node.js & npm
-NODE_VERSION=8.9.4
-cd /opt
-wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
-tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
-rm node-v${NODE_VERSION}-linux-x64.tar.xz
-mv node-v${NODE_VERSION}-linux-x64 node
+#NODE_VERSION=8.9.4
+#cd /opt
+#wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
+#tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
+#rm node-v${NODE_VERSION}-linux-x64.tar.xz
+#mv node-v${NODE_VERSION}-linux-x64 node
 
 # Install gulp
-npm install --global gulp-cli
+#npm install --global gulp-cli
 
 # bower, yo, grunt, yarn
 # sass, compass
