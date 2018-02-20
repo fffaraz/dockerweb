@@ -310,7 +310,7 @@ mkdir -p /home/webuser/tmp/php/systemp
 cd /opt
 mkdir -p /opt/bin
 wget -qO /opt/bin/composer-setup.php https://getcomposer.org/installer
-php /opt/bin/composer-setup.php --install-dir=/opt/bin --filename=composer
+php /opt/bin/composer-setup.php --install-dir=/opt/bin --filename=composer --disable-tls
 rm /opt/bin/composer-setup.php
 chmod +x /opt/bin/composer
 mkdir -p /opt/.composer
