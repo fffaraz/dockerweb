@@ -305,6 +305,7 @@ pm.status_path=/fpm_status
 ' > /opt/php/etc/php-fpm.conf
 mkdir -p /home/webuser/tmp/php/opcache
 mkdir -p /home/webuser/tmp/php/systemp
+php -v
 
 # Install composer
 cd /opt
