@@ -319,9 +319,9 @@ export COMPOSER_HOME=/opt/.composer
 #php /opt/bin/composer -V FIXME
 
 # Install laravel
-composer global require laravel/installer
+#composer global require laravel/installer
 #composer global require laravel/lumen-installer
-laravel --version
+#laravel --version
 
 # Install drush
 #wget -qO /opt/bin/drush https://s3.amazonaws.com/files.drush.org/drush.phar
@@ -333,15 +333,15 @@ laravel --version
 #composer global install
 
 # Install node.js & npm
-NODE_VERSION=8.9.4
-cd /opt
-wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
-tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
-rm node-v${NODE_VERSION}-linux-x64.tar.xz
-mv node-v${NODE_VERSION}-linux-x64 node
+#NODE_VERSION=8.9.4
+#cd /opt
+#wget -q https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
+#tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz
+#rm node-v${NODE_VERSION}-linux-x64.tar.xz
+#mv node-v${NODE_VERSION}-linux-x64 node
 
 # Install gulp
-npm install --global gulp-cli
+#npm install --global gulp-cli
 
 # bower, yo, grunt, yarn
 # sass, compass
