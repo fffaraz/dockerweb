@@ -225,7 +225,7 @@ if [ "$1" == "run" ]; then
 	--hostname=$2 \
 	--net=isolated_nw \
 	--volume=/home/$2:/home/webuser \
-	--memory=128m \
+	--memory=512m \
 	$HTTPPORT \
 	$SSHPORT \
 	fffaraz/web/$1:latest
@@ -398,7 +398,7 @@ if [ "$1" == "proxy:run" ]; then
 	--name=proxy \
 	--hostname=$(hostname --fqdn) \
 	--net=isolated_nw \
-	--memory=128m \
+	--memory=256m \
 	-p 80:80 -p 443:443 \
 	-v /home/proxy:/home/webuser \
 	-v /home/proxy/ssl/etc:/etc/letsencrypt \
@@ -469,7 +469,7 @@ if [ "$1" == "microdns:run" ]; then
 
 	docker run -d --restart=always \
 	--name microdns -p 53:53 -p 53:53/udp \
-	--memory 8m \
+	--memory 16m \
 	-v /home/microdns:/home \
 	fffaraz/microdns:latest \
 	$IPV4 $IPV6 $DNSTTL $DNSLOG -conf /home/dns.conf
@@ -574,7 +574,7 @@ if [ "$1" == "pma:run" ]; then
 	docker run $RUNARG \
 	--name=${1}_pma \
 	--net=isolated_nw \
-	--memory=128m \
+	--memory=512m \
 	$HTTPPORT \
 	-e MYSQL_SERVER="$1" \
 	-e MYSQL_ROOT_PASSWORD="$2" \
@@ -610,7 +610,7 @@ if [ "$1" == "pvb:run" ]; then
 	docker run $RUNARG \
 	--name=pvb \
 	--net=isolated_nw \
-	--memory=128m \
+	--memory=256m \
 	$HTTPPORT \
 	fffaraz/app/phpvirtualbox:latest
 
