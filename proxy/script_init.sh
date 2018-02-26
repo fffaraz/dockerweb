@@ -81,6 +81,11 @@ tcp_nopush on;
 tcp_nodelay on;
 server_tokens off;
 
+map $http_upgrade $connection_upgrade {
+	default upgrade;
+	''      keep-alive;
+}
+
 #limit_req zone=one burst=10;
 #limit_req_zone $binary_remote_addr zone=one:10m rate=5r/s;
 
@@ -152,8 +157,8 @@ resolver_timeout 5s;
 
 echo '
 proxy_http_version 1.1;
-#proxy_set_header Connection "";
-proxy_set_header Connection keep-alive;
+#proxy_set_header Connection keep-alive;
+proxy_set_header Connection $connection_upgrade;
 proxy_set_header Upgrade $http_upgrade;
 proxy_set_header Host $host; # $http_host
 proxy_set_header X-Real-IP $remote_addr;
