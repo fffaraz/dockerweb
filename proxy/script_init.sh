@@ -44,7 +44,7 @@ http {
 }
 ' > /opt/nginx/conf/nginx.conf
 
-echo '
+cat > /opt/nginx/conf/global_params <<'EOL'
 #aio threads;
 default_type application/octet-stream;
 
@@ -127,7 +127,7 @@ set_real_ip_from    2a06:98c0::/29;
 real_ip_header      X-Forwarded-For; # X-Real-IP
 #real_ip_recursive   on;
 
-' > /opt/nginx/conf/global_params
+EOL 
 
 # https://cipherli.st/
 # https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
