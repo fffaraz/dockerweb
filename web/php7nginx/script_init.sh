@@ -318,7 +318,7 @@ wget -qO /opt/bin/composer https://getcomposer.org/download/1.6.3/composer.phar
 chmod +x /opt/bin/composer
 mkdir -p /opt/.composer
 export COMPOSER_HOME=/opt/.composer
-#php /opt/bin/composer -V FIXME
+php /opt/bin/composer -V
 
 # Install laravel
 composer global require laravel/installer
