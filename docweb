@@ -1367,5 +1367,10 @@ if [ "$1" == "dockly" ]; then
 	exit 0
 fi
 
+if [ "$1" == "artisan" ]; then
+	ps aux | grep artisan
+	exit 0
+fi
+
 echo "Unknown command '$1'"
 exit 1
