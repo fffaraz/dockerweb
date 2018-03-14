@@ -1344,7 +1344,7 @@ if [ "$1" == "install:aliases" ]; then
 	exit 0
 fi
 
-if [ "$1" == "upgrade" ]; then
+if [ "$1" == "upgrade" ] || [ "$1" == "pull" ]; then
 	cd /opt/dockerweb
 	git pull
 	cd ~-
