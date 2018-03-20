@@ -618,7 +618,7 @@ if [ "$1" == "pvb:run" ]; then
 	exit 0
 fi
 
-if [ "$1" == "pvb:run" ]; then
+if [ "$1" == "pvb:srv" ]; then
 	shift
 	killall vboxwebsrv
 	vboxwebsrv --host 172.17.0.1 --authentication null --background
