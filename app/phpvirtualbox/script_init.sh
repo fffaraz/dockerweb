@@ -4,12 +4,6 @@ set -euxo pipefail
 # https://github.com/phpvirtualbox/phpvirtualbox
 # https://github.com/clue/docker-phpvirtualbox
 
-# killall vboxwebsrv
-# vboxwebsrv --host 172.17.0.1 --authentication null --background
-# --port 18083
-# --pidfile
-# --logfile
-
 cd /opt
 wget -q -O phpvirtualbox.zip https://github.com/phpvirtualbox/phpvirtualbox/archive/develop.zip
 unzip -q phpvirtualbox.zip
