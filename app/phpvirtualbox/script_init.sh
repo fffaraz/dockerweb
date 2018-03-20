@@ -1,8 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-# https://github.com/imoore76/phpvirtualbox
-# https://github.com/ezraholm50/phpvirtualbox
+# https://github.com/phpvirtualbox/phpvirtualbox
 # https://github.com/clue/docker-phpvirtualbox
 
 # killall vboxwebsrv
@@ -11,14 +10,11 @@ set -euxo pipefail
 # --pidfile
 # --logfile
 
-PVB_VERSION=5.0-5
 cd /opt
-wget --no-verbose -O phpvirtualbox.zip https://sourceforge.net/projects/phpvirtualbox/files/phpvirtualbox-$PVB_VERSION.zip/download
+wget -q -O phpvirtualbox.zip https://github.com/phpvirtualbox/phpvirtualbox/archive/develop.zip
 unzip -q phpvirtualbox.zip
 rm phpvirtualbox.zip
-mv phpvirtualbox-$PVB_VERSION phpvirtualbox
-
-wget --no-verbose -O /opt/phpvirtualbox/endpoints/lib/vboxconnector.php https://raw.githubusercontent.com/mikedld/phpvirtualbox/10b6a7383c810dfa6261869cb1f9cc8bca2ad814/endpoints/lib/vboxconnector.php
+mv phpvirtualbox-develop phpvirtualbox
 
 cat > /opt/phpvirtualbox/config.php <<'EOL'
 <?php
@@ -30,9 +26,9 @@ var $language = 'en';
 var $vrdeports = '9000-9100';
 var $maxProgressList = 5;
 var $deleteOnRemove = true;
-var $browserRestrictFiles = array('.iso','.vdi','.vmdk','.img','.bin','.vhd','.hdd','.ovf','.ova','.xml','.vbox','.cdr','.dmg','.ima','.dsk','.vfd');
+var $browserRestrictFiles = ['.iso','.vdi','.vmdk','.img','.bin','.vhd','.hdd','.ovf','.ova','.xml','.vbox','.cdr','.dmg','.ima','.dsk','.vfd'];
 var $hostMemInfoRefreshInterval = 5;
-var $consoleResolutions = array('640x480','800x600','1024x768','1280x720','1440x900');
+var $consoleResolutions = ['640x480','800x600','1024x768','1280x720','1440x900'];
 var $consoleKeyboardLayout = 'EN';
 var $nicMax = 4;
 var $noAuth = true;

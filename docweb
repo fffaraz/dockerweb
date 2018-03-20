@@ -1257,7 +1257,7 @@ if [ "$1" == "install:extras" ]; then
 	apt-get -yq install curl dstat htop iftop iotop logtop lsof pv pwgen p7zip-full smem tree vnstat unzip ncdu wget whois < /dev/null
 
 	wget -O- https://bit.ly/glances | /bin/bash
-	
+
 	wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
 	chmod +x speedtest-cli
 
@@ -1297,7 +1297,7 @@ fi
 
 if [ "$1" == "install:vbox" ]; then
 	set -euxo pipefail
-	apt-get -yq install linux-headers-$(uname -r) build-essential dkms
+	apt-get -yq install linux-headers-$(uname -r) gcc make build-essential dkms
 	echo 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib' >> /etc/apt/sources.list
 	wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add -
 	apt-get -yq update < /dev/null
@@ -1314,7 +1314,8 @@ if [ "$1" == "install:vbox" ]; then
 	#systemctl start vboxweb-service
 	#systemctl status vboxdrv
 	#su vbox -c '/usr/bin/vboxwebsrv -H 172.17.0.1 --background'
-	#VBoxManage --version
+	VBoxManage --version
+	VBoxManage list extpacks
 	exit 0
 fi
 
