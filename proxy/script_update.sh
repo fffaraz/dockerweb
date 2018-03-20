@@ -8,8 +8,10 @@ RELOADNGNIX=1
 [ ! -f /home/webuser/websites.conf ] && echo "# CONTAINER CATCHALL WILDCARD SSLCERT HTTPSONLY DOMAIN1 [DOMAINS...]" > /home/webuser/websites.conf
 rm -f /opt/nginx/conf/conf.d/*.conf
 HASCATCHALL=0
+COUNTER=0
 
 while read -r -a line; do
+	COUNTER=$((COUNTER+1))
 	CONTAINER=${line[0]}
 	CATCHALL=${line[1]}
 	WILDCARD=${line[2]}
@@ -30,7 +32,7 @@ while read -r -a line; do
 		fi
 	done
 	SERVERNAME=$SERVERNAME";"
-	
+
 	LISTENPARAM="include listen_params;"
 	HTTPREDIRECT=""
 	if [ $HTTPSONLY -eq 1 ]; then
@@ -68,9 +70,9 @@ server
 	$LISTENPARAM
 	$SERVERNAME
 	location / {
-		#set \$target http://$CONTAINER.isolated_nw:80;
-		#proxy_pass http://\$target;
-		proxy_pass http://$CONTAINER.isolated_nw:80;
+		#proxy_pass http://$CONTAINER.isolated_nw:80;
+		set \$target_$COUNTER $CONTAINER.isolated_nw;
+		proxy_pass http://\$target_$COUNTER:80;
 		include proxy_params;
 	}
 	location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
