@@ -3,6 +3,7 @@ set -euxo pipefail
 
 # https://github.com/phpvirtualbox/phpvirtualbox
 # https://github.com/clue/docker-phpvirtualbox
+# http://remotebox.knobgoblin.org.uk
 
 cd /opt
 wget -q -O phpvirtualbox.zip https://github.com/phpvirtualbox/phpvirtualbox/archive/develop.zip
