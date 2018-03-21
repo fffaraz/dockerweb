@@ -414,7 +414,7 @@ fi
 
 if [ "$1" == "proxy:update" ]; then
 	shift
-	docker exec -it proxy /script_update.sh $@
+	docker exec -i proxy /script_update.sh $@
 	exit 0
 fi
 
