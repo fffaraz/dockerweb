@@ -1344,10 +1344,15 @@ if [ "$1" == "install:network" ]; then
 	exit 0
 fi
 
+if [ "$1" == "dps" ]; then
+	docker ps -a -s --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Size}}"
+	exit 0
+fi
+
 if [ "$1" == "install:aliases" ]; then
 	# https://gist.github.com/jverdeyen/741d29a8e8d7a8e5d4dd4346fd1bd788
 	# https://gist.github.com/f3l1x/4c3bb59397d976ac83f0
-	echo 'alias dps="docker ps -a -s --format \"table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Size}}\""' >> ~/.bash_aliases
+	echo 'alias dps="docweb dps"' >> ~/.bash_aliases
 	echo 'alias dpsa="docker ps -a -s | less -S"' >> ~/.bash_aliases
 	echo 'alias gitcam="git commit -a -m"' >> ~/.bash_aliases
 	echo 'alias gits="git status"' >> ~/.bash_aliases
