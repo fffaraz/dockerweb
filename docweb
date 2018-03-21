@@ -1371,6 +1371,7 @@ if [ "$1" == "upgrade:os" ]; then
 	apt-get -yq autoremove < /dev/null
 	apt-get -yq autoclean < /dev/null
 	apt-get -yq clean < /dev/null
+	#do-release-upgrade
 	exit 0
 fi
 
