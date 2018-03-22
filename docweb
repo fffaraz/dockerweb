@@ -149,8 +149,8 @@ fi
 if [ "$1" == "ps" ]; then
 	shift
 	if [ $# -lt 1 ]; then
-		echo "Usage: docweb ps NAME"
-		exit 1
+		docker ps -a -s --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Size}}"
+		exit 0
 	fi
 	docker exec "$1" ps -o user,comm,pid,ppid,pgid,time,vsz,rss,args
 	exit 0
@@ -414,7 +414,7 @@ fi
 
 if [ "$1" == "proxy:update" ]; then
 	shift
-	docker exec -it proxy /script_update.sh $@
+	docker exec -i proxy /script_update.sh $@
 	exit 0
 fi
 
@@ -1347,7 +1347,7 @@ fi
 if [ "$1" == "install:aliases" ]; then
 	# https://gist.github.com/jverdeyen/741d29a8e8d7a8e5d4dd4346fd1bd788
 	# https://gist.github.com/f3l1x/4c3bb59397d976ac83f0
-	echo 'alias dps="docker ps -a -s --format \"table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Size}}\""' >> ~/.bash_aliases
+	echo 'alias dps="docweb ps"' >> ~/.bash_aliases
 	echo 'alias dpsa="docker ps -a -s | less -S"' >> ~/.bash_aliases
 	echo 'alias gitcam="git commit -a -m"' >> ~/.bash_aliases
 	echo 'alias gits="git status"' >> ~/.bash_aliases
@@ -1371,6 +1371,7 @@ if [ "$1" == "upgrade:os" ]; then
 	apt-get -yq autoremove < /dev/null
 	apt-get -yq autoclean < /dev/null
 	apt-get -yq clean < /dev/null
+	#do-release-upgrade
 	exit 0
 fi
 
