@@ -21,16 +21,6 @@ webuser -> user
 Optional DOMAIN 1
 https://github.com/yandex/gixy
 
-ssh-keygen -t rsa -b 4096 -C fffaraz@gmail.com
-cat ~/.ssh/id_rsa.pub
-https://github.com/settings/keys
-ssh -T git@github.com
-git config --global user.name "Faraz Fallahi"
-git config --global user.email fffaraz@gmail.com
-git config --global push.default simple
-git config --global core.editor nano
-
-
 glances --disable-sensors -w -p 81
 docker run -it --rm --volume=/var/run/docker.sock:/var/run/docker.sock --publish=0.0.0.0:8000:80 gliderlabs/logspout
 
@@ -44,7 +34,7 @@ zgrep sshd /var/log/auth.log* | grep rhost | sed -re 's/.*rhost=([^ ]+).*/\1/' |
 .bash_profile
 echo 'ALERT - Root Shell Access on:' `date` `who` | mail -s "Alert: Root Access from `who | awk '{print $6}'`" mail@something.com
 
-/var/log/auth.log 
+/var/log/auth.log
 
 https://git.cloudron.io/cloudron/box/blob/master/baseimage/initializeBaseUbuntuImage.sh
 
@@ -187,12 +177,12 @@ caddy
 cherokee
 tengine
 	https://github.com/alibaba/tengine
-	
+
 
 https://github.com/vmware/harbor
 
-Analog		
-Awstats		
+Analog
+Awstats
 Webalizer
 DKIM
 SPF
@@ -203,7 +193,7 @@ Include databases in disk usage calculations (Use INFORMATION_SCHEMA to acquire 
 Out of memory warnings
 Critical load threshold
 Bandwidth usage warning
-PHP max execution time 
+PHP max execution time
 PHP max POST size
 PHP max upload size
 ioncube
