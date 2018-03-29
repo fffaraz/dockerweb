@@ -232,8 +232,8 @@ if [ "$1" == "run" ]; then
 	fffaraz/web/$1:latest
 	# --ulimit <type>=<soft limit>[:<hard limit>]
 	# --ulimit nproc=64:64
-	# --memory-swap=256m
-	# --kernel-memory=4M
+	# --memory-swap=512m
+	# --kernel-memory=8M
 	# --cap-drop=all --cap-add=NET_BIND_SERVICE
 
 	exit 0
@@ -399,7 +399,7 @@ if [ "$1" == "proxy:run" ]; then
 	--name=proxy \
 	--hostname=$(hostname --fqdn) \
 	--net=isolated_nw \
-	--memory=256m \
+	--memory=512m \
 	-p 80:80 -p 443:443 \
 	-v /home/proxy:/home/webuser \
 	-v /home/proxy/ssl/etc:/etc/letsencrypt \
