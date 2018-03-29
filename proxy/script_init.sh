@@ -225,6 +225,29 @@ ssl_trusted_certificate /opt/nginx/conf/cert/cert.crt;
 include ssl_params;
 ' > /opt/nginx/conf/default_server
 
+# Logrotate
+logrotate --version
+
+cat > /etc/logrotate.d/nginx <<'EOL'
+/home/webuser/log/nginx/*.log {
+    daily
+    dateext
+    missingok
+    rotate 7305 # 2 decades
+    olddir /home/webuser/log/nginx/old
+    compress
+    delaycompress
+    notifempty
+    create 644 webuser webuser
+    sharedscripts
+    postrotate
+      if [ -f /opt/nginx/logs/nginx.pid ]; then
+        kill -USR1 `/opt/nginx/logs/nginx.pid`
+      fi
+    endscript
+}
+EOL
+
 # Clean up
 rm /script_init.sh
 exit 0

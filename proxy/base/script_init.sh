@@ -3,8 +3,6 @@ set -euxo pipefail
 
 NGINX_VERSION=1.11.7
 NGINX_URL="https://nginx.org/en/download.html"
-#RUNTIME_DEPS="libssl1.0.0 libxslt1.1 libpcre++ libgd3 libxpm4 libgeoip1"
-BUILD_DEPS="build-essential gcc g++ make"
 NPROC=$(($(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1)+1))
 
 # Requirements
@@ -14,10 +12,10 @@ adduser --home /home/webuser --shell /bin/bash --no-create-home --gecos "" --ing
 export DEBIAN_FRONTEND=noninteractive
 apt-get -yq update < /dev/null
 apt-get -yq upgrade < /dev/null
-apt-get -yq install bash curl wget unzip < /dev/null # logrotate
-apt-get -yq install libssl-dev libxslt1-dev libpcre3-dev libgd2-xpm-dev libgeoip-dev
-apt-get -yq install $BUILD_DEPS zlib1g-dev libpcre3 openssl libxml2-dev libgoogle-perftools-dev libperl-dev < /dev/null
-#apt-get -yq build-dep nginx < /dev/null
+apt-get -yq install bash curl logrotate nano wget unzip < /dev/null
+apt-get -yq install build-essential gcc g++ make < /dev/null
+apt-get -yq install libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libpcre3 libpcre3-dev libperl-dev libssl-dev libxml2-dev libxslt1-dev openssl zlib1g-dev < /dev/null
+
 echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-lib.conf
 ldconfig
 mkdir -p /opt

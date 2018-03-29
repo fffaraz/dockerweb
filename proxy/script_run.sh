@@ -40,6 +40,8 @@ Further configuration is required.</p>
 </html>
 " > /home/webuser/www/index.default.html
 
+#/usr/sbin/logrotate -v
+
 set -x
 /script_update.sh --no-reload
 chown -R webuser:webuser /home/webuser
