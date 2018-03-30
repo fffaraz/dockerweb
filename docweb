@@ -89,6 +89,8 @@ if [ "$1" == "stats" ]; then
 	echo
 	/usr/lib/update-notifier/apt-check --human-readable
 	echo
+	apt list --upgradable
+	echo
 	uptime
 	echo
 	w -i
