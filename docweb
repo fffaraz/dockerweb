@@ -87,6 +87,8 @@ if [ "$1" == "stats" ]; then
 	echo
 	lsb_release -a
 	echo
+	/usr/lib/update-notifier/apt-check --human-readable
+	echo
 	uptime
 	echo
 	w -i
