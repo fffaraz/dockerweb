@@ -128,7 +128,6 @@ openssl req -x509 -nodes -sha256 -days 730 -newkey rsa:4096 \
 openssl dhparam -out /opt/nginx/conf/cert/dhparam.pem 2048 # -5 4096
 
 # Clean up
-apt-get purge -yq --auto-remove $BUILD_DEPS
 apt-get -yq autoremove < /dev/null
 apt-get -yq autoclean < /dev/null
 sync
