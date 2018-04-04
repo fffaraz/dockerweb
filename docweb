@@ -57,7 +57,7 @@ if [ "$1" == "build" ]; then
 		exit 1
 	fi
 	cd /opt/dockerweb/$1
-	docker build -t fffaraz/$1:latest --rm=true -f Dockerfile .
+	docker build --no-cache -t fffaraz/$1:latest --rm=true -f Dockerfile .
 	cd ~-
 	exit 0
 fi
