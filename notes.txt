@@ -21,6 +21,13 @@ webuser -> user
 Optional DOMAIN 1
 https://github.com/yandex/gixy
 
+docker run --init
+
+Backup/Restore a dockerized PostgreSQL database
+docker exec -t your-db-container pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+docker exec -t your-db-container pg_dumpall -c -U postgres | gzip > /var/data/postgres/backups/dump_date +%d-%m-%Y"_"%H_%M_%S.gz
+cat your_dump.sql | docker exec -i your-db-container psql -U postgres
+
 glances --disable-sensors -w -p 81
 docker run -it --rm --volume=/var/run/docker.sock:/var/run/docker.sock --publish=0.0.0.0:8000:80 gliderlabs/logspout
 
