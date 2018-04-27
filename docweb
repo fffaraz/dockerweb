@@ -85,6 +85,10 @@ if [ "$1" == "stats" ]; then
 	echo
 	uname -a
 	echo
+	hostname --all-fqdns
+	hostname --fqdn
+	hostname --all-ip-addresses
+	echo
 	lsb_release -a
 	echo
 	/usr/lib/update-notifier/apt-check --human-readable
