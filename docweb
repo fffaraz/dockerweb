@@ -1135,6 +1135,16 @@ if [ "$1" == "mysql:listproc" ]; then
 	exit 0
 fi
 
+if [ "$1" == "mysql:upgrade" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb mysql:upgrade NAME"
+		exit 1
+	fi
+	docker exec -it $1 sh -c 'exec mysql_upgrade -uroot -p"$MYSQL_ROOT_PASSWORD"'
+	exit 0
+fi
+
 if [ "$1" == "mssql:run" ]; then
 	shift
 

@@ -88,6 +88,7 @@ docweb mysql:createdb NAME DB
 docweb mysql:listusers NAME
 docweb mysql:listproc NAME
 docweb mysql:listdbs NAME
+docweb mysql:upgrade NAME
 docweb mysql:tuner NAME MYSQL_ROOT_PASSWORD
 ```
 
