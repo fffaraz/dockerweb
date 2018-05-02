@@ -16,10 +16,8 @@
 
 
 TODO:
-db1_pma -> pma_db1
-webuser -> user
-Optional DOMAIN 1
 https://github.com/yandex/gixy
+https://github.com/giovtorres/kvm-install-vm
 
 docker run --init
 
