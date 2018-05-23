@@ -7,7 +7,7 @@ apt-get -yq install git zip unzip # php5-mcrypt php5-json php5-mysql
 apt-get -yq install libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev
 
 # PHP Core Extensions
-docker-php-ext-install -j$(nproc) iconv mcrypt
+docker-php-ext-install -j$(nproc) iconv mcrypt zip
 docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 docker-php-ext-install -j$(nproc) gd
 
