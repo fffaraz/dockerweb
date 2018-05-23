@@ -17,6 +17,7 @@ docker-php-ext-install -j$(nproc) gd intl mbstring pcntl pdo_mysql pdo_pgsql pgs
 a2enmod rewrite
 
 mkdir -p /home/webuser/log/apache
+mkdir -p /home/webuser/www/public
 service apache2 restart
 
 # Composer
@@ -31,6 +32,8 @@ composer global require "laravel/installer"
 cat > /etc/apache2/sites-available/000-laravel.conf <<'EOL'
 <VirtualHost *:80>
         DocumentRoot /home/webuser/www/public
+        ServerName localhost
+        ServerAdmin webmaster@localhost
         <Directory />
                 Options FollowSymLinks
                 AllowOverride All
