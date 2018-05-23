@@ -30,9 +30,9 @@ composer global require "laravel/installer"
 
 # Site
 cat > /etc/apache2/sites-available/000-laravel.conf <<'EOL'
+ServerName localhost
 <VirtualHost *:80>
         DocumentRoot /home/webuser/www/public
-        ServerName localhost
         ServerAdmin webmaster@localhost
         <Directory />
                 Options FollowSymLinks
