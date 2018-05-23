@@ -72,6 +72,9 @@ EOL
 /usr/sbin/a2ensite 000-laravel
 service apache2 restart
 
+rm -rf /var/www/html
+ln -s /home/webuser/www/public /var/www/html
+
 # Clean up
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/webuser
 rm /script_init.sh

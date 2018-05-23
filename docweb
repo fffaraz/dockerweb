@@ -234,6 +234,7 @@ if [ "$1" == "run" ]; then
 	--hostname=$2 \
 	--net=isolated_nw \
 	--volume=/home/$2:/home/webuser \
+	-w=/home/webuser \
 	--memory=512m \
 	$HTTPPORT \
 	$SSHPORT \

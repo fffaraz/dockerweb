@@ -329,7 +329,7 @@ laravel --version
 #wget -qO /opt/bin/drush https://s3.amazonaws.com/files.drush.org/drush.phar
 #chmod +x /opt/bin/drush
 
-# Install phan 
+# Install phan
 # https://github.com/etsy/phan
 #composer global require --dev etsy/phan:dev-master
 #composer global install
