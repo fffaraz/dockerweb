@@ -48,7 +48,7 @@ source /etc/profile.d/path.sh
 
 # Site
 cat > /etc/apache2/sites-available/000-laravel.conf <<'EOL'
-ServerName localhost
+#ServerName localhost
 <VirtualHost *:80>
         DocumentRoot /home/webuser/www/public
         ServerAdmin webmaster@localhost
@@ -66,6 +66,16 @@ ServerName localhost
         ErrorLog /home/webuser/log/apache/error.log
         CustomLog /home/webuser/log/apache/access.log combined
 </VirtualHost>
+EOL
+
+cat >> /etc/apache2/conf-available/docker-php.conf <<'EOL'
+<Directory /home/webuser/www/>
+        #Options -Indexes
+        AllowOverride All
+        Options Indexes FollowSymLinks
+        #AllowOverride None
+        Require all granted
+</Directory>
 EOL
 
 /usr/sbin/a2dissite '*'
