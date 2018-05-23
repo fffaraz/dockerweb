@@ -3,7 +3,7 @@ set -euxo pipefail
 
 apt-get -yq update
 
-apt-get -yq install git zip unzip # php5-mcrypt php5-json php5-mysql
+apt-get -yq install git nano zip unzip # php5-mcrypt php5-json php5-mysql
 apt-get -yq install libfreetype6-dev libicu-dev libpq-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev
 
 # PHP Core Extensions
@@ -27,6 +27,24 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 mv composer.phar /usr/local/bin/composer
 composer global require "laravel/installer"
+
+cat > /etc/profile.d/aliases.sh <<'EOL'
+alias ll="ls -alh"
+EOL
+
+cat > /etc/profile.d/envvars.sh <<'EOL'
+export TERM=xterm
+export TEMP=/home/webuser/tmp/tmp
+export COMPOSER_HOME=/home/webuser/.composer
+export PS1='\u@\H:\w\$ '
+EOL
+
+cat > /etc/profile.d/path.sh <<'EOL'
+export PATH=$PATH:/home/webuser/.composer/vendor/bin
+export PATH=$PATH:/home/webuser/.npm-global/bin
+export PATH=$PATH:/home/webuser/spark-installer
+EOL
+source /etc/profile.d/path.sh
 
 # Site
 cat > /etc/apache2/sites-available/000-laravel.conf <<'EOL'
