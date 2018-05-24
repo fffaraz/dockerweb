@@ -140,7 +140,7 @@ Domains config file: `/home/NAME/domains.conf`
 
 Optional project init script: `/home/NAME/project.sh`
 
-List of availabe images: ` php7nginx php7apache python3 nodejs aspnet4 aspnet5 `
+List of availabe images: ` php7nginx php7apache php5apache python3 nodejs aspnet4 aspnet5 `
 
 ### phpMyAdmin
 
