@@ -30,7 +30,7 @@ chmod -R 700 /home/webuser/.ssh
 
 NEWUSER=$(hostname | tr -d "_.-")
 if [ ! -d /home/$NEWUSER ]; then
-	useradd --no-create-home --home-dir /home/$NEWUSER --shell /bin/bash --gid webuser --non-unique --uid $(id -u webuser) $NEWUSER
+	useradd --no-create-home --home-dir /home/$NEWUSER --shell /bin/bash --gid $(id -g webuser) --non-unique --uid $(id -u webuser) $NEWUSER
 	ln -s /home/webuser /home/$NEWUSER
 fi
 

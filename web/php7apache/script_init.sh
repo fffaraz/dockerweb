@@ -16,6 +16,8 @@ a2enmod rewrite
 rm -rf /var/www/html
 ln -s /home/webuser/www/public /var/www/html
 
+useradd --no-create-home --home-dir /home/webuser --shell /bin/bash --gid $(id -g www-data) --non-unique --uid $(id -u www-data) webuser
+
 # Clean up
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/webuser
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 rm /script_init.sh
