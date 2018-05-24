@@ -71,6 +71,8 @@ if [ "$1" == "build:all" ] || [ "$1" == "build:core" ]; then
 	$0 build web/php7nginx/base
 	$0 build web/php7nginx
 
+	$0 build web/php7apache
+
 	$0 build app/phpmyadmin
 	#$0 build app/mysqltuner
 	#$0 build app/clamav
