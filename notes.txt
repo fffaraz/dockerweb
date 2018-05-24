@@ -19,6 +19,7 @@ TODO:
 https://github.com/yandex/gixy
 https://github.com/giovtorres/kvm-install-vm
 https://github.com/spotify/docker-gc
+https://www.cyberciti.biz/tips/top-linux-monitoring-tools.html
 
 docker run --init
 
@@ -61,6 +62,7 @@ Bash Programmable Completion:
 	http://www.tldp.org/LDP/abs/html/tabexpansion.html
 	http://askubuntu.com/questions/68175/how-to-create-script-with-auto-complete
 	/etc/bash_completion.d/*
+	http://mywiki.wooledge.org/BashFAQ
 
 EMAIL:  https://github.com/hardware/mailserver
 	https://github.com/vedetta-com/caesonia
