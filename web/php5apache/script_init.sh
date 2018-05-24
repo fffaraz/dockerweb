@@ -2,23 +2,14 @@
 set -euxo pipefail
 
 apt-get -yq update
-
-apt-get -yq install git nano zip unzip # php5-mcrypt php5-json php5-mysql
-apt-get -yq install libfreetype6-dev libicu-dev libpq-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev
+apt-get -yq install git nano zip unzip libfreetype6-dev libicu-dev libpq-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev
 
 # PHP Core Extensions
-docker-php-ext-install -j$(nproc) iconv mcrypt zip
 docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
-docker-php-ext-install -j$(nproc) gd intl mbstring pcntl pdo_mysql pdo_pgsql pgsql
+docker-php-ext-install -j$(nproc) iconv mcrypt zip gd intl mbstring pcntl pdo_mysql pdo_pgsql pgsql
 
-#php5enmod mcrypt
-#php5enmod json
 a2enmod rewrite
-
-mkdir -p /home/webuser/log/apache
-mkdir -p /home/webuser/www/public
-service apache2 restart
 
 # Composer
 cd /tmp
@@ -50,8 +41,8 @@ source /etc/profile.d/path.sh
 cat > /etc/apache2/sites-available/000-laravel.conf <<'EOL'
 #ServerName localhost
 <VirtualHost *:80>
-        DocumentRoot /home/webuser/www/public
         ServerAdmin webmaster@localhost
+        DocumentRoot /home/webuser/www/public
         <Directory />
                 Options FollowSymLinks
                 AllowOverride All
@@ -60,7 +51,7 @@ cat > /etc/apache2/sites-available/000-laravel.conf <<'EOL'
                 Options Indexes FollowSymLinks MultiViews
                 AllowOverride All
                 Order allow,deny
-                allow from all
+                Allow from all
         </Directory>
         LogLevel warn
         ErrorLog /home/webuser/log/apache/error.log
@@ -80,11 +71,10 @@ EOL
 
 /usr/sbin/a2dissite '*'
 /usr/sbin/a2ensite 000-laravel
-service apache2 restart
 
 rm -rf /var/www/html
 ln -s /home/webuser/www/public /var/www/html
 
 # Clean up
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/webuser
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 rm /script_init.sh
