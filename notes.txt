@@ -49,6 +49,9 @@ https://github.com/php-pm/php-pm
 
 https://github.com/banianhost/images
 
+nginx server block
+autoindex on;
+
 Docker Utilities:
 https://github.com/v2tec/watchtower
 https://github.com/spotify/docker-gc
