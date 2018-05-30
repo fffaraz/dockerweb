@@ -696,17 +696,78 @@ if [ "$1" == "postgres:run" ]; then
 		docker rm $1
 	fi
 
+	mkdir -p /home/$1/log
 	mkdir -p /home/$1/data
+	mkdir -p /home/$1/backup
+	mkdir -p /home/$1/entrypoint
 
 	docker run $RUNARGS \
 	--name="$1" \
 	--hostname="$1" \
 	--net=isolated_nw \
 	--memory=512m \
+	-v /home/$1/backup:/backup \
+	-v /home/$1/log:/var/log/postgresql \
 	-v /home/$1/data:/var/lib/postgresql/data \
+	-v /home/$1/entrypoint:/docker-entrypoint-initdb.d \
 	-e POSTGRES_PASSWORD="$2" \
-	postgres:alpine
+	postgres:10 #latest
 
+	exit 0
+fi
+
+if [ "$1" == "postgres:listdbs" ] || [ "$1" == "postgres:listdb" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb postgres:listdbs NAME"
+		exit 1
+	fi
+	docker exec -it $1 psql -U postgres -l
+	exit 0
+fi
+
+if [ "$1" == "postgres:backup" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb postgres:backup NAME"
+		exit 1
+	fi
+
+	PSQLSERVER=$1
+	shift
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $PSQLSERVER 2> /dev/null)
+	if [ $? -ne 0 ]; then
+		echo "PostgreSQL instance $PSQLSERVER is not running."
+		exit 1
+	fi
+
+	mkdir -p /home/$PSQLSERVER/backup
+	docker exec -u postgres $PSQLSERVER pg_dumpall -c > /home/$PSQLSERVER/backup/dump_$(date +%Y-%m-%d_%H-%M-%S).sql
+	exit 0
+fi
+
+if [ "$1" == "postgres:restore" ]; then
+	shift
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb postgres:restore NAME FILENAME [DATABASE]"
+		exit 1
+	fi
+
+	PSQLSERVER=$1
+	shift
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $PSQLSERVER 2> /dev/null)
+	if [ $? -ne 0 ]; then
+		echo "PostgreSQL instance $PSQLSERVER is not running."
+		exit 1
+	fi
+
+	if [ $# -lt 2 ]; then
+		cat /home/$PSQLSERVER/backup/$1 | docker exec -i $PSQLSERVER psql -U postgres
+	else
+		cat /home/$PSQLSERVER/backup/$1 | docker exec -i $PSQLSERVER psql -U postgres -d $2
+	fi
 	exit 0
 fi
 
@@ -1059,12 +1120,17 @@ fi
 
 if [ "$1" == "mysql:import" ]; then
 	shift
-	if [ $# -lt 1 ]; then
+	if [ $# -lt 2 ]; then
 		echo "Usage: docweb mysql:import NAME [--gzip] FILENAME [DATABASE]"
 		exit 1
 	fi
 	MYSQLSERVER=$1
 	shift
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $MYSQLSERVER 2> /dev/null)
+	if [ $? -ne 0 ]; then
+		echo "MySQL instance $MYSQLSERVER is not running."
+		exit 1
+	fi
 	if [ "$1" == "--gzip" ]; then
 		shift
 		if [ $# -lt 1 ]; then
@@ -1095,6 +1161,7 @@ if [ "$1" == "mysql:backupusers" ]; then
 		echo "MySQL instance $MYSQLSERVER is not running."
 		exit 1
 	fi
+	# TODO:
 	# mysql.user
 	# mysql.db
 	# mysqldump -u root -p mysql user > user_table_dump.sql
