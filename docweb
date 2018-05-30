@@ -722,7 +722,7 @@ if [ "$1" == "postgres:listdbs" ] || [ "$1" == "postgres:listdb" ]; then
 		echo "Usage: docweb postgres:listdbs NAME"
 		exit 1
 	fi
-	docker exec -it $1 psql -U postgres -l
+	docker exec -it $1 sh -c 'export COLUMNS=100; psql -U postgres -l'
 	exit 0
 fi
 
