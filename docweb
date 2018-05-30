@@ -729,7 +729,7 @@ fi
 if [ "$1" == "postgres:backup" ]; then
 	shift
 	if [ $# -lt 1 ]; then
-		echo "Usage: docweb postgres:backup NAME"
+		echo "Usage: docweb postgres:backup NAME [DATABASE]"
 		exit 1
 	fi
 
@@ -743,7 +743,11 @@ if [ "$1" == "postgres:backup" ]; then
 	fi
 
 	mkdir -p /home/$PSQLSERVER/backup
-	docker exec -u postgres $PSQLSERVER pg_dumpall -c > /home/$PSQLSERVER/backup/dump_$(date +%Y-%m-%d_%H-%M-%S).sql
+	if [ $# -lt 1 ]; then
+		docker exec -u postgres $PSQLSERVER pg_dumpall -U postgres -c    > /home/$PSQLSERVER/backup/dump_$(date +%Y-%m-%d_%H-%M-%S).sql
+	else
+		docker exec -u postgres $PSQLSERVER pg_dump    -U postgres -c $1 > /home/$PSQLSERVER/backup/dump_$1_$(date +%Y-%m-%d_%H-%M-%S).sql
+	fi
 	exit 0
 fi
 
