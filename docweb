@@ -751,6 +751,30 @@ if [ "$1" == "postgres:backup" ]; then
 	exit 0
 fi
 
+if [ "$1" == "postgres:clean" ]; then
+	shift
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb postgres:restore NAME [DATABASE]"
+		exit 1
+	fi
+
+	PSQLSERVER=$1
+	shift
+
+	ISRUNNING=$(docker inspect --format={{.State.Running}} $PSQLSERVER 2> /dev/null)
+	if [ $? -ne 0 ]; then
+		echo "PostgreSQL instance $PSQLSERVER is not running."
+		exit 1
+	fi
+
+	if [ $# -lt 1 ]; then
+		echo "DROP SCHEMA public CASCADE; CREATE SCHEMA public;" | docker exec -i $PSQLSERVER psql -U postgres
+	else
+		echo "DROP SCHEMA public CASCADE; CREATE SCHEMA public;" | docker exec -i $PSQLSERVER psql -U postgres -d $1
+	fi
+	exit 0
+fi
+
 if [ "$1" == "postgres:restore" ]; then
 	shift
 	if [ $# -lt 2 ]; then
