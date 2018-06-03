@@ -110,6 +110,8 @@ if [ "$1" == "stats" ]; then
 	df -i | grep --color=never -e Filesystem -e '^/dev/'
 	echo
 	iostat
+	echo
+	ss -s
 	#docker system df
 	#smem -tw
 	#smem -tu
