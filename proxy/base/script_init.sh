@@ -14,7 +14,8 @@ apt-get -yq update < /dev/null
 apt-get -yq upgrade < /dev/null
 apt-get -yq install bash curl logrotate nano wget unzip < /dev/null
 apt-get -yq install build-essential gcc g++ make < /dev/null
-apt-get -yq install libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libpcre3 libpcre3-dev libperl-dev libssl-dev libxml2-dev libxslt1-dev openssl zlib1g-dev < /dev/null
+apt-get -yq install libgeoip-dev libgoogle-perftools-dev libpcre3 libpcre3-dev libperl-dev libssl-dev libxml2-dev libxslt1-dev openssl zlib1g-dev < /dev/null
+# libgd-dev
 
 echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-lib.conf
 ldconfig
