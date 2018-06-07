@@ -17,9 +17,6 @@
 
 TODO:
 
-hostname --fqdn
-hostnamectl --static
-
 https://github.com/yandex/gixy
 https://github.com/giovtorres/kvm-install-vm
 https://github.com/spotify/docker-gc

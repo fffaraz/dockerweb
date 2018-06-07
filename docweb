@@ -450,6 +450,14 @@ if [ "$1" == "proxy:status" ]; then
 	exit 0
 fi
 
+if [ "$1" == "hostname" ]; then
+	shift
+	H1=$(hostname --fqdn)
+	H2=$(hostnamectl --static)
+	[ ${#H1} -ge ${#H2} ] && echo $H1 || echo $H2
+	exit 0
+fi
+
 if [ "$1" == "ip" ]; then
 	shift
 	IPV4=$(dig +short myip.opendns.com @resolver1.opendns.com) || IPV4=""
