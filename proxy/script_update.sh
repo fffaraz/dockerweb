@@ -63,7 +63,32 @@ while read -r -a line; do
 		SSLCRT="/etc/letsencrypt/live/$DOMAIN1/fullchain.pem"
 		SSLKEY="/etc/letsencrypt/live/$DOMAIN1/privkey.pem"
 	fi
-	echo "
+	if [[ $CONTAINER = *:* ]]; then
+		# http://tldp.org/LDP/abs/html/string-manipulation.html
+		# To replace the first match of $substring with $replacement: ${string/substring/replacement}
+		# To replace all matches of $substring with $replacement: ${string//substring/replacement}
+		CONTAINERARR=(${CONTAINER/:/ })
+		echo "
+$HTTPREDIRECT
+server
+{
+	$LISTENPARAM
+	$SERVERNAME
+	location / {
+		#proxy_pass http://$CONTAINER;
+		set \$target_$COUNTER $CONTAINERARR[0];
+		proxy_pass http://\$target_$COUNTER:$CONTAINERARR[1];
+		include proxy_params;
+	}
+	location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
+	ssl_certificate         $SSLCRT;
+	ssl_certificate_key     $SSLKEY;
+	ssl_trusted_certificate $SSLCRT;
+	include ssl_params;
+}
+" > /opt/nginx/conf/conf.d/$CONTAINER.conf
+	else
+		echo "
 $HTTPREDIRECT
 server
 {
@@ -82,6 +107,7 @@ server
 	include ssl_params;
 }
 " > /opt/nginx/conf/conf.d/$CONTAINER.conf
+	fi
 
 done < <(sed -e '/^#/d' -e '/^$/d' /home/webuser/websites.conf)
 
