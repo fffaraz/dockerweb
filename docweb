@@ -87,8 +87,8 @@ if [ "$1" == "stats" ]; then
 	echo
 	uname -a
 	echo
+	docweb hostname
 	hostname --all-fqdns
-	hostname --fqdn
 	hostname --all-ip-addresses
 	echo
 	lsb_release -a
@@ -410,7 +410,7 @@ if [ "$1" == "proxy:run" ]; then
 
 	docker run $RUNARG \
 	--name=proxy \
-	--hostname=$(hostname --fqdn) \
+	--hostname=$(docweb hostname) \
 	--net=isolated_nw \
 	--memory=512m \
 	-p 80:80 -p 443:443 \
@@ -523,7 +523,7 @@ if [ "$1" == "bind:run" ]; then
 
 	docker run -d --restart=always \
 	--name bind --memory 64m \
-	--hostname=$(hostname --fqdn) \
+	--hostname=$(docweb hostname) \
 	-p 53:53 -p 53:53/udp \
 	-v /home/bind:/data \
 	fffaraz/bind
@@ -546,7 +546,7 @@ if [ "$1" == "bind:webmin" ]; then
 
 	docker run -d --restart=always \
 	--name bindwebmin --memory 128m \
-	--hostname=$(hostname --fqdn) \
+	--hostname=$(docweb hostname) \
 	-p 53:53 -p 53:53/udp -p 90:10000 \
 	-v /home/bindwebmin:/data \
 	-e ROOT_PASSWORD="$1" \
