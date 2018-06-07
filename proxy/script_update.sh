@@ -86,7 +86,7 @@ server
 	ssl_trusted_certificate $SSLCRT;
 	include ssl_params;
 }
-" > /opt/nginx/conf/conf.d/$CONTAINER.conf
+" > /opt/nginx/conf/conf.d/$COUNTER.conf
 	else
 		echo "
 $HTTPREDIRECT
@@ -106,7 +106,7 @@ server
 	ssl_trusted_certificate $SSLCRT;
 	include ssl_params;
 }
-" > /opt/nginx/conf/conf.d/$CONTAINER.conf
+" > /opt/nginx/conf/conf.d/$COUNTER.conf
 	fi
 
 done < <(sed -e '/^#/d' -e '/^$/d' /home/webuser/websites.conf)
