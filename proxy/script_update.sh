@@ -76,8 +76,8 @@ server
 	$SERVERNAME
 	location / {
 		#proxy_pass http://$CONTAINER;
-		set \$target_$COUNTER $CONTAINERARR[0];
-		proxy_pass http://\$target_$COUNTER:$CONTAINERARR[1];
+		set \$target_$COUNTER ${CONTAINERARR[0]};
+		proxy_pass http://\$target_$COUNTER:${CONTAINERARR[1]};
 		include proxy_params;
 	}
 	location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
