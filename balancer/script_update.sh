@@ -19,7 +19,7 @@ while read -r -a line; do
 	#TODO: SERVERNAME="server_name $DOMAIN;"
 	UPSTREAMS=""
 	for (( i=1; i<${#line[@]}; i++ )); do
-		UPSTREAMS=$UPSTREAMS"server ${line[$i]};\n"
+		UPSTREAMS=$UPSTREAMS"server ${line[$i]};\n\t"
 	done
 	echo -e "
 upstream upstream_$COUNTER {
@@ -37,6 +37,7 @@ server {
 		proxy_set_header X-Real-IP \$remote_addr;
 		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
 		proxy_set_header X-Forwarded-Host \$server_name;
+		proxy_set_header X-Forwarded-Proto \$scheme;
 	}
 }
 " > /etc/nginx/conf.d/$COUNTER.conf
