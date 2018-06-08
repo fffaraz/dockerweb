@@ -2,6 +2,7 @@
 set -euxo pipefail
 
 apt update
+apt -y upgrade
 apt -y install bash nano wget
 
 # Clean up
