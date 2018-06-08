@@ -21,7 +21,7 @@ while read -r -a line; do
 	for (( i=1; i<${#line[@]}; i++ )); do
 		UPSTREAMS=$UPSTREAMS"server ${line[$i]};\n"
 	done
-	echo "
+	echo -e "
 upstream upstream_$COUNTER {
 	#least_conn;
 	$UPSTREAMS
