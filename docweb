@@ -67,6 +67,7 @@ if [ "$1" == "build:all" ] || [ "$1" == "build:core" ]; then
 
 	$0 build proxy/base
 	$0 build proxy
+	$0 build balancer
 
 	$0 build web/php7nginx/base
 	$0 build web/php7nginx
@@ -428,6 +429,38 @@ fi
 if [ "$1" == "proxy:update" ]; then
 	shift
 	docker exec -i proxy /script_update.sh $@
+	exit 0
+fi
+
+if [ "$1" == "balancer:run" ]; then
+	shift
+	ISRUNNING=$(docker inspect --format={{.State.Running}} balancer 2> /dev/null)
+	if [ $? -eq 0 ]; then
+		echo "Stopping the running instance ..."
+		docker stop balancer
+		docker rm balancer
+	fi
+
+	RUNARG="-d --restart=always"
+	if [ "$1" = "--debug" ]; then
+		shift
+		RUNARG="-it --rm"
+	fi
+
+	mkdir -p /home/balancer
+	docker run $RUNARG \
+	--name=balancer \
+	--net=isolated_nw \
+	--memory=512m \
+	-v /home/balancer:/home/webuser \
+	fffaraz/balancer:latest
+
+	exit 0
+fi
+
+if [ "$1" == "balancer:update" ]; then
+	shift
+	docker exec -i balancer /script_update.sh $@
 	exit 0
 fi
 
