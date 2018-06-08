@@ -23,7 +23,7 @@ while read -r -a line; do
 	done
 	echo "
 upstream upstream_$COUNTER {
-	least_conn;
+	#least_conn;
 	$UPSTREAMS
 }
 server {
