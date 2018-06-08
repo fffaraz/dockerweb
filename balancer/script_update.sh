@@ -19,7 +19,7 @@ while read -r -a line; do
 	#TODO: SERVERNAME="server_name $DOMAIN;"
 	UPSTREAMS=""
 	for (( i=1; i<${#line[@]}; i++ )); do
-		UPSTREAMS=$UPSTREAMS"server ${line[$i]}; "
+		UPSTREAMS=$UPSTREAMS"server ${line[$i]};\n"
 	done
 	echo "
 upstream upstream_$COUNTER {
