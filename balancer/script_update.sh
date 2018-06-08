@@ -16,7 +16,7 @@ while read -r -a line; do
 	COUNTER=$((COUNTER+1))
 	DOMAIN=${line[0]}
 	SERVERNAME=""
-	#TODO: SERVERNAME="server_name $DOMAIN"
+	#TODO: SERVERNAME="server_name $DOMAIN;"
 	UPSTREAMS=""
 	for (( i=1; i<${#line[@]}; i++ )); do
 		UPSTREAMS=$UPSTREAMS"server ${line[$i]}; "
@@ -28,7 +28,7 @@ upstream upstream_$COUNTER {
 }
 server {
 	listen 80;
-	$SERVERNAME;
+	$SERVERNAME
 	location / {
 		proxy_pass http://upstream_$COUNTER;
 		#proxy_redirect off;
