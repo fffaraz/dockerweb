@@ -21,6 +21,7 @@ https://github.com/yandex/gixy
 https://github.com/giovtorres/kvm-install-vm
 https://github.com/spotify/docker-gc
 https://www.cyberciti.biz/tips/top-linux-monitoring-tools.html
+https://github.com/dylanaraps/pure-bash-bible
 
 docker run --init
 
