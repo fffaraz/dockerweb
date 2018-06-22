@@ -89,8 +89,8 @@ map $http_upgrade $connection_upgrade {
 #limit_req zone=one burst=10;
 #limit_req_zone $binary_remote_addr zone=one:10m rate=5r/s;
 
-#server_names_hash_max_size 512;
-#server_names_hash_bucket_size 64;
+server_names_hash_max_size 1024;
+server_names_hash_bucket_size 64;
 
 #geoip_country /opt/nginx/GeoIP.dat;
 #map $geoip_country_code $allowed_country {
