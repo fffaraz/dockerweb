@@ -59,9 +59,11 @@ while read -r -a line; do
 
 	SSLCRT="/opt/nginx/conf/cert/cert.crt"
 	SSLKEY="/opt/nginx/conf/cert/cert.key"
+	SSLOCSP="";
 	if [ -d "/etc/letsencrypt/live/$DOMAIN1" ]; then
 		SSLCRT="/etc/letsencrypt/live/$DOMAIN1/fullchain.pem"
 		SSLKEY="/etc/letsencrypt/live/$DOMAIN1/privkey.pem"
+		SSLOCSP="ssl_stapling_file /etc/letsencrypt/live/$DOMAIN1/chain.pem;"
 	fi
 	if [[ $CONTAINER = *:* ]]; then
 		# http://tldp.org/LDP/abs/html/string-manipulation.html
@@ -84,6 +86,7 @@ server
 	ssl_certificate         $SSLCRT;
 	ssl_certificate_key     $SSLKEY;
 	ssl_trusted_certificate $SSLCRT;
+	$SSLOCSP
 	include ssl_params;
 }
 " > /opt/nginx/conf/conf.d/$COUNTER.conf
