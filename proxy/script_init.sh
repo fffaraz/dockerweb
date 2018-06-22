@@ -142,8 +142,6 @@ ssl_ecdh_curve secp384r1;
 ssl_session_cache shared:SSL:10m;
 ssl_session_timeout 10m;
 ssl_session_tickets off;
-ssl_stapling on;
-ssl_stapling_verify on;
 ssl_dhparam /opt/nginx/conf/cert/dhparam.pem;
 #resolver 8.8.8.8 8.8.4.4 valid=300s;
 resolver 127.0.0.11 valid=30s ipv6=off;
