@@ -86,7 +86,6 @@ server
 	ssl_certificate         $SSLCRT;
 	ssl_certificate_key     $SSLKEY;
 	ssl_trusted_certificate $SSLCRT;
-	$SSLOCSP
 	include ssl_params;
 }
 " > /opt/nginx/conf/conf.d/$COUNTER.conf
