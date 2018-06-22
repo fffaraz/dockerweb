@@ -59,11 +59,12 @@ while read -r -a line; do
 
 	SSLCRT="/opt/nginx/conf/cert/cert.crt"
 	SSLKEY="/opt/nginx/conf/cert/cert.key"
-	SSLOCSP="";
+	SSLCHAIN="/opt/nginx/conf/cert/cert.crt";
 	if [ -d "/etc/letsencrypt/live/$DOMAIN1" ]; then
 		SSLCRT="/etc/letsencrypt/live/$DOMAIN1/fullchain.pem"
 		SSLKEY="/etc/letsencrypt/live/$DOMAIN1/privkey.pem"
-		SSLOCSP="ssl_stapling_file /etc/letsencrypt/live/$DOMAIN1/chain.pem;"
+		SSLCHAIN="/etc/letsencrypt/live/$DOMAIN1/chain.pem"
+		# TODO: fix ssl_stapling_file
 	fi
 	if [[ $CONTAINER = *:* ]]; then
 		# http://tldp.org/LDP/abs/html/string-manipulation.html
@@ -85,7 +86,7 @@ server
 	location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
 	ssl_certificate         $SSLCRT;
 	ssl_certificate_key     $SSLKEY;
-	ssl_trusted_certificate $SSLCRT;
+	ssl_trusted_certificate $SSLCHAIN;
 	include ssl_params;
 }
 " > /opt/nginx/conf/conf.d/$COUNTER.conf
