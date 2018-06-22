@@ -135,7 +135,7 @@ EOL
 # https://hstspreload.org/
 
 echo '
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
 ssl_prefer_server_ciphers on;
 ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
 ssl_ecdh_curve secp384r1;
@@ -149,7 +149,7 @@ resolver_timeout 5s;
 #add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
 #add_header X-Content-Type-Options nosniff;
 #add_header X-Frame-Options DENY;
-#add_header X-XSS-Protection
+#add_header X-XSS-Protection "1; mode=block";
 #add_header Public-Key-Pins
 #add_header Content-Security-Policy
 ' > /opt/nginx/conf/ssl_params
