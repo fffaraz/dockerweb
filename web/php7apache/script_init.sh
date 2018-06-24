@@ -18,6 +18,9 @@ ln -s /home/webuser/www/public /var/www/html
 
 useradd --no-create-home --home-dir /home/webuser --shell /bin/bash --gid $(id -g www-data) --non-unique --uid $(id -u www-data) webuser
 
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+
 # Clean up
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 rm /script_init.sh
