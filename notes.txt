@@ -1,23 +1,24 @@
 ## TODO List
 
-- [ ] Reducing proxy/base image size by removing build dependencies.
-- [ ] Reducing php7nginx/base image size by removing build dependencies.
-- [ ] Add Memory usage limit as a parameter for `docweb run`
-- [ ] Add certbot email as a a parameter for `docweb proxy:run`
-- [ ] Add gzip compression level as a a parameter for `docweb proxy:run`
-- [ ] logrotate
-- [ ] phpMyAdmin auto latest version
-- [ ] /home/proxy/blocklists.conf
-- [ ] Requests rate limit
-- [ ] Bash Auto-Completion
-- [ ] Auto latest node.js version detection for php7nginx image
-- [ ] Redirect www to non-www for subdomains. non-www to www for root domains
-- [ ] fail2ban
+- Reducing proxy/base image size by removing build dependencies.
+- Reducing php7nginx/base image size by removing build dependencies.
+- Add Memory usage limit as a parameter for `docweb run`
+- Add certbot email as a parameter for `docweb proxy:run`
+- Add gzip compression level as a parameter for `docweb proxy:run`
+- logrotate
+- phpMyAdmin auto latest version
+- Requests rate limit
+- Bash Auto-Completion
+- Auto latest node.js version detection for php7nginx image
+- Redirect www to non-www for subdomains. non-www to www for root domains
+- fail2ban
+- run.sh template
 
-
-TODO:
-
+---
+TODO: Block ip
 https://www.abuseipdb.com/statistics
+/home/proxy/blocklists.conf
+---
 
 https://github.com/yandex/gixy
 https://github.com/giovtorres/kvm-install-vm
@@ -26,11 +27,6 @@ https://www.cyberciti.biz/tips/top-linux-monitoring-tools.html
 https://github.com/dylanaraps/pure-bash-bible
 
 docker run --init
-
-Backup/Restore a dockerized PostgreSQL database
-docker exec -t your-db-container pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
-docker exec -t your-db-container pg_dumpall -c -U postgres | gzip > /var/data/postgres/backups/dump_date +%d-%m-%Y"_"%H_%M_%S.gz
-cat your_dump.sql | docker exec -i your-db-container psql -U postgres
 
 glances --disable-sensors -w -p 81
 docker run -it --rm --volume=/var/run/docker.sock:/var/run/docker.sock --publish=0.0.0.0:8000:80 gliderlabs/logspout
@@ -41,11 +37,10 @@ netstat -n | grep :80 |wc -l
 iptables -A INPUT -s IPADRESS -j DROP
 
 zgrep sshd /var/log/auth.log* | grep rhost | sed -re 's/.*rhost=([^ ]+).*/\1/' | sort | uniq -c | sort -n
+/var/log/auth.log
 
 .bash_profile
 echo 'ALERT - Root Shell Access on:' `date` `who` | mail -s "Alert: Root Access from `who | awk '{print $6}'`" mail@something.com
-
-/var/log/auth.log
 
 https://git.cloudron.io/cloudron/box/blob/master/baseimage/initializeBaseUbuntuImage.sh
 
@@ -65,11 +60,13 @@ https://github.com/bcicen/ctop
 
 https://github.com/thecodingmachine/kickoff-docker-php
 
-Bash Programmable Completion:
-	http://www.tldp.org/LDP/abs/html/tabexpansion.html
-	http://askubuntu.com/questions/68175/how-to-create-script-with-auto-complete
-	/etc/bash_completion.d/*
-	http://mywiki.wooledge.org/BashFAQ
+---
+TODO: Bash Programmable Completion:
+http://www.tldp.org/LDP/abs/html/tabexpansion.html
+http://askubuntu.com/questions/68175/how-to-create-script-with-auto-complete
+/etc/bash_completion.d/*
+http://mywiki.wooledge.org/BashFAQ
+---
 
 EMAIL:  https://github.com/hardware/mailserver
 	https://github.com/vedetta-com/caesonia
