@@ -76,8 +76,14 @@ wget -q http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
 tar -xzf nginx-$NGINX_VERSION.tar.gz
 rm nginx-$NGINX_VERSION.tar.gz
 cd nginx-$NGINX_VERSION
+
+# -i = in-place (i.e. save back to the original file)
+# -e script
+# s = the substitute command
+# g = global (i.e. replace all and not just the first occurrence)
 sed -i -e 's/"Server: nginx"/"Server: Faraz"/g' src/http/ngx_http_header_filter_module.c
 sed -i -e 's/"\\x84\\xaa\\x63\\x55\\xe7"/"\\x84\\xc2\\x3b\\x07\\xef"/g' src/http/v2/ngx_http_v2_filter_module.c
+
 ./configure \
 --prefix=/opt/nginx \
 --error-log-path=/home/webuser/log/nginx/error.log \
