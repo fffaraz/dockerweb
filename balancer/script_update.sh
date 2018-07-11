@@ -10,6 +10,8 @@ RELOADNGNIX=1
 find /etc/nginx/conf.d -type f ! -name 'default.conf' -delete
 #rm -f /etc/nginx/conf.d/*.conf
 
+# https://stackoverflow.com/questions/34741571/nginx-tcp-forwarding-based-on-hostname
+
 COUNTER=0
 
 while read -r -a line; do
