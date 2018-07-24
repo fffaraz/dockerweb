@@ -23,7 +23,7 @@ docweb exec --root proxy
 /opt/certbot-auto certonly \
 --server https://acme-v02.api.letsencrypt.org/directory \
 --manual --preferred-challenges dns \
--d *.example.com -d *.example.net
+-d example.com -d *.example.com
 
 nslookup -type=TXT _acme-challenge.example.com
 
