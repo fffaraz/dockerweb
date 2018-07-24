@@ -15,6 +15,23 @@
 - run.sh template
 
 ---
+Wildcard SSL Certificates
+https://blogs.msdn.microsoft.com/mihansen/2018/03/15/creating-wildcard-ssl-certificates-with-lets-encrypt/
+
+docweb exec --root proxy
+
+/opt/certbot-auto certonly \
+--server https://acme-v02.api.letsencrypt.org/directory \
+--manual --preferred-challenges dns \
+-d *.example.com -d *.example.net
+
+nslookup -type=TXT _acme-challenge.example.com
+
+cp /etc/letsencrypt/live/example.com/fullchain.pem /opt/nginx/conf/cert/fullchain.pem
+cp /etc/letsencrypt/live/example.com/privkey.pem /opt/nginx/conf/cert/privkey.pem
+cp /etc/letsencrypt/live/example.com/chain.pem /opt/nginx/conf/cert/chain.pem
+
+---
 TODO: Block ip
 https://www.abuseipdb.com/statistics
 /home/proxy/blocklists.conf
