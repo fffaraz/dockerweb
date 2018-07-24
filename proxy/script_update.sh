@@ -57,10 +57,10 @@ while read -r -a line; do
 		--domains ${DOMAINS::-1} )
 	fi
 
-	SSLCRT="/opt/nginx/conf/cert/cert.crt"
-	SSLKEY="/opt/nginx/conf/cert/cert.key"
-	SSLCHAIN="/opt/nginx/conf/cert/cert.crt"
-	SSLOCSP="off"
+	SSLCRT="/opt/nginx/conf/cert/fullchain.pem"
+	SSLKEY="/opt/nginx/conf/cert/privkey.pem"
+	SSLCHAIN="/opt/nginx/conf/cert/chain.pem"
+	SSLOCSP="off" # TODO: off only if self signed (chain.pem == fullchain.pem)
 	if [ -d "/etc/letsencrypt/live/$DOMAIN1" ]; then
 		SSLCRT="/etc/letsencrypt/live/$DOMAIN1/fullchain.pem"
 		SSLKEY="/etc/letsencrypt/live/$DOMAIN1/privkey.pem"

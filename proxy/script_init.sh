@@ -217,9 +217,9 @@ index index.html index.default.html;
 location /basic_status { stub_status; }
 location /nginx_status { vhost_traffic_status_display; vhost_traffic_status_display_format html; }
 location ^~ /.well-known/acme-challenge { alias /var/lib/letsencrypt/.well-known/acme-challenge; }
-ssl_certificate         /opt/nginx/conf/cert/cert.crt;
-ssl_certificate_key     /opt/nginx/conf/cert/cert.key;
-ssl_trusted_certificate /opt/nginx/conf/cert/cert.crt;
+ssl_certificate         /opt/nginx/conf/cert/fullchain.pem;
+ssl_certificate_key     /opt/nginx/conf/cert/privkey.pem;
+ssl_trusted_certificate /opt/nginx/conf/cert/chain.pem;
 include ssl_params;
 ' > /opt/nginx/conf/default_server
 

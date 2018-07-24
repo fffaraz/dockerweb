@@ -408,6 +408,7 @@ if [ "$1" == "proxy:run" ]; then
 	mkdir -p /home/proxy/ssl/etc
 	mkdir -p /home/proxy/ssl/lib
 	mkdir -p /home/proxy/ssl/log
+	mkdir -p /home/proxy/ssl/default
 
 	docker run $RUNARG \
 	--name=proxy \
@@ -419,6 +420,7 @@ if [ "$1" == "proxy:run" ]; then
 	-v /home/proxy/ssl/etc:/etc/letsencrypt \
 	-v /home/proxy/ssl/lib:/var/lib/letsencrypt \
 	-v /home/proxy/ssl/log:/var/log/letsencrypt \
+	-v /home/proxy/ssl/default:/opt/nginx/conf/cert \
 	-e CERTEMAIL="fffaraz@gmail.com" \
 	fffaraz/proxy:latest \
 	$@
