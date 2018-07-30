@@ -1526,6 +1526,18 @@ if [ "$1" == "install:aliases" ]; then
 	exit 0
 fi
 
+if [ "$1" == "install:webmin" ]; then
+	echo "deb https://download.webmin.com/download/repository sarge contrib" > /etc/apt/sources.list.d/webmin.list
+	cd /root
+	wget -q http://www.webmin.com/jcameron-key.asc
+	apt-key add jcameron-key.asc
+	apt-get -yq update < /dev/null
+	apt-get -yq install apt-transport-https < /dev/null
+	apt-get -yq install webmin < /dev/null
+	cd ~-
+	exit 0
+fi
+
 if [ "$1" == "upgrade" ] || [ "$1" == "pull" ]; then
 	cd /opt/dockerweb
 	git pull
