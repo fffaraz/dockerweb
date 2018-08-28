@@ -703,7 +703,7 @@ if [ "$1" == "redis:run" ]; then
 	fi
 
 	if [ $# -lt 1 ]; then
-		echo "Usage: docweb redis:run [--debug] NAME"
+		echo "Usage: docweb redis:run [--debug] NAME PASSWORD"
 		exit 1
 	fi
 
@@ -724,7 +724,7 @@ if [ "$1" == "redis:run" ]; then
 	--net=isolated_nw \
 	--memory=512m \
 	-v /home/$1/data:/data \
-	redis:alpine redis-server --appendonly yes
+	redis:alpine redis-server --appendonly yes --requirepass "$2"
 
 	exit 0
 fi
