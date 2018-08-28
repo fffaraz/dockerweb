@@ -965,6 +965,7 @@ general_log=0
 general_log_file=/var/log/mysql/general.log
 innodb_fast_shutdown=0
 innodb_file_per_table=1
+innodb_lock_wait_timeout=120
 local_infile=0
 log_error=/var/log/mysql/error.log
 log_warnings=2
