@@ -702,8 +702,16 @@ if [ "$1" == "redis:run" ]; then
 		RUNARGS="-it --rm"
 	fi
 
-	if [ $# -lt 1 ]; then
-		echo "Usage: docweb redis:run [--debug] NAME PASSWORD"
+	REDISPORT=""
+	if [ "$1" = "--direct" ]; then
+		shift
+		REDISPORT="-p $1:6379"
+		echo "Exposing Redis Port $1"
+		shift
+	fi
+
+	if [ $# -lt 2 ]; then
+		echo "Usage: docweb redis:run [--debug] [--direct PORT] NAME PASSWORD"
 		exit 1
 	fi
 
@@ -723,7 +731,8 @@ if [ "$1" == "redis:run" ]; then
 	--hostname="$1" \
 	--net=isolated_nw \
 	--memory=512m \
-	-v /home/$1/data:/data \
+	--volume=/home/$1/data:/data \
+	$REDISPORT \
 	redis:alpine redis-server --appendonly yes --requirepass "$2"
 
 	exit 0
