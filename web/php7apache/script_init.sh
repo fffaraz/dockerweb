@@ -6,7 +6,8 @@ sed -ri -e 's!/var/www!/home/webuser/www!g' /etc/apache2/apache2.conf /etc/apach
 
 apt-get -yq update
 apt-get -yq install git nano zip unzip wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev zip unzip
-apt-get -yq install libicu-dev mysql-client libpq-dev libmcrypt-dev libssl-dev libsqlite3-dev postgresql-client
+apt-get -yq install libicu-dev mysql-client libpq-dev libmcrypt-dev libssl-dev libsqlite3-dev
+#apt-get -yq install postgresql-client
 
 docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
