@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
-sed -ri -e 's!/var/www/html!/home/webuser/www/public!g' /etc/apache2/sites-available/*.conf
-sed -ri -e 's!/var/www!/home/webuser/www!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+#sed -ri -e 's!/var/www/html!/home/webuser/www/public!g' /etc/apache2/sites-available/*.conf
+#sed -ri -e 's!/var/www!/home/webuser/www!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 apt-get -yq update
 apt-get -yq install git nano zip unzip wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev zip unzip
@@ -22,9 +22,67 @@ ln -s /home/webuser/www/public /var/www/html
 
 useradd --no-create-home --home-dir /home/webuser --shell /bin/bash --gid $(id -g www-data) --non-unique --uid $(id -u www-data) webuser
 
+# Composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
+# Laravel
 composer global require "laravel/installer"
+
+# Site
+cat > /etc/apache2/sites-available/000-laravel.conf <<'EOL'
+#ServerName localhost
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /home/webuser/www/public
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride All
+        </Directory>
+        <Directory /home/webuser/www/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                Allow from all
+        </Directory>
+        LogLevel warn
+        ErrorLog /home/webuser/log/apache/error.log
+        CustomLog /home/webuser/log/apache/access.log combined
+</VirtualHost>
+EOL
+
+cat >> /etc/apache2/conf-available/docker-php.conf <<'EOL'
+<Directory /home/webuser/www/>
+        #Options -Indexes
+        AllowOverride All
+        Options Indexes FollowSymLinks
+        #AllowOverride None
+        Require all granted
+</Directory>
+EOL
+
+/usr/sbin/a2dissite '*'
+/usr/sbin/a2ensite 000-laravel
+
+cat > /etc/profile.d/aliases.sh <<'EOL'
+alias ll="ls -alh"
+EOL
+
+cat > /etc/profile.d/envvars.sh <<'EOL'
+export TERM=xterm
+export TEMP=/home/webuser/tmp/temp
+export COMPOSER_HOME=/home/webuser/.composer
+export PS1='\u@\H:\w\$ '
+EOL
+
+cat > /etc/profile.d/path.sh <<'EOL'
+export PATH=$PATH:/home/webuser/.composer/vendor/bin
+export PATH=$PATH:/home/webuser/.npm-global/bin
+export PATH=$PATH:/home/webuser/spark-installer
+EOL
+source /etc/profile.d/path.sh
+
+rm -rf /var/www/html
+ln -s /home/webuser/www/public /var/www/html
 
 # Clean up
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

@@ -3,6 +3,7 @@ set -euxo pipefail
 
 mkdir -p /home/webuser/log/apache
 mkdir -p /home/webuser/www/public
+mkdir -p /home/webuser/tmp/temp
 chown -R www-data:www-data /home/webuser
 
 NEWUSER=$(hostname | tr -d "_.-")
