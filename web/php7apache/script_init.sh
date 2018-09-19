@@ -6,12 +6,13 @@ sed -ri -e 's!/var/www!/home/webuser/www!g' /etc/apache2/apache2.conf /etc/apach
 
 apt-get -yq update
 apt-get -yq install git nano zip unzip wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev zip unzip
-apt-get -yq install libicu-dev libpq-dev libmcrypt-dev
+apt-get -yq install libicu-dev mysql-client libpq-dev libmcrypt-dev libssl-dev libsqlite3-dev postgresql-client
 
 docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
 
-docker-php-ext-install -j$(nproc) gd intl iconv mbstring mcrypt pcntl pdo_mysql pdo_pgsql pgsql zip opcache
+#docker-php-ext-install -j$(nproc) mcrypt
+docker-php-ext-install -j$(nproc) tokenizer gd intl iconv mbstring pcntl pdo pdo_mysql pdo_pgsql pdo_sqlite pgsql zip opcache
 
 a2enmod rewrite
 
