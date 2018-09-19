@@ -5,11 +5,13 @@ sed -ri -e 's!/var/www/html!/home/webuser/www/public!g' /etc/apache2/sites-avail
 sed -ri -e 's!/var/www!/home/webuser/www!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 apt-get -yq update
-apt-get -yq install git nano zip unzip wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+apt-get -yq install git nano zip unzip wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev zip unzip
+apt-get -yq install libicu-dev libpq-dev libmcrypt-dev
 
-docker-php-ext-install -j$(nproc) iconv
 docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-docker-php-ext-install -j$(nproc) gd
+docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+
+docker-php-ext-install -j$(nproc) gd intl iconv mbstring mcrypt pcntl pdo_mysql pdo_pgsql pgsql zip opcache
 
 a2enmod rewrite
 
@@ -18,7 +20,7 @@ ln -s /home/webuser/www/public /var/www/html
 
 useradd --no-create-home --home-dir /home/webuser --shell /bin/bash --gid $(id -g www-data) --non-unique --uid $(id -u www-data) webuser
 
-curl -sS https://getcomposer.org/installer | php
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 mv composer.phar /usr/local/bin/composer
 
 # Clean up
