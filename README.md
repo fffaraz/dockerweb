@@ -4,7 +4,7 @@ A docker-powered bash script for shared web hosting management. The ultimate Doc
 
 ## Requirements
 
-- A fresh installation of `Ubuntu 16.04 LTS x64` with the FQDN set.
+- A fresh installation of latest Ubuntu LTS x64 with the FQDN set.
 	- DigitalOcean provides Cloud VPS Servers at affordable prices. You can sign up via [this referral link](https://m.do.co/c/fb7b38f12520) to get a free $10 bonus in credit.
 - At least 512MB of system memory. (1GB recommended)
 - A domain name pointed at the host's IP address. (Optional but highly recommended)
