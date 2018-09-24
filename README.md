@@ -1,6 +1,6 @@
 # DockerWeb
 
-A docker-powered single-file PaaS for shared cloud web/app hosting management. The ultimate Docker LAMP/LEMP Stack.
+A docker-powered bash script for shared web hosting management. The ultimate Docker LAMP/LEMP Stack.
 
 ## Requirements
 
