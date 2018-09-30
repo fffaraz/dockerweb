@@ -38,7 +38,11 @@ fi
 # /etc/shells
 
 PS1='$ '
+
+set +u
 source /etc/profile
+set -u
+
 env > /home/webuser/tmp/envvars
 set +x
 echo '<?php phpinfo();' > /home/webuser/www/public/_info_.php
