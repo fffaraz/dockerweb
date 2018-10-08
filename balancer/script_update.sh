@@ -24,9 +24,6 @@ while read -r -a line; do
 		UPSTREAMS=$UPSTREAMS"server ${line[$i]};\n\t"
 	done
 	echo -e "
-resolver 127.0.0.11 valid=30s ipv6=off;
-resolver_timeout 5s;
-
 upstream upstream_$COUNTER {
 	least_conn;
 	$UPSTREAMS
@@ -46,7 +43,7 @@ server {
 		proxy_set_header X-Forwarded-Proto \$scheme;
 	}
 }
-" > /etc/nginx/conf.d/$COUNTER.conf
+" > /etc/nginx/conf.d/line_$COUNTER.conf
 
 done < <(sed -e '/^#/d' -e '/^$/d' /home/webuser/upstreams.conf)
 
