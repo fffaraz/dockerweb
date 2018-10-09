@@ -701,10 +701,10 @@ if [ "$1" == "glances:run" ]; then
 	fi
 
 	killall glances
-	mkdir -p /etc/glances
+	#mkdir -p /etc/glances
+	#echo -n $1 > /etc/glances/glances.pwd
 	mkdir -p ~/.config/glances
-	echo $1 > /etc/glances/glances.pwd
-	echo $1 > ~/.config/glances/glances.pwd
+	echo -n $1 > ~/.config/glances/glances.pwd
 
 	nohup glances -w -B 172.17.0.1 --password &
 	exit 0
