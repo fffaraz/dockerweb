@@ -693,6 +693,21 @@ if [ "$1" == "pvb:srv" ]; then
 	exit 0
 fi
 
+if [ "$1" == "glances:run" ]; then
+	shift
+	if [ $# -lt 1 ]; then
+		echo "Usage: docweb glances:run HASH"
+		exit 1
+	fi
+
+	killall glances
+	mkdir -p /etc/glances
+	echo $1 > /etc/glances/glances.pwd
+
+	nohup glances -w -B 172.17.0.1 --password &
+	exit 0
+fi
+
 if [ "$1" == "redis:run" ]; then
 	shift
 
