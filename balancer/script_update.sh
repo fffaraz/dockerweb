@@ -32,6 +32,7 @@ upstream upstream_$COUNTER {
 server {
 	listen 80;
 	$SERVERNAME
+	#port_in_redirect off;
 	location / {
 		proxy_pass http://upstream_$COUNTER;
 		proxy_redirect off;

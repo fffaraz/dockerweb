@@ -78,6 +78,7 @@ server
 {
 	$LISTENPARAM
 	$SERVERNAME
+	#port_in_redirect off;
 	location / {
 		#proxy_pass http://$CONTAINER;
 		set \$target_$COUNTER ${CONTAINERARR[0]};
@@ -100,6 +101,7 @@ server
 {
 	$LISTENPARAM
 	$SERVERNAME
+	#port_in_redirect off;
 	location / {
 		#proxy_pass http://$CONTAINER.isolated_nw:80;
 		set \$target_$COUNTER $CONTAINER.isolated_nw;
