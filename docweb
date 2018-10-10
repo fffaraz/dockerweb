@@ -706,7 +706,11 @@ if [ "$1" == "glances:run" ]; then
 	mkdir -p ~/.config/glances
 	echo -n $1 > ~/.config/glances/glances.pwd
 
-	nohup glances -w -B 172.17.0.1 --password &
+	if [ $# -gt 1 ]; then
+		nohup glances -w -B 172.17.0.1 --disable-plugin $2 --password &
+	else
+		nohup glances -w -B 172.17.0.1 --password &
+	fi
 	exit 0
 fi
 
