@@ -13,6 +13,7 @@
 - Redirect www to non-www for subdomains. non-www to www for root domains
 - fail2ban
 - run.sh template
+- the easiest way to run things at startup is to add them to the file /etc/rc.local.
 
 ---
 Wildcard SSL Certificates
