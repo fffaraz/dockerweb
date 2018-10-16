@@ -33,6 +33,18 @@ cp /etc/letsencrypt/live/example.com/privkey.pem /opt/nginx/conf/cert/privkey.pe
 cp /etc/letsencrypt/live/example.com/chain.pem /opt/nginx/conf/cert/chain.pem
 
 ---
+https://docs.docker.com/config/containers/logging/json-file/
+
+/etc/docker/daemon.json
+
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  }
+}
+
+---
 TODO: Block ip
 https://www.abuseipdb.com/statistics
 /home/proxy/blocklists.conf
