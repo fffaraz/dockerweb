@@ -91,6 +91,7 @@ https://github.com/bcicen/ctop
 
 https://github.com/thecodingmachine/kickoff-docker-php
 
+TODO: https://github.com/OptimalBits/redbird
 ---
 TODO: Bash Programmable Completion:
 http://www.tldp.org/LDP/abs/html/tabexpansion.html
