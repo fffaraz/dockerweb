@@ -519,7 +519,7 @@ if [ "$1" == "microdns:run" ]; then
 	fi
 
 	#curl -s http://whatismyip.akamai.com/
-	IPV4=$(dig +short myip.opendns.com @resolver1.opendns.com) || IPV4=""
+	IPV4=$(dig +short myip.opendns.com @208.67.222.222 a) || IPV4=""
 	echo "Your IPv4 address is: $IPV4"
 	IPV6=$(dig +short myip.opendns.com @2620:0:ccc::2 aaaa) || IPV6=""
 	echo "Your IPv6 address is: $IPV6"
