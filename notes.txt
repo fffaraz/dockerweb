@@ -50,6 +50,10 @@ https://www.abuseipdb.com/statistics
 /home/proxy/blocklists.conf
 https://github.com/violentlydave/mkhtaccess_red
 ---
+/etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="cgroup_enable=memory swapaccount=1"
+update-grub
+---
 https://github.com/cytopia/devilbox
 https://github.com/yandex/gixy
 https://github.com/giovtorres/kvm-install-vm
