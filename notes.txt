@@ -99,6 +99,10 @@ https://github.com/thecodingmachine/kickoff-docker-php
 
 TODO: https://github.com/OptimalBits/redbird
 ---
+NGiИX config generator generator on steroids
+https://github.com/valentinxxx/nginxconfig.io
+https://nginxconfig.io
+---
 TODO: Bash Programmable Completion:
 http://www.tldp.org/LDP/abs/html/tabexpansion.html
 http://askubuntu.com/questions/68175/how-to-create-script-with-auto-complete
