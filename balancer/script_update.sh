@@ -17,8 +17,7 @@ COUNTER=0
 while read -r -a line; do
 	COUNTER=$((COUNTER+1))
 	DOMAIN=${line[0]}
-	SERVERNAME=""
-	#TODO: SERVERNAME="server_name $DOMAIN;"
+	SERVERNAME="server_name $DOMAIN;"
 	UPSTREAMS=""
 	for (( i=1; i<${#line[@]}; i++ )); do
 		UPSTREAMS=$UPSTREAMS"server ${line[$i]};\n\t"
