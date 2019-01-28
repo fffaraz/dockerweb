@@ -60,6 +60,9 @@ cat >> /etc/apache2/conf-available/docker-php.conf <<'EOL'
 </Directory>
 EOL
 
+cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
+echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
+
 /usr/sbin/a2dissite '*'
 /usr/sbin/a2ensite 000-laravel
 
