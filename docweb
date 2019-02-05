@@ -38,6 +38,7 @@ if [ "$1" == "rm:all" ]; then
 	$0 rm
 	exit 0
 	#docker system prune
+	# https://github.com/RobLoach/docker-clean
 fi
 
 if [ "$1" == "rm:img" ]; then
