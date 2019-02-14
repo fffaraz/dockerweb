@@ -379,7 +379,7 @@ $command = 'echo ' . escapeshellarg($mail) . ' | ' . $sendmail_bin . ' -t -i ';
 for ($i = 1; $i < $_SERVER['argc']; $i++) $command .= escapeshellarg($_SERVER['argv'][$i]) . ' ';
 
 // Write the log
-file_put_contents($logfile, date('Y-m-d H:i:s') . ' ' . $_ENV['PWD'] . ' ' . $logline, FILE_APPEND | LOCK_EX);
+file_put_contents($logfile, date('Y-m-d H:i:s') . ' ' . $_ENV['PWD'] . ' ' . $logline . "\n", FILE_APPEND | LOCK_EX);
 // Execute the command
 return shell_exec($command);
 
