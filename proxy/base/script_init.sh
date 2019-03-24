@@ -23,9 +23,9 @@ mkdir -p /opt
 cd /opt
 
 # GeoIP
-mkdir /opt/nginx
-wget -qO /opt/nginx/GeoIP.dat.gz http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
-gunzip /opt/nginx/GeoIP.dat.gz
+#mkdir /opt/nginx
+#wget -qO /opt/nginx/GeoIP.dat.gz http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+#gunzip /opt/nginx/GeoIP.dat.gz
 
 # Nginx virtual host traffic status module
 cd /opt
@@ -101,11 +101,11 @@ sed -i -e 's/"\\x84\\xaa\\x63\\x55\\xe7"/"\\x84\\xc2\\x3b\\x07\\xef"/g' src/http
 --with-http_ssl_module \
 --with-http_v2_module \
 --with-http_realip_module \
---with-http_geoip_module \
 --with-http_gunzip_module \
 --with-http_gzip_static_module \
 --with-http_stub_status_module \
 --add-module=/opt/nginx-module-vts-master
+#--with-http_geoip_module \
 #--add-module=/opt/ngx_pagespeed-latest-stable # FIXME
 #--add-module=/opt/naxsi-master/naxsi_src # put naxsi first in your ./configure
 #--with-ngx_http_status_module
