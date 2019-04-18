@@ -48,8 +48,14 @@ cat > /opt/nginx/conf/global_params <<'EOL'
 #aio threads;
 default_type application/octet-stream;
 
+if ($time_iso8601 ~ "^(\d{4})-(\d{2})-(\d{2})") {
+	set $year $1;
+	set $month $2;
+	set $day $3;
+}
+
 log_format traffic "$time_iso8601,$server_name,$remote_addr,$bytes_sent,$request_length,$request_time,$status,$request_uri";
-access_log /home/webuser/log/nginx/traffic.log traffic;
+access_log /home/webuser/log/nginx/traffic-$year-$month-$day.log traffic;
 
 #log_format main $remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for" $request_length $request_time "$upstream_response_length" "$upstream_response_time" "$host";
 #access_log /home/webuser/log/nginx/access.log  main;
