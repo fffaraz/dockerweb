@@ -39,6 +39,8 @@ Further configuration is required.</p>
 </body>
 </html>
 " > /home/webuser/www/index.default.html
+
+# TODO: robots.txt
 set -x
 
 # Default ssl cert
