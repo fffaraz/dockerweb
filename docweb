@@ -1599,5 +1599,11 @@ if [ "$1" == "artisan" ]; then
 	exit 0
 fi
 
+if [ "$1" == "geekbench" ]; then
+	# https://github.com/davidsarkany/docker-geekbench
+	docker run --rm davidsarkany/geekbench
+	exit 0
+fi
+
 echo "Unknown command '$1'"
 exit 1
