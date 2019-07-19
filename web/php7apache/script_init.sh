@@ -62,6 +62,9 @@ EOL
 
 cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
+echo "max_execution_time=0" > $PHP_INI_DIR/conf.d/max-execution-time.ini
+echo "upload_max_filesize=1024M" > $PHP_INI_DIR/conf.d/upload.ini
+echo "post_max_size=1024M" >> $PHP_INI_DIR/conf.d/upload.ini
 
 /usr/sbin/a2dissite '*'
 /usr/sbin/a2ensite 000-laravel
