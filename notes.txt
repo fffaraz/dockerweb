@@ -25,6 +25,9 @@ https://github.com/abiosoft/caddy-docker
 https://github.com/lando/lando
 ---
 https://buddy.works/guides/laravel-in-docker
+https://github.com/TrafeX/docker-wordpress
+---
+https://github.com/0xboz/digitalocean_email_server
 ---
 Wildcard SSL Certificates
 https://blogs.msdn.microsoft.com/mihansen/2018/03/15/creating-wildcard-ssl-certificates-with-lets-encrypt/
