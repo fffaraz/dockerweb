@@ -1,7 +1,5 @@
 ## TODO List
 
-- Reducing proxy/base image size by removing build dependencies.
-- Reducing php7nginx/base image size by removing build dependencies.
 - Add Memory usage limit as a parameter for `docweb run`
 - Add certbot email as a parameter for `docweb proxy:run`
 - Add gzip compression level as a parameter for `docweb proxy:run`
@@ -15,6 +13,8 @@
 - run.sh template
 - the easiest way to run things at startup is to add them to the file /etc/rc.local.
 
+---
+https://nginxconfig.io/
 ---
 https://github.com/containous/traefik
 ---
