@@ -1,6 +1,6 @@
 #!/bin/bash -i
 
-# Copyright 2016-2018 Faraz Fallahi <fffaraz@gmail.com>
+# Copyright 2016-2020 Faraz Fallahi <fffaraz@gmail.com>
 # docweb is not responsible for misuse or for any damage that you may cause!
 # You agree that you use this software at your own risk.
 
@@ -18,26 +18,32 @@ if [ "$1" == "rm" ]; then
 	# Remove stopped containers
 	stopped_containers=$(docker ps -q -f status=exited)
 	[ ! -z "$stopped_containers" ] && docker rm $stopped_containers
+
 	# Remove orphaned images
 	dangling_images=$(docker images -q -f dangling=true)
 	[ ! -z "$dangling_images" ] && docker rmi $dangling_images
+
 	# Remove orphaned volumes
 	dangling_volumes=$(docker volume ls -q -f dangling=true)
 	[ ! -z "$dangling_volumes" ] && docker volume rm $dangling_volumes
+
 	exit 0
 fi
 
 if [ "$1" == "rm:all" ]; then
 	$0 rm
+
 	# Remove all containers and volumes
 	containers=$(docker ps -a -q)
 	[ ! -z "$containers" ] && docker stop $containers
 	[ ! -z "$containers" ] && docker rm $containers
+
 	volumes=$(docker volume ls -q)
 	[ ! -z "$volumes" ] && docker volume rm $volumes
+
 	$0 rm
 	exit 0
-	#docker system prune
+	# TODO: docker system prune
 	# https://github.com/RobLoach/docker-clean
 fi
 
