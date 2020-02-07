@@ -1477,7 +1477,7 @@ if [ "$1" == "install:swapfile" ]; then
 fi
 
 if [ "$1" == "install:extras" ]; then
-	apt-get -yq install curl dstat htop iftop iotop joe-jupp logtop lsof pv pwgen p7zip-full smem sysstat tree vnstat unzip ncdu wget whois < /dev/null
+	apt-get -yq install curl dstat atop htop iftop iotop joe-jupp logtop lsof pv pwgen p7zip-full smem sysstat tree vnstat unzip ncdu wget whois < /dev/null
 
 	wget -O- https://bit.ly/glances | /bin/bash
 
