@@ -660,46 +660,6 @@ if [ "$1" == "pma:run" ]; then
 	exit 0
 fi
 
-if [ "$1" == "pvb:run" ]; then
-	shift
-
-	RUNARG="-d --restart=always"
-	if [ "$1" = "--debug" ]; then
-		shift
-		RUNARG="-it --rm"
-	fi
-
-	HTTPPORT=""
-	if [ "$1" = "--direct" ]; then
-		shift
-		HTTPPORT="-p $1:80"
-		echo "Exposing HTTP Port $1"
-		shift
-	fi
-
-	ISRUNNING=$(docker inspect --format={{.State.Running}} pvb 2> /dev/null)
-	[ $? -eq 0 ] &&	docker rm -f pvb
-
-	docker run $RUNARG \
-	--name=pvb \
-	--net=isolated_nw \
-	--memory=512m \
-	$HTTPPORT \
-	fffaraz/app/phpvirtualbox:latest
-
-	exit 0
-fi
-
-if [ "$1" == "pvb:srv" ]; then
-	shift
-	killall vboxwebsrv
-	vboxwebsrv --host 172.17.0.1 --authentication null --background
-	# --port 18083
-	# --pidfile
-	# --logfile
-	exit 0
-fi
-
 if [ "$1" == "glances:run" ]; then
 	shift
 	if [ $# -lt 1 ]; then
@@ -1521,30 +1481,6 @@ if [ "$1" == "install:docker" ]; then
 	#apt-get -yq update < /dev/null
 	#apt-get -yq install docker-engine < /dev/null
 
-	exit 0
-fi
-
-if [ "$1" == "install:vbox" ]; then
-	set -euxo pipefail
-	apt-get -yq install linux-headers-$(uname -r) gcc make build-essential dkms
-	echo 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib' >> /etc/apt/sources.list
-	wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | apt-key add -
-	apt-get -yq update < /dev/null
-	apt-get install virtualbox-5.2
-	# https://www.virtualbox.org/wiki/Downloads
-	wget https://download.virtualbox.org/virtualbox/5.2.8/Oracle_VM_VirtualBox_Extension_Pack-5.2.8.vbox-extpack
-	VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-5.2.8.vbox-extpack
-	#useradd -m vbox -G vboxusers
-	#echo 'VBOXWEB_USER=vbox' > /etc/default/virtualbox
-	#echo 'VBOXWEB_HOST=172.17.0.1' >> /etc/default/virtualbox
-	#echo 'VBOXWEB_LOGFILE=/var/log/vboxweb' >> /etc/default/virtualbox
-	#echo 'VBOXWEB_PIDFILE=/var/run/vbox/vboxweb-service' >> /etc/default/virtualbox
-	#systemctl enable vboxweb-service
-	#systemctl start vboxweb-service
-	#systemctl status vboxdrv
-	#su vbox -c '/usr/bin/vboxwebsrv -H 172.17.0.1 --background'
-	VBoxManage --version
-	VBoxManage list extpacks
 	exit 0
 fi
 
